@@ -1,0 +1,77 @@
+{
+  "about": [
+    "The expected values of the two wrapping chains this capability carries, one entry per skill.",
+    "Every number here is quoted from the Reference run section of the concept named in `concept`,",
+    "which is signed stable in the nasa-daac-knowledge asdc bundle. This capability computes nothing",
+    "and owns none of these numbers: the fixture exists so the golden fails when a chain stops",
+    "reproducing what the signed concept records, not so that a number can be asserted here.",
+    "The run identifier of a fixture run is bound to the runtime name, so it is deliberately not",
+    "asserted; the values below are the same under any runtime name."
+  ],
+  "recorded": "2026-09-19",
+  "chains": [
+    {
+      "skill": "energy-budget-closure",
+      "concept": "knowledge/asdc/computations/energy-budget.md",
+      "executor": "references/computations/energy_budget.py",
+      "attester": "references/attesters/energy_budget_check.py",
+      "quoted_from": "the concept's Reference run section, the fixture run at seed 7 over 2006-01 through 2020-12",
+      "bound_parameters": {"window": "2006-01:2020-12"},
+      "args": ["--window", "2006-01:2020-12"],
+      "seed": 7,
+      "expect": {
+        "months_used": 180,
+        "months_in_window": 180,
+        "verdict_field": "closed_within_uncertainty",
+        "verdict": true,
+        "terms": {
+          "toa_net": {"value": 1.0448, "uncertainty": 0.2632},
+          "ohc_0_2000": {"value": 0.7377, "uncertainty": 0.0746},
+          "deep_ocean": {"value": 0.06, "uncertainty": 0.03},
+          "non_ocean": {"value": 0.0822, "uncertainty": 0.0175}
+        },
+        "residual": 0.1649,
+        "combined_uncertainty": 0.2757,
+        "anomaly_trend_W_m2_per_decade": 0.1527,
+        "anomaly_trend_interval": [-0.4216, 0.7269],
+        "tolerance": 0.0001
+      },
+      "refusal": {
+        "args": ["--window", "1998-01:2005-12"],
+        "reason_code": "window-outside-record",
+        "quoted_from": "the concept's Reference run section, the refusal case the chain exercises"
+      }
+    },
+    {
+      "skill": "cloud-radiative-effect",
+      "concept": "knowledge/asdc/computations/cloud-radiative-effect.md",
+      "executor": "references/computations/cloud_radiative_effect.py",
+      "attester": "references/attesters/cloud_radiative_effect_check.py",
+      "quoted_from": "the concept's Reference runs section, the fixture run at seed 7 over 2006-01 through 2020-12, global, total-region",
+      "bound_parameters": {"window": "2006-01:2020-12", "region": "global", "clear_sky": "total-region"},
+      "args": ["--window", "2006-01:2020-12", "--region", "global", "--clear-sky", "total-region"],
+      "seed": 7,
+      "expect": {
+        "months_used": 180,
+        "months_in_window": 180,
+        "verdict_field": "decomposition_closes",
+        "verdict": true,
+        "terms": {
+          "cre_shortwave": {"value": -45.56, "uncertainty": 0.3096},
+          "cre_longwave": {"value": 25.723, "uncertainty": 0.2449},
+          "cre_net": {"value": -19.837, "uncertainty": 0.3774}
+        },
+        "residual_within": 0.01,
+        "contrast_convention": "cloud-free-area",
+        "contrast_cre_net": -18.0774,
+        "contrast_difference": -1.7596,
+        "tolerance": 0.0001
+      },
+      "refusal": {
+        "args": ["--window", "2006-01:2020-12", "--region", "global", "--clear-sky", "pristine"],
+        "reason_code": "clear-sky-convention-not-carried",
+        "quoted_from": "the concept's Reference runs section, the refusal case the chain exercises"
+      }
+    }
+  ]
+}
