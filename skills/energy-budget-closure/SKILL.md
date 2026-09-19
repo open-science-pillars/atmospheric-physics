@@ -98,8 +98,10 @@ What follows from that, and belongs in every report:
    on the synthetic fixture or a real run on the committed data root;
    which Argo receipt the ocean side will come from and over what
    window; and what the user means to do with the verdict. Consult the
-   concept and the two gotchas it rests on, and cite each by bundle
-   path: `knowledge/asdc/gotchas/ebaf-imbalance-anchored-to-ocean-heating.md`
+   concept and the two gotchas it rests on, and cite all three by bundle
+   path, the concept first, because it is the one that owns every number
+   this run can report: `knowledge/asdc/computations/energy-budget.md`,
+   then `knowledge/asdc/gotchas/ebaf-imbalance-anchored-to-ocean-heating.md`
    (the anchor, its decade, and what the ocean data did not set) and
    `knowledge/asdc/gotchas/ebaf-climatology-baseline.md` (the product's
    climatology base period, which this computation never uses as the

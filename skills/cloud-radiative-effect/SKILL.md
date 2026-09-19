@@ -113,7 +113,11 @@ conventions by a single global number.
    user chose and why, and whether the run is a rehearsal on the
    synthetic fixture or a real run on the committed data root. Consult
    the concept, the convention concept and the clear-sky gotcha, and
-   cite each by bundle path.
+   cite all three by bundle path, the concept first, because it is the
+   one that owns every number this run can report:
+   `knowledge/asdc/computations/cloud-radiative-effect.md`,
+   `knowledge/asdc/conventions/ceres-clear-sky-conventions.md` and
+   `knowledge/asdc/gotchas/ebaf-clear-sky-definitions.md`.
 2. **The fixture run** (the rehearsal, and the reference the concept
    records):
 
