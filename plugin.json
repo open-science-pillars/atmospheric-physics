@@ -1,0 +1,50 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "atmospheric-physics",
+  "version": "0.1.0",
+  "description": "Atmospheric physics: run instructions for the attested radiation budget computations signed in the ASDC bundle, the CERES EBAF energy budget closure and the cloud radiative effect at the top of the atmosphere.",
+  "author": {
+    "name": "Open Science Pillars Community"
+  },
+  "homepage": "https://github.com/open-science-pillars/atmospheric-physics",
+  "repository": "https://github.com/open-science-pillars/atmospheric-physics",
+  "license": "Apache-2.0",
+  "keywords": [
+    "atmospheric-physics",
+    "atmosphere",
+    "radiation-budget",
+    "ceres",
+    "ebaf",
+    "asdc",
+    "energy-budget",
+    "earth-energy-imbalance",
+    "cloud-radiative-effect",
+    "clear-sky",
+    "attested-computation"
+  ],
+  "extensions": {
+    "io.github.open-science-pillars": {
+      "kind": "capability",
+      "status": "developing",
+      "spheres": [
+        "atmosphere"
+      ],
+      "primary_sphere": "atmosphere",
+      "discipline": "Atmospheric Physics",
+      "package_type": "capability",
+      "dependencies": {
+        "capabilities": [
+          {
+            "name": "core"
+          }
+        ],
+        "knowledge": [
+          {
+            "name": "nasa-daac-knowledge",
+            "version": ">=2026.9.4"
+          }
+        ]
+      }
+    }
+  }
+}
