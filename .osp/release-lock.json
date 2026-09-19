@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "package": "atmospheric-physics",
+  "version": "0.1.0",
+  "package_type": "capability",
+  "agent_plugins_spec": "1.0.0",
+  "repository_classification_digest": "sha256:4d4a1dfc0be074a5ecf07be06e2ff3c856b9f7f25222e6da8408fbacb2ea6426",
+  "dependencies": {
+    "capabilities": {
+      "core": null
+    },
+    "knowledge": {
+      "nasa-daac-knowledge": ">=2026.9.4"
+    }
+  },
+  "knowledge_digest": "sha256:bebb3e9ea2c3b3e89df64524b57c02903243429e7783f43fb092bc4b1ecbc2eb",
+  "skills_digest": "sha256:f7c2d2dbe140cf25c4e4810c000fe6bcec0c9e2a6184a6965e5b61183a3c8a60",
+  "verification_digest": "sha256:b00c913b317ee2dfa807a5b144d92d43f0959a60dd5bfc5eebb5e6c657421cce",
+  "adapters": {
+    "claude": "sha256:b79d1d13052816d429e475afe6bd14fdc0917f213b505f6846b6555523538fe7",
+    "agent-plugins": "sha256:3c96581c3662940691d07f846a32c3f84bead38a116c6c6f63df63067dade9dd"
+  }
+}
