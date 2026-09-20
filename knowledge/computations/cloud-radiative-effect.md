@@ -19,7 +19,8 @@ generated: { by: knowledge-seeder/claude, at: 2026-09-19T07:10:00Z }
 verified:
   - { by: human:PaulMRamirez, at: 2026-09-19T07:18:47Z, role: maintainer, source: https://github.com/open-science-pillars/nasa-daac-knowledge/pull/196 }
   - { by: human:PaulMRamirez, at: 2026-09-19T08:13:02Z, role: maintainer, source: https://github.com/open-science-pillars/nasa-daac-knowledge/pull/199 }
-status: draft
+  - { by: human:PaulMRamirez, at: 2026-09-20T19:04:18Z, role: maintainer, source: https://github.com/open-science-pillars/atmospheric-physics/pull/9 }
+status: stable
 stale_after: 2027-03-19
 sources:
   - id: convention

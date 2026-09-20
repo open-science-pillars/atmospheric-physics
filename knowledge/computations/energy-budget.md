@@ -18,7 +18,8 @@ verified:
   - { by: human:PaulMRamirez, at: 2026-09-15T18:57:33Z, role: maintainer, source: https://github.com/open-science-pillars/nasa-daac-knowledge/pull/174 }
   - { by: human:PaulMRamirez, at: 2026-09-16T05:50:55Z, role: maintainer, source: https://github.com/open-science-pillars/nasa-daac-knowledge/pull/183 }
   - { by: human:PaulMRamirez, at: 2026-09-19T08:13:02Z, role: maintainer, source: https://github.com/open-science-pillars/nasa-daac-knowledge/pull/199 }
-status: draft
+  - { by: human:PaulMRamirez, at: 2026-09-20T19:04:18Z, role: maintainer, source: https://github.com/open-science-pillars/atmospheric-physics/pull/9 }
+status: stable
 stale_after: 2027-03-15
 sources:
   - id: dataset
