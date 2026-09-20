@@ -51,6 +51,18 @@ What the skills of this release wrap:
 - `knowledge/asdc/computations/cloud-radiative-effect.md`, wrapped by
   the `cloud-radiative-effect` skill.
 
+Three receipt skills, `sweep`, `receipt-figures` and `methods`, operate
+over those same two computations and add no concept here either. A
+receipt skill emits only fields of receipts the provider bundle's
+attester passed, or a table, figure or paragraph of such fields, and
+combines no two receipts into a value no receipt carries; its script
+enforces that test rather than its prose (ADR D as amended in the
+marketplace repository's docs/decisions, and section 12.1 of the
+specification). A sweep that averaged its rows, a figure carrying a
+fitted line or a paragraph stating a fact no receipt carries would each
+be a claim this bundle would have to own, and each script refuses to
+produce one.
+
 The concepts those two rest on, and which the skills cite rather than
 restate, are the bundle's `datasets/ceres-ebaf-ed4-2.md`, its
 `conventions/ceres-clear-sky-conventions.md`, its gotchas
