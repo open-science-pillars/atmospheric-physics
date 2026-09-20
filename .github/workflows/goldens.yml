@@ -23,14 +23,17 @@ name: goldens
 #
 # verification/receipt_skills.py exercises the three receipt skills
 # (sweep, receipt-figures, methods): each script's own selftest, three
-# fixture sweeps checked cell by cell against the committed
-# expectations under verification/fixtures/, three figures whose drawn
-# arrays must hash to the recorded digests, two methods paragraphs
-# filled from the recorded receipt fields, and the refusals each script
-# enforces, the aggregate across the two clear-sky conventions among
-# them. It drives the same provider executors and attesters on their
-# synthetic fixtures, reads no live service, needs no credential and
-# carries no secret.
+# fixture sweeps whose every cell is checked against the committed
+# expectations under verification/fixtures/ and against the field of
+# the receipt it was copied from, three figures whose every drawn array
+# is checked against the receipt field the expectations name for it,
+# two methods paragraphs filled from the recorded receipt fields, and
+# the refusals each script enforces, the aggregate across the two
+# clear-sky conventions among them. No bit-exact digest of a derived
+# float is recorded or asserted, because a window mean is not
+# bit-reproducible across interpreters. It drives the same provider
+# executors and attesters on their synthetic fixtures, reads no live
+# service, needs no credential and carries no secret.
 on:
   pull_request:
   push:

@@ -33,10 +33,12 @@ attests:
   contrast      The three terms of a cloud radiative effect receipt
                 under the bound convention against the same three under
                 the other convention, from the receipt's own
-                convention_contrast block, with the difference the
-                receipt states. The picture is the size of the
-                incomparability between the two conventions, never a
-                conversion.
+                convention_contrast block. Six numbers, each a receipt
+                field, and no seventh: the receipt carries no difference
+                between the two conventions, so none is drawn or
+                printed, and the two bars of each pair are the gap. The
+                picture is the size of the incomparability between the
+                two conventions, never a conversion.
 
 What it refuses, each with exit 4 and a reason code, and never a
 partial figure:
@@ -448,7 +450,10 @@ def draw_contrast(args, receipt, verdict, attester, receipt_sha, arrays) -> int:
     there = [need(receipt, f"convention_contrast.{n}", "contrast") for n in names]
     arrays.vector("terms_bound_convention", here)
     arrays.vector("terms_other_convention", there)
-    difference = [a - b for a, b in zip(here, there)]
+    # No difference is formed here. The receipt's convention_contrast
+    # block carries the other convention's three terms and no difference
+    # field, so a difference drawn on these axes would be a number this
+    # skill computed. The two bars of each pair are the gap.
 
     fig, ax = plt.subplots(figsize=(11, 5.2), dpi=args.dpi)
     positions = list(range(len(names)))
@@ -459,13 +464,7 @@ def draw_contrast(args, receipt, verdict, attester, receipt_sha, arrays) -> int:
             color="#b2411c",
             label=f"other convention {other} (convention_contrast)")
     span = max(abs(v) for v in here + there) or 1.0
-    ax.set_xlim(-1.45 * span, 1.45 * span)
-    for p, (a, b, d) in enumerate(zip(here, there, difference)):
-        outward = max(a, b) if max(a, b) > 0 else min(a, b)
-        side = 1 if outward > 0 else -1
-        ax.annotate(f"difference {d:+.4f}", (outward, p), fontsize=8,
-                    xytext=(8 * side, 0), textcoords="offset points",
-                    va="center", ha="left" if side > 0 else "right")
+    ax.set_xlim(-1.2 * span, 1.2 * span)
     ax.set_yticks(positions)
     ax.set_yticklabels([n.replace("cre_", "") for n in names])
     ax.axvline(0, color="k", linewidth=0.5)
@@ -481,9 +480,8 @@ def draw_contrast(args, receipt, verdict, attester, receipt_sha, arrays) -> int:
     stamp(fig, cap)
     fig.tight_layout(rect=(0, 0.10, 1, 1))
     return finish(fig, args, cap, arrays,
-                  f"contrast, {region}, {window}: net {here[2]:+.4f} on "
-                  f"{bound} against {there[2]:+.4f} on {other}, difference "
-                  f"{difference[2]:+.4f} W m-2")
+                  f"contrast, {region}, {window}: net {here[2]:+.4f} W m-2 on "
+                  f"{bound} against {there[2]:+.4f} on {other}")
 
 
 def draw_map(args, *rest) -> int:

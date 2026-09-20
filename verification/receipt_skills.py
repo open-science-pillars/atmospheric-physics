@@ -23,9 +23,10 @@ What is checked, in order:
   1. each script's own selftest, which exercises every refusal it
      enforces on the executors' fixtures;
   2. the convention sweep: the Antarctic band on both clear-sky
-     conventions, every row attested, every cell equal to the cell
-     recorded in verification/fixtures/receipt-skills-fixture.json, and
-     the sign of the convention difference as the rows carry it;
+     conventions, every row attested, every cell equal both to the cell
+     recorded in verification/fixtures/receipt-skills-fixture.json and
+     to the field of the receipt it was copied from, and the sign of the
+     convention difference as the rows carry it;
   3. the region sweep: a resolvable region and one the computation
      refuses, the refused row carrying its reason code and no number;
   4. the closure sweep: one window inside the record and one outside,
@@ -387,6 +388,18 @@ def check_sweeps(expect: dict, done: dict) -> None:
             at = f"{where}, {spec['parameter']} {want['value']}"
             check(got["value"] == want["value"],
                   f"{at}: the row is {got['value']}")
+            # every cell against the receipt it was copied from, the way
+            # check_figures checks an array against its receipt field,
+            # so this golden cannot pass on a re-measured expectations
+            # file alone: a cell that stopped being a receipt field
+            # would fail here even if the file agreed with it
+            body = json.loads(Path(got["receipt"]).read_text(encoding="utf-8"))
+            for column, path in got_fields.items():
+                check(got["cells"].get(column) == field(body, path),
+                      f"{at}, column {column}: the table carries "
+                      f"{got['cells'].get(column)} and the receipt's "
+                      f"{path} carries {field(body, path)}; every cell is a "
+                      "field of the receipt the attester passed")
             check(got["attested"], f"{at}: the receipt did not attest: "
                                    f"{got['attestation']}")
             check(got["status"] == want["status"],
@@ -600,7 +613,8 @@ def main() -> int:
                   for row in spec["rows"] if row["status"] == "refused")
     print(f"receipt-skills golden: 3 selftests, {len(expect['sweeps'])} sweeps "
           f"of {rows} rows ({refused} refused by an executor) every cell equal "
-          f"to {EXPECTATIONS.relative_to(PACKAGE_ROOT)}, "
+          f"to {EXPECTATIONS.relative_to(PACKAGE_ROOT)} and to the receipt "
+          f"field it was copied from, "
           f"{len(expect['figures'])} figures with every drawn array equal to "
           f"the receipt field it names, {len(expect['methods'])} methods paragraphs "
           "filled from the recorded receipt fields; the aggregate across the "

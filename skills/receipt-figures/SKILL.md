@@ -43,10 +43,12 @@ do, and copies nothing into this repository.
   convention and the variable suffix the receipt says it read.
 - **`contrast`**, from a cloud radiative effect receipt: the three
   terms under the bound convention against the same three under the
-  other convention, from the receipt's own `convention_contrast` block,
-  with the difference the receipt states. The picture is the size of
-  the incomparability between the two conventions and never a
-  conversion.
+  other convention, from the receipt's own `convention_contrast` block.
+  Six numbers, each a receipt field, and no seventh: that block carries
+  no difference between the two conventions, so the renderer draws and
+  prints none, and the two bars of each pair are the gap. The picture
+  is the size of the incomparability between the two conventions and
+  never a conversion.
 
 There is no map mode. These receipts carry regional and global window
 means and monthly regional series, and no per-cell field, so a map
