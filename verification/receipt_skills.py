@@ -35,8 +35,11 @@ What is checked, in order:
      naming the clear-sky gotcha by bundle path, and leaving no partial
      table;
   6. the three figures, drawn from receipts those sweeps attested, each
-     array's sha256 equal to the recorded one, with the map mode and a
-     restated wrong digest both refused and no file written;
+     drawn array checked against the receipt field the expectations name
+     for it (same length, same sha256), so the figure is proven to be of
+     the receipt's own values, with the digest round trip (the renderer's
+     own digest restated is accepted, a wrong one refused), the map mode
+     refused, and no file written for either refusal;
   7. the two methods paragraphs, every sentence filled from the receipt
      fields the recorded provenance names, the recorded facts present,
      the reference list the concept's own source ids, and a fact from
@@ -44,11 +47,21 @@ What is checked, in order:
 
 Exit 0 only when all of it holds.
 
+The expectations hold no bit-exact digest of a derived float, and the
+cells are compared with a relative tolerance, because a window mean is
+not bit-reproducible across interpreters: CPython 3.12 changed float
+`sum()` to compensated summation, so the same executor on the same
+fixture (which does hash identically, the generator being a stdlib hash
+stream) writes means whose last bits differ under 3.11 and under 3.12.
+The figure check closes its loop within one run instead, against the
+receipt the figure was drawn from.
+
   uv run verification/receipt_skills.py
   uv run verification/receipt_skills.py --measure   # rewrite the expectations
 """
 
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -93,14 +106,44 @@ SWEEPS = {
     },
 }
 
+# Each figure names the receipt field behind every array it draws, so
+# this golden can rebuild the array from the receipt and check the
+# renderer's digest against it. That is the check that closes the loop:
+# it proves the figure drew the receipt's own values, bit for bit, on
+# this machine. The digests themselves are deliberately NOT recorded in
+# the expectations file, because they are not portable: CPython 3.12
+# changed float `sum()` to compensated summation, so an executor rerun
+# on a fixture under another interpreter writes window means whose last
+# bits differ, while the fixture itself hashes the same. The numbers are
+# pinned instead by the sweep cells, which compare with a tolerance.
 FIGURES = {
-    "contrast": {"sweep": "conventions", "row": 0, "mode": "contrast",
-                 "attester": "cloud_radiative_effect_check", "extra": []},
-    "cre-series": {"sweep": "conventions", "row": 0, "mode": "cre-series",
-                   "attester": "cloud_radiative_effect_check",
-                   "extra": ["--band", "net"]},
-    "budget": {"sweep": "windows", "row": 0, "mode": "budget",
-               "attester": "energy_budget_check", "extra": []},
+    "contrast": {
+        "sweep": "conventions", "row": 0, "mode": "contrast",
+        "attester": "cloud_radiative_effect_check", "extra": [],
+        "arrays": {
+            "terms_bound_convention": ["terms.cre_shortwave.value",
+                                       "terms.cre_longwave.value",
+                                       "terms.cre_net.value"],
+            "terms_other_convention": ["convention_contrast.cre_shortwave",
+                                       "convention_contrast.cre_longwave",
+                                       "convention_contrast.cre_net"],
+        },
+    },
+    "cre-series": {
+        "sweep": "conventions", "row": 0, "mode": "cre-series",
+        "attester": "cloud_radiative_effect_check",
+        "extra": ["--band", "net"],
+        "arrays": {"dates": "series.dates",
+                   "net_all_W_m2": "series.net_all_W_m2",
+                   "net_clr_W_m2": "series.net_clr_W_m2",
+                   "cre_net_W_m2": "series.cre_net_W_m2"},
+    },
+    "budget": {
+        "sweep": "windows", "row": 0, "mode": "budget",
+        "attester": "energy_budget_check", "extra": [],
+        "arrays": {"dates": "series.dates",
+                   "toa_net_product_W_m2": "series.toa_net_product_W_m2"},
+    },
 }
 
 METHODS_RUNS = {
@@ -216,10 +259,13 @@ def measure(work: Path) -> dict:
         got = run(FIGURE, [spec["mode"], str(receipt), "--attester",
                            spec["attester"], *spec["extra"], "--out", str(out)])
         check(got.returncode == 0, f"measuring the {name} figure: {got.stdout}{got.stderr}")
+        drawn = array_digests(got.stdout)
         doc["figures"][name] = {
             "sweep": spec["sweep"], "row": spec["row"], "mode": spec["mode"],
             "attester": spec["attester"], "extra": spec["extra"],
-            "arrays": array_digests(got.stdout),
+            "arrays": {key: {"receipt_field": spec["arrays"][key],
+                             "n": drawn[key][0]}
+                       for key in sorted(drawn)},
         }
     for name, spec in METHODS_RUNS.items():
         receipt = Path(done[spec["sweep"]]["rows"][spec["row"]]["receipt"])
@@ -239,8 +285,34 @@ def measure(work: Path) -> dict:
 
 
 def array_digests(stdout: str) -> dict:
-    return {match.group(1): match.group(2) for match in
-            re.finditer(r"^\s+array (\S+) sha256 ([0-9a-f]{64})$", stdout, re.M)}
+    """Every array the renderer says it drew, as {name: (length, sha256)}."""
+    return {m.group(1): (int(m.group(2)), m.group(3)) for m in
+            re.finditer(r"^\s+array (\S+) n=(\d+) sha256 ([0-9a-f]{64})$",
+                        stdout, re.M)}
+
+
+def field(receipt: dict, path: str):
+    node = receipt
+    for part in path.split("."):
+        if not isinstance(node, dict) or part not in node:
+            return None
+        node = node[part]
+    return node
+
+
+def rebuild(receipt: dict, source):
+    """The array a figure should have drawn, taken from the receipt by
+    the field path (or paths) the catalog records."""
+    if isinstance(source, list):
+        return [field(receipt, path) for path in source]
+    return field(receipt, source)
+
+
+def array_digest(values) -> str:
+    """The renderer's digest rule, restated here so the golden can check
+    a drawn array against the receipt it came from."""
+    blob = json.dumps(values, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(blob.encode("utf-8")).hexdigest()
 
 
 def sentences_of(text: str):
@@ -336,17 +408,20 @@ def check_sweeps(expect: dict, done: dict) -> None:
                       f"not the recorded {want['cells'].get(column)}")
 
 
-def check_reversal(expect: dict) -> None:
+def check_reversal(done: dict) -> None:
     """The finding the convention sweep exists to make: over the
     Antarctic band the total-region net effect is the less negative of
     the two, where the concept records the globe the other way round.
-    Both numbers are receipt fields; this golden compares two cells of
-    one table and states no number of its own."""
-    rows = {row["value"]: row["cells"] for row in expect["sweeps"]["conventions"]["rows"]}
+    Both numbers are receipt fields of the rows this run just produced,
+    not of the recorded file; this golden compares two cells of one
+    table and states no number of its own."""
+    rows = {row["value"]: row["cells"] for row in done["conventions"]["rows"]}
     total = rows["total-region"]["cre_net_value_W_m2"]
     free = rows["cloud-free-area"]["cre_net_value_W_m2"]
     check(total is not None and free is not None,
           "the convention sweep has no net effect on one of its rows")
+    print(f"receipt-skills golden: the Antarctic band carries net {total} on "
+          f"total-region against {free} on cloud-free-area")
     check(total > free,
           "over the Antarctic band the recorded total-region net effect "
           f"({total}) is not the less negative of the two ({free}); the "
@@ -383,32 +458,58 @@ def check_aggregate(work: Path) -> None:
 
 def check_figures(expect: dict, done: dict, work: Path) -> None:
     for name, spec in expect["figures"].items():
-        receipt = Path(done[spec["sweep"]]["rows"][spec["row"]]["receipt"])
+        receipt_path = Path(done[spec["sweep"]]["rows"][spec["row"]]["receipt"])
+        receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
         out = work / f"{name}.png"
-        got = run(FIGURE, [spec["mode"], str(receipt), "--attester",
+        got = run(FIGURE, [spec["mode"], str(receipt_path), "--attester",
                            spec["attester"], *spec["extra"], "--out", str(out)])
         check(got.returncode == 0,
               f"the {name} figure exited {got.returncode}: "
               f"{got.stdout}{got.stderr}")
         check(out.is_file(), f"the {name} figure wrote no file")
-        digests = array_digests(got.stdout)
-        check(digests == spec["arrays"],
-              f"the {name} figure drew arrays {json.dumps(digests, indent=2)}, "
-              f"not the recorded {json.dumps(spec['arrays'], indent=2)}")
-        check("PASS" in got.stdout,
-              f"the {name} figure's caption carries no attester verdict")
-        wrong = run(FIGURE, [spec["mode"], str(receipt), "--attester",
+        drawn = array_digests(got.stdout)
+        check(sorted(drawn) == sorted(spec["arrays"]),
+              f"the {name} figure drew the arrays {sorted(drawn)}, not the "
+              f"recorded {sorted(spec['arrays'])}")
+        for key, want in spec["arrays"].items():
+            length, sha = drawn[key]
+            check(length == want["n"],
+                  f"the {name} figure's array {key} has {length} values, not "
+                  f"the recorded {want['n']}")
+            values = rebuild(receipt, want["receipt_field"])
+            check(values is not None and None not in (
+                      values if isinstance(values, list) else [values]),
+                  f"the {name} figure's array {key} names the receipt field "
+                  f"{want['receipt_field']}, which this receipt does not carry")
+            check(len(values) == length,
+                  f"the {name} figure's array {key} has {length} values and "
+                  f"{want['receipt_field']} in the receipt has {len(values)}")
+            check(array_digest(values) == sha,
+                  f"the {name} figure's array {key} hashes {sha} and the "
+                  f"receipt field {want['receipt_field']} hashes "
+                  f"{array_digest(values)}; the figure drew something other "
+                  "than the receipt's own values")
+        first = sorted(spec["arrays"])[0]
+        again = run(FIGURE, [spec["mode"], str(receipt_path), "--attester",
                              spec["attester"], *spec["extra"],
-                             "--expect", f"{sorted(spec['arrays'])[0]}="
-                                         + "0" * 64,
+                             "--expect", f"{first}={drawn[first][1]}",
+                             "--out", str(work / f"{name}-again.png")])
+        check(again.returncode == 0,
+              f"the {name} figure would not redraw with its own array digest "
+              f"restated: {again.stdout}{again.stderr}")
+        wrong = run(FIGURE, [spec["mode"], str(receipt_path), "--attester",
+                             spec["attester"], *spec["extra"],
+                             "--expect", f"{first}=" + "0" * 64,
                              "--out", str(work / f"{name}-wrong.png")])
         check(wrong.returncode == 4 and "array-hash-mismatch" in wrong.stdout,
               f"the {name} figure drew an array whose restated digest did not "
               "match")
         check(not (work / f"{name}-wrong.png").is_file(),
               f"the refused {name} figure still wrote a file")
-    receipt = Path(done["conventions"]["rows"][0]["receipt"])
-    got = run(FIGURE, ["map", str(receipt), "--attester",
+        check("PASS" in got.stdout,
+              f"the {name} figure's caption carries no attester verdict")
+    receipt_path = Path(done["conventions"]["rows"][0]["receipt"])
+    got = run(FIGURE, ["map", str(receipt_path), "--attester",
                        "cloud_radiative_effect_check",
                        "--out", str(work / "map.png")])
     check(got.returncode == 4 and "map-mode-unavailable" in got.stdout,
@@ -487,7 +588,7 @@ def main() -> int:
             selftests()
             done = do_sweeps(work)
             check_sweeps(expect, done)
-            check_reversal(expect)
+            check_reversal(done)
             check_aggregate(work)
             check_figures(expect, done, work)
             check_methods(expect, done, work)
@@ -500,8 +601,8 @@ def main() -> int:
     print(f"receipt-skills golden: 3 selftests, {len(expect['sweeps'])} sweeps "
           f"of {rows} rows ({refused} refused by an executor) every cell equal "
           f"to {EXPECTATIONS.relative_to(PACKAGE_ROOT)}, "
-          f"{len(expect['figures'])} figures with every array digest equal to "
-          f"the recorded one, {len(expect['methods'])} methods paragraphs "
+          f"{len(expect['figures'])} figures with every drawn array equal to "
+          f"the receipt field it names, {len(expect['methods'])} methods paragraphs "
           "filled from the recorded receipt fields; the aggregate across the "
           "two clear-sky conventions, a map, a restated wrong array digest "
           "and a fact from outside the receipt are all refused")

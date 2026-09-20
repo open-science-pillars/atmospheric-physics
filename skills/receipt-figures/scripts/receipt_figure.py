@@ -56,9 +56,15 @@ partial figure:
                            says it used.
   array-hash-mismatch      an array whose sha256 differs from the one
                            --expect NAME=SHA256 states. Every drawn
-                           array's digest is printed and goes in the
-                           caption, so a figure can be redrawn and
-                           proven to be of the same arrays.
+                           array's length and digest are printed and the
+                           digest goes in the caption, so a figure can be
+                           redrawn from the same receipt and proven to be
+                           of the same arrays. The digest is of the values
+                           the receipt stores, so it is stable for a given
+                           receipt; a receipt regenerated from a fixture
+                           under another interpreter can carry different
+                           last bits, and the digest is not a claim about
+                           that.
   receipt-changed-under-attestation  the receipt file's bytes changed
                            between the attestation and the draw.
   map-mode-unavailable     a map. These receipts carry regional and
@@ -210,6 +216,7 @@ class Arrays:
         self.receipt = receipt
         self.expect = expect
         self.digests = {}
+        self.lengths = {}
         self.n_used = ((receipt.get("months") or {}).get("n_used"))
 
     def series(self, name: str):
@@ -237,6 +244,7 @@ class Arrays:
     def checked(self, name: str, values):
         got = digest(values)
         self.digests[name] = got
+        self.lengths[name] = len(values)
         want = self.expect.get(name)
         if want is not None and want != got:
             refuse("array-hash-mismatch",
@@ -495,7 +503,7 @@ def finish(fig, args, cap: str, arrays: Arrays, line: str) -> int:
     fig.savefig(out)
     print(f"{out}: {line}")
     for name, value in sorted(arrays.digests.items()):
-        print(f"  array {name} sha256 {value}")
+        print(f"  array {name} n={arrays.lengths[name]} sha256 {value}")
     print(f"  {cap}")
     return 0
 
@@ -564,23 +572,23 @@ def selftest() -> int:
                       "--out", str(work / "budget.png")])
         assert out.returncode == 0, out.stdout + out.stderr
         assert (work / "budget.png").is_file()
-        assert "array toa_net_product_W_m2 sha256" in out.stdout, out.stdout
+        assert "array toa_net_product_W_m2 n=180 sha256" in out.stdout, out.stdout
         assert "energy_budget_check.py PASS" in out.stdout
         out = figure(["cre-series", str(cre), "--attester", str(cre_att),
                       "--band", "net", "--out", str(work / "cre.png")])
         assert out.returncode == 0, out.stdout + out.stderr
         assert (work / "cre.png").is_file()
-        assert "array cre_net_W_m2 sha256" in out.stdout, out.stdout
+        assert "array cre_net_W_m2 n=180 sha256" in out.stdout, out.stdout
         out = figure(["contrast", str(cre), "--attester", str(cre_att),
                       "--out", str(work / "contrast.png")])
         assert out.returncode == 0, out.stdout + out.stderr
         assert (work / "contrast.png").is_file()
-        assert "array terms_other_convention sha256" in out.stdout, out.stdout
+        assert "array terms_other_convention n=3 sha256" in out.stdout, out.stdout
 
         # 2. An array's digest, restated, draws again; a wrong one is a
         #    refusal rather than a figure.
         line = [ln for ln in out.stdout.splitlines()
-                if "array terms_bound_convention sha256" in ln][0]
+                if "array terms_bound_convention n=3 sha256" in ln][0]
         good = line.strip().split()[-1]
         again = figure(["contrast", str(cre), "--attester", str(cre_att),
                         "--expect", f"terms_bound_convention={good}",

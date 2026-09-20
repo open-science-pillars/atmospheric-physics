@@ -54,7 +54,15 @@ release of anything.
 **What it is not.** It is not a receipt, not a copy of a provider
 fixture, and not a number this capability owns. The run identifier of a
 fixture run is bound to the runtime name and is deliberately not
-recorded.
+recorded, and neither is any bit-exact digest of a derived float. A
+window mean is not bit-reproducible across interpreters: CPython 3.12
+changed float `sum()` to compensated summation, so the same executor on
+the same fixture writes means whose last bits differ under 3.11 and
+under 3.12, while the fixture itself hashes the same under both (its
+generator is a stdlib hash stream). The cells here are therefore
+compared with a relative tolerance of 1e-9, and each figure's drawn
+arrays are checked against the receipt they were drawn from inside the
+same run rather than against a recorded digest.
 
 **When it changes.** When an executor's digest changes, which the
 golden reports by name, and then the provider bundle's change is the
