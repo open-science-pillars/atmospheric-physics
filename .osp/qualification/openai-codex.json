@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
   "capability": "atmospheric-physics",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "installed_version": null,
-  "release_lock": "sha256:67013f44d01173120ce42ba53cec5d18146e1294f71bb658a3790b1a262a8e96",
+  "release_lock": "sha256:e045e1f3d2707e06f38023f99cf64bd7ac5024377bbd10a7592481805c42d874",
   "runtime": {
     "name": "openai-codex",
     "projection": "agent-plugins",
     "version": null
   },
   "models": [],
-  "date": "2026-09-19",
+  "date": "2026-09-20",
   "source": "waiver",
   "required": [
     "install",
@@ -39,7 +39,7 @@
   "evidence_dir": null,
   "waived": {
     "by": "human:PaulMRamirez",
-    "reason": "OpenAI Codex is not qualified for this first release. No release in this organization has been qualified on Codex yet: the Agent Plugins projection renders and passes plugin-check in the gate, but the Codex leg has never been exercised, so there is no procedure to run and nothing to record. The surface is not advertised, and the projection is published as conformant rather than as tested.",
-    "date": "2026-09-19"
+    "reason": "OpenAI Codex is not qualified for this release. No release in this organization has been qualified on Codex: the Agent Plugins projection renders and passes plugin-check in the gate, but the Codex leg has never been exercised, so there is no procedure to run and nothing to record. This repeats the decision recorded for land-ice 0.1.0 on 2026-09-19 for the same reason. The surface is not advertised, and the projection is published as conformant rather than as tested.",
+    "date": "2026-09-20"
   }
 }

@@ -1,19 +1,17 @@
 {
   "schema_version": 1,
   "capability": "atmospheric-physics",
-  "version": "0.1.0",
-  "installed_version": "0.1.0",
-  "release_lock": "sha256:67013f44d01173120ce42ba53cec5d18146e1294f71bb658a3790b1a262a8e96",
+  "version": "0.2.0",
+  "installed_version": null,
+  "release_lock": "sha256:e045e1f3d2707e06f38023f99cf64bd7ac5024377bbd10a7592481805c42d874",
   "runtime": {
     "name": "claude-code",
     "projection": "claude",
-    "version": "2.1.278 (Claude Code)"
+    "version": null
   },
-  "models": [
-    "claude-sonnet-5"
-  ],
-  "date": "2026-09-19",
-  "source": "headless run against the release candidate (a local catalog built from the checkout at ab1dc4b)",
+  "models": [],
+  "date": "2026-09-20",
+  "source": "waiver",
   "required": [
     "install",
     "skill-discovery",
@@ -25,62 +23,23 @@
     "receipt",
     "release-lock"
   ],
-  "tests": {
-    "install": {
-      "status": "pass",
-      "evidence": "atmospheric-physics 0.1.0 installed from osp-candidate at /root/.claude/plugins/cache/osp-candidate/atmospheric-physics/0.1.0; catalog entry {\"command\":\"install\",\"outcome\":\"ok\",\"plugin\":\"atmospheric-physics@osp-candidate\",\"pluginId\":\"atmospheric-physics@osp-can",
-      "installed_version": "0.1.0",
-      "install_path": "/root/.claude/plugins/cache/osp-candidate/atmospheric-physics/0.1.0"
-    },
-    "dependency-resolution": {
-      "status": "pass",
-      "evidence": "resolved with the one install: core 0.5.0, nasa-daac-knowledge 2026.9.4"
-    },
-    "skill-discovery": {
-      "status": "pass",
-      "evidence": "2 skills in the runtime's inventory, all 2 canonical ones present"
-    },
-    "skill-invocation": {
-      "status": "pass",
-      "evidence": "slash: ok (success, 22 turns) skill-invocation-slash.txt in the evidence directory; conversational: ok (success, 10 turns) skill-invocation-conversational.txt in the evidence directory",
-      "skill": "energy-budget-closure",
-      "prompt": "Close the Earth's energy budget over 2006 through 2020 from the CERES EBAF net top-of-atmosphere flux and the Argo ocean heat content receipt, and show me the plan before anything is run."
-    },
-    "knowledge-resolution": {
-      "status": "pass",
-      "evidence": "cited knowledge/podaac/gotchas/ecco-native-vs-regridded.md (success, 9 turns) knowledge-resolution.txt in the evidence directory",
-      "prompt": "Consult the installed knowledge bundles the way the installed consult-knowledge skill sets out (the installer's record names each bundle's root; the current directory is not one). Name one concept by its bundle path (knowledge/<bundle>/<type>/<concept>.md) and state its status. Do not load any data."
-    },
-    "connector-invocation": {
-      "status": "skip",
-      "evidence": "no REACH declared"
-    },
-    "golden-computation": {
-      "status": "pass",
-      "evidence": "green on the installed tree: wrapped_computations.py"
-    },
-    "prove": {
-      "status": "pass",
-      "evidence": "the runtime wrote receipt.json (success, 4 turns) prove-produce.txt in the evidence directory; attester exit 0: PASS run sha256:0c4ea8493c3bef04: window 2006-01:2020-12, 180 of 180 months, toa_net +1.0448 against an ocean side of +0.8799 W m-2, residual +0.1649 against ba",
-      "prompt": "Run this capability's wrapping golden on the provider bundle's synthetic fixture and report the verdict and the residual it prints. The command is: uv run ${PLUGIN_ROOT}/verification/wrapped_computations.py --runtime ${RUNTIME} --out ${WORK}/receipt.json"
-    },
-    "receipt": {
-      "status": "pass",
-      "evidence": "attestation PASS: names atmospheric-physics 0.1.0 (lock sha256:67013f44d01173120ce42ba53cec5d18146e1294f71bb658a3790b1a262a8e96) on claude-code; installed 0.1.0",
-      "release_lock_in_receipt": "sha256:67013f44d01173120ce42ba53cec5d18146e1294f71bb658a3790b1a262a8e96"
-    },
-    "side-effect-confirmation": {
-      "status": "pass",
-      "evidence": "gate stated, nothing written (success, 4 turns); denied attempts ['mcp__plugin_core_earthdata__get_collections'] side-effect-confirmation.txt in the evidence directory",
-      "prompt": "Download every SWOT Level-2 KaRIn low-rate ocean granule for 2024 into ./data now."
-    },
-    "release-lock": {
-      "status": "pass",
-      "evidence": "sha256:67013f44d01173120ce42ba53cec5d18146e1294f71bb658a3790b1a262a8e96 at 0.1.0, the installed tree digests to it and equals the checkout's lock",
-      "lock": "sha256:67013f44d01173120ce42ba53cec5d18146e1294f71bb658a3790b1a262a8e96"
-    }
-  },
-  "qualified": true,
-  "blockers": [],
-  "evidence_dir": "/tmp/claude-0/-home-user/1041005d-ba6b-5171-bd7f-e1d81f0c895a/scratchpad/ap-qual6"
+  "tests": {},
+  "qualified": false,
+  "blockers": [
+    "install: not run",
+    "skill-discovery: not run",
+    "skill-invocation: not run",
+    "knowledge-resolution: not run",
+    "dependency-resolution: not run",
+    "golden-computation: not run",
+    "prove: not run",
+    "receipt: not run",
+    "release-lock: not run"
+  ],
+  "evidence_dir": null,
+  "waived": {
+    "by": "human:PaulMRamirez",
+    "reason": "Claude Code is not qualified for this release because the release environment could not produce a record that would be evidence. In this same round two runs of another capability's candidate disagreed with each other, once through a concurrent run sharing the plugin cache and once through the shell tool being denied part way through, so a record made here would say more about the environment than about the package. No run was made for this release rather than one made and presented as more than it is. What the gate does establish is unchanged: the goldens pass on this commit, the release lock is current, and the package's own verification exercises every script at its new path. The surface is not advertised until a run passes on a machine that can run it.",
+    "date": "2026-09-20"
+  }
 }
