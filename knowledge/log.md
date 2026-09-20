@@ -2,6 +2,8 @@
 
 Newest first. One line per change: date, concept path, what changed, who.
 
+- 2026-09-20 · knowledge/index.md · the prose of this capability reworded to match ADR E, a computation is a skill, with no path and no number touched: the sentences that placed the attester in the provider bundle now say that the attester each skill runs ships in this package under skills/<skill>/scripts/, and the two retired categories, the wrapping skill and the receipt skill, are gone from README.md, knowledge/index.md, skills/sweep/SKILL.md, skills/sweep/scripts/sweep.py, verification/fixtures/README.md, verification/receipt_skills.py, verification/wrapped_computations.py and .github/workflows/goldens.yml, which name the skill instead or say plainly that those three skills compute nothing. Every knowledge/asdc/ citation was checked against the bundle first and left exactly as it stands, because the provider bundle is still the authority on products and a computation cites its dataset, gotcha, convention and recipe concepts by bundle path exactly as before. No concept was edited and no signature block or status was touched, so nothing here owes a re-sign; verification/fixtures/receipt-skills-fixture.json was re-measured because its about block is written from the golden, and only that block moved · claude
+
 - 2026-09-20 · STEWARD RE-SIGNING of
   knowledge/computations/energy-budget.md,
   knowledge/computations/cloud-radiative-effect.md: Re-signed after the

@@ -77,11 +77,11 @@ than restate, are that bundle's `datasets/ceres-ebaf-ed4-2.md`, its
 `ebaf-clear-sky-definitions.md` and `ebaf-climatology-baseline.md`, and
 its recipes `energy-budget.md` and `cloud-radiative-effect.md`.
 
-Three receipt skills, `sweep`, `receipt-figures` and `methods`, operate
-over the two computations above and add no concept here. A receipt
-skill emits only fields of receipts an attester passed, or a table,
-figure or paragraph of such fields, and combines no two receipts into a
-value no receipt carries; its script enforces that test rather than its
+Three more skills, `sweep`, `receipt-figures` and `methods`, operate
+over the two computations above and add no concept here. Each of them
+emits only fields of receipts an attester passed, or a table, figure or
+paragraph of such fields, and combines no two receipts into a value no
+receipt carries; each script enforces that test rather than its
 prose. A sweep that averaged its rows, a figure carrying a fitted line
 or a paragraph stating a fact no receipt carries would each be a claim
 this bundle would have to own, and each script refuses to produce one.

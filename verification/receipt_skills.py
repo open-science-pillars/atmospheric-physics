@@ -3,9 +3,9 @@
 # requires-python = ">=3.10"
 # dependencies = []
 # ///
-"""Golden for the three receipt skills: sweep, receipt-figures and
-methods, exercised offline against the expectations committed beside
-this file.
+"""Golden for sweep, receipt-figures and methods, the three skills here
+that compute nothing, exercised offline against the expectations
+committed beside this file.
 
 Nothing scientific is reimplemented here and nothing is downloaded. The
 three skills drive the sanctioned executors and attesters this package
@@ -212,9 +212,11 @@ def measure(work: Path) -> dict:
     done = do_sweeps(work)
     doc = {
         "about": [
-            "What the three receipt skills produce on the ASDC executors' synthetic",
-            "fixtures at seed 7, read by verification/receipt_skills.py. Every cell",
-            "below is a field of a receipt the bundle's attester passed, copied by the",
+            "What sweep, receipt-figures and methods produce on this package's",
+            "executors' synthetic fixtures at seed 7, read by",
+            "verification/receipt_skills.py. Every cell below is a field of a receipt",
+            "the computation's own attester passed, a script this package carries",
+            "beside the skill that runs the computation, copied by the",
             "receipt field path the sweep manifest records beside each column; every",
             "figure digest is the sha256 of an array the renderer drew from such a",
             "receipt; every methods entry is the set of receipt fields the paragraph",

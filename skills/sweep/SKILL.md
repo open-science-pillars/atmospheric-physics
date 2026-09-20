@@ -6,8 +6,9 @@ description: "Sweep one parameter an attested computation of this capability dec
 # sweep
 
 This skill computes nothing. Every number it puts in a table is a field
-of one receipt that the provider bundle's attester passed, copied by
-the receipt field path the script records beside each column, and the
+of one receipt that the computation's own attester passed, a script
+this package carries under `skills/<skill>/scripts/`, copied by the
+receipt field path the sweep records beside each column, and the
 computation that owns those numbers is the concept the sweep names
 (`knowledge/computations/cloud-radiative-effect.md` for the cloud
 radiative effect, `knowledge/computations/energy-budget.md` for
@@ -25,15 +26,16 @@ codes are that skill's, so a reader who knows one sweep knows both.
 Use it when the question is how an answer moves with a parameter the
 concept declares: every region on one clear-sky convention, the same
 region on both conventions, every window of a stated length stepping
-through the record. Use the wrapping skill (`cloud-radiative-effect`,
-`energy-budget-closure`) when the question is about one run, which is
-also the only thing a reader may quote as a number.
+through the record. Use the skill that runs the computation
+(`cloud-radiative-effect`, `energy-budget-closure`) when the question
+is about one run, which is also the only thing a reader may quote as a
+number.
 
-The runs it drives are the wrapping skills' runs, so read the wrapping
-skill first: it states the parameters, the refusal codes, the receipt
-fields and the caveats that travel with every number. The sweep changes
-none of that. It runs the same executor with the same flags, one value
-at a time.
+The runs it drives are those skills' runs, so read the skill that runs
+the computation first: it states the parameters, the refusal codes, the
+receipt fields and the caveats that travel with every number. The sweep
+changes none of that. It runs the same executor with the same flags,
+one value at a time.
 
 ## Where the executors, the attesters and the concepts are
 
@@ -112,9 +114,9 @@ uv run skills/sweep/scripts/sweep.py \
    concept by bundle path, the parameter to be swept as that concept
    declares it, the values, the fixed value of every other declared
    parameter, and the input (the fixture as a rehearsal, or the stamped
-   data root for a real run). Consult the wrapping skill and the
-   concepts it names before running. For any sweep that touches the
-   clear-sky convention, consult
+   data root for a real run). Consult the skill that runs the
+   computation and the concepts it names before running. For any sweep
+   that touches the clear-sky convention, consult
    `knowledge/asdc/conventions/ceres-clear-sky-conventions.md` and
    `knowledge/asdc/gotchas/ebaf-clear-sky-definitions.md` first and
    cite both by bundle path.

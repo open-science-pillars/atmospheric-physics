@@ -46,9 +46,9 @@ partial table:
                           owns. A capability that computes a number of
                           its own is domain expansion under ADR D of
                           the marketplace decisions and waits on the
-                          ablation; a sweep is a wrap, so it stops here
-                          and says which single receipt a reader may
-                          quote instead. A mean across the two
+                          ablation; a sweep only arranges receipts, so
+                          it stops here and says which single receipt a
+                          reader may quote instead. A mean across the two
                           clear-sky conventions is the one a reader
                           wants most and the one this refusal was
                           written for: the two conventions are two
