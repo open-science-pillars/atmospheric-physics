@@ -22,13 +22,13 @@
         "window": "2006-01:2020-12",
         "region": "antarctic"
       },
-      "concept": "knowledge/asdc/computations/cloud-radiative-effect.md",
-      "code_sha256": "sha256:269c799d9364baff09d9ad3c30a12e2d495398594df7e0359e396dcd89981a08",
+      "concept": "knowledge/computations/cloud-radiative-effect.md",
+      "code_sha256": "sha256:e3a48d8375a7a26fc4bf201e2c6cbcb09814e4da83ccfaae0fc24b538333ba83",
       "input": {
         "mode": "fixture",
         "seed": 7,
         "digest": "sha256:34ba8f8a3062177d1999104f223e12a20549adcb96eaecab7334d0819e7bfc16",
-        "generator_sha256": "sha256:269c799d9364baff09d9ad3c30a12e2d495398594df7e0359e396dcd89981a08"
+        "generator_sha256": "sha256:e3a48d8375a7a26fc4bf201e2c6cbcb09814e4da83ccfaae0fc24b538333ba83"
       },
       "columns": [
         "window",
@@ -88,17 +88,17 @@
             "cre_shortwave_W_m2": -28.5614,
             "cre_longwave_W_m2": 18.1734,
             "cre_net_W_m2": -10.388,
-            "cre_shortwave_value_W_m2": -28.561419215409053,
+            "cre_shortwave_value_W_m2": -28.561419215409067,
             "cre_longwave_value_W_m2": 18.173417920419205,
-            "cre_net_value_W_m2": -10.388001294989849,
-            "cre_shortwave_uncertainty_W_m2": 0.38986917954337924,
-            "cre_longwave_uncertainty_W_m2": 0.24849992446252794,
-            "cre_net_uncertainty_W_m2": 0.4631972350566291,
-            "residual_W_m2": 0.0,
+            "cre_net_value_W_m2": -10.38800129498985,
+            "cre_shortwave_uncertainty_W_m2": 0.38986917954337946,
+            "cre_longwave_uncertainty_W_m2": 0.2484999244625278,
+            "cre_net_uncertainty_W_m2": 0.4631972350566295,
+            "residual_W_m2": 1.2434497875801753e-14,
             "bar_W_m2": 0.01,
             "decomposition_closes": true,
             "contrast_convention": "cloud-free-area",
-            "contrast_cre_net_W_m2": -12.184522265153875,
+            "contrast_cre_net_W_m2": -12.184522265153872,
             "published_distance_net_W_m2": null
           }
         },
@@ -115,17 +115,17 @@
             "cre_shortwave_W_m2": -27.9994,
             "cre_longwave_W_m2": 15.8149,
             "cre_net_W_m2": -12.1845,
-            "cre_shortwave_value_W_m2": -27.999376877276713,
-            "cre_longwave_value_W_m2": 15.81485461212284,
-            "cre_net_value_W_m2": -12.184522265153875,
-            "cre_shortwave_uncertainty_W_m2": 0.3916765394929977,
+            "cre_shortwave_value_W_m2": -27.9993768772767,
+            "cre_longwave_value_W_m2": 15.814854612122849,
+            "cre_net_value_W_m2": -12.184522265153872,
+            "cre_shortwave_uncertainty_W_m2": 0.39167653949299774,
             "cre_longwave_uncertainty_W_m2": 0.24341206752407402,
-            "cre_net_uncertainty_W_m2": 0.457695386595375,
-            "residual_W_m2": -1.7763568394002505e-15,
+            "cre_net_uncertainty_W_m2": 0.45769538659537495,
+            "residual_W_m2": -2.1316282072803006e-14,
             "bar_W_m2": 0.01,
             "decomposition_closes": true,
             "contrast_convention": "total-region",
-            "contrast_cre_net_W_m2": -10.388001294989849,
+            "contrast_cre_net_W_m2": -10.38800129498985,
             "published_distance_net_W_m2": null
           }
         }
@@ -140,13 +140,13 @@
         "window": "2006-01:2020-12",
         "clear_sky": "total-region"
       },
-      "concept": "knowledge/asdc/computations/cloud-radiative-effect.md",
-      "code_sha256": "sha256:269c799d9364baff09d9ad3c30a12e2d495398594df7e0359e396dcd89981a08",
+      "concept": "knowledge/computations/cloud-radiative-effect.md",
+      "code_sha256": "sha256:e3a48d8375a7a26fc4bf201e2c6cbcb09814e4da83ccfaae0fc24b538333ba83",
       "input": {
         "mode": "fixture",
         "seed": 7,
         "digest": "sha256:34ba8f8a3062177d1999104f223e12a20549adcb96eaecab7334d0819e7bfc16",
-        "generator_sha256": "sha256:269c799d9364baff09d9ad3c30a12e2d495398594df7e0359e396dcd89981a08"
+        "generator_sha256": "sha256:e3a48d8375a7a26fc4bf201e2c6cbcb09814e4da83ccfaae0fc24b538333ba83"
       },
       "columns": [
         "window",
@@ -206,17 +206,17 @@
             "cre_shortwave_W_m2": -45.56,
             "cre_longwave_W_m2": 25.723,
             "cre_net_W_m2": -19.837,
-            "cre_shortwave_value_W_m2": -45.560000063223924,
-            "cre_longwave_value_W_m2": 25.72301089804376,
-            "cre_net_value_W_m2": -19.83698916518016,
+            "cre_shortwave_value_W_m2": -45.560000063223896,
+            "cre_longwave_value_W_m2": 25.723010898043757,
+            "cre_net_value_W_m2": -19.836989165180167,
             "cre_shortwave_uncertainty_W_m2": 0.30957850927213826,
-            "cre_longwave_uncertainty_W_m2": 0.24485889107996905,
-            "cre_net_uncertainty_W_m2": 0.3774141630858619,
-            "residual_W_m2": 3.552713678800501e-15,
+            "cre_longwave_uncertainty_W_m2": 0.24485889107996892,
+            "cre_net_uncertainty_W_m2": 0.37741416308586195,
+            "residual_W_m2": -2.842170943040401e-14,
             "bar_W_m2": 0.01,
             "decomposition_closes": true,
             "contrast_convention": "cloud-free-area",
-            "contrast_cre_net_W_m2": -18.07739024601119,
+            "contrast_cre_net_W_m2": -18.077390246011184,
             "published_distance_net_W_m2": null
           }
         },
@@ -233,17 +233,17 @@
             "cre_shortwave_W_m2": -28.5614,
             "cre_longwave_W_m2": 18.1734,
             "cre_net_W_m2": -10.388,
-            "cre_shortwave_value_W_m2": -28.561419215409053,
+            "cre_shortwave_value_W_m2": -28.561419215409067,
             "cre_longwave_value_W_m2": 18.173417920419205,
-            "cre_net_value_W_m2": -10.388001294989849,
-            "cre_shortwave_uncertainty_W_m2": 0.38986917954337924,
-            "cre_longwave_uncertainty_W_m2": 0.24849992446252794,
-            "cre_net_uncertainty_W_m2": 0.4631972350566291,
-            "residual_W_m2": 0.0,
+            "cre_net_value_W_m2": -10.38800129498985,
+            "cre_shortwave_uncertainty_W_m2": 0.38986917954337946,
+            "cre_longwave_uncertainty_W_m2": 0.2484999244625278,
+            "cre_net_uncertainty_W_m2": 0.4631972350566295,
+            "residual_W_m2": 1.2434497875801753e-14,
             "bar_W_m2": 0.01,
             "decomposition_closes": true,
             "contrast_convention": "cloud-free-area",
-            "contrast_cre_net_W_m2": -12.184522265153875,
+            "contrast_cre_net_W_m2": -12.184522265153872,
             "published_distance_net_W_m2": null
           }
         },
@@ -282,13 +282,13 @@
       "parameter": "window",
       "values": "2006-01:2020-12,1998-01:2005-12",
       "fixed": {},
-      "concept": "knowledge/asdc/computations/energy-budget.md",
-      "code_sha256": "sha256:1f9a687f410468b9a4730403d6887f831511c4ad1679d752c11ff2e9450e6b9a",
+      "concept": "knowledge/computations/energy-budget.md",
+      "code_sha256": "sha256:973c55f6fe7423d9003e54943f7300642f48464f238ad5b67a720201a5871031",
       "input": {
         "mode": "fixture",
         "seed": 7,
         "digest": "sha256:c03c29dc55a81c910a3509d9d2906b26ad13247d35e3779ebfa3b774afc32832",
-        "generator_sha256": "sha256:1f9a687f410468b9a4730403d6887f831511c4ad1679d752c11ff2e9450e6b9a"
+        "generator_sha256": "sha256:973c55f6fe7423d9003e54943f7300642f48464f238ad5b67a720201a5871031"
       },
       "columns": [
         "window",

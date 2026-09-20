@@ -1,0 +1,70 @@
+{
+    "about": [
+        "What verification/energy_budget_chain.py holds the energy budget closure to: the two reference",
+        "runs of knowledge/computations/energy-budget.md, quoted from that concept's Reference run",
+        "section, and the refusal the chain exercises. Every number here is the concept's; the golden",
+        "exists so that a chain which stops reproducing its concept fails the gate, not so that a number",
+        "can be asserted here. A run identifier is bound to the runtime name and to the package the run",
+        "is evidence for, so none is asserted."
+    ],
+    "concept": "knowledge/computations/energy-budget.md",
+    "executor": "skills/energy-budget-closure/scripts/energy_budget.py",
+    "attester": "skills/energy-budget-closure/scripts/energy_budget_check.py",
+    "loaders": [
+        "skills/energy-budget-closure/scripts/eb_ceres_ebaf.py",
+        "skills/energy-budget-closure/scripts/eb_data_root.py"
+    ],
+    "data_root": "knowledge/references/retrieval/energy-budget-root",
+    "record": "energy-budget-root-2026-09-15",
+    "recorded": "quoted 2026-09-20 from the concept moved in this pull request",
+    "tolerance": 0.0001,
+    "runs": [
+        {
+            "name": "fixture",
+            "quoted_from": "the concept's Reference run section, the fixture run at seed 7 over 2006-01 through 2020-12",
+            "args": ["--fixture", "--seed", "7", "--window", "2006-01:2020-12"],
+            "bound_parameters": {"window": "2006-01:2020-12"},
+            "months_used": 180,
+            "months_in_window": 180,
+            "terms": {
+                "toa_net": {"value": 1.0448, "uncertainty": 0.2632},
+                "ohc_0_2000": {"value": 0.7377, "uncertainty": 0.0746},
+                "deep_ocean": {"value": 0.06, "uncertainty": 0.03},
+                "non_ocean": {"value": 0.0822, "uncertainty": 0.0175}
+            },
+            "residual": 0.1649,
+            "combined_uncertainty": 0.2757,
+            "verdict": true,
+            "anomaly_trend_W_m2_per_decade": 0.1527,
+            "anomaly_trend_interval": [-0.4216, 0.7269]
+        },
+        {
+            "name": "record",
+            "quoted_from": "the concept's Reference run section, the real-data run on the stamped data root over 2006-01 through 2020-12",
+            "args": ["--window", "2006-01:2020-12"],
+            "on_data_root": true,
+            "bound_parameters": {"window": "2006-01:2020-12"},
+            "months_used": 180,
+            "months_in_window": 180,
+            "months_shared_with_anchor_decade": 114,
+            "terms": {
+                "toa_net": {"value": 0.8746, "uncertainty": 0.1703},
+                "ohc_0_2000": {"value": 0.6005, "uncertainty": 0.0753},
+                "deep_ocean": {"value": 0.06, "uncertainty": 0.03},
+                "non_ocean": {"value": 0.0822, "uncertainty": 0.0175}
+            },
+            "ocean_side": {"value": 0.7427, "uncertainty": 0.0829},
+            "residual": 0.1319,
+            "combined_uncertainty": 0.1894,
+            "verdict": true,
+            "anomaly_trend_W_m2_per_decade": 0.3706,
+            "anomaly_trend_interval": [0.0762, 0.6649],
+            "argo_receipt_run_id": "sha256:0f64c6f9f2f330b6"
+        }
+    ],
+    "refusal": {
+        "args": ["--fixture", "--seed", "7", "--window", "1998-01:2005-12"],
+        "reason_code": "window-outside-record",
+        "quoted_from": "the concept's Reference run section, the refusal case the chain exercises"
+    }
+}

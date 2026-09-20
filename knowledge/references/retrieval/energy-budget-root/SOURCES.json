@@ -1,0 +1,92 @@
+{
+  "purpose": "provenance of the inputs of the energy budget closure's data root: the CERES EBAF Edition 4.2.1 product subset the radiation loader read, the Argo ocean heat content receipt the ocean side is read from, and the documents and registry records read to describe them; the product file itself is never committed",
+  "credentials": "Earthdata Login bearer token from the environment sent as a request header on the second attempt of the OPeNDAP download only (the first attempt, without it, answered 401); the token is not recorded here or anywhere in this root",
+  "downloads": [
+    {
+      "term": "toa-net",
+      "product": "CERES EBAF TOA and Surface Fluxes, Edition 4.2.1 (Revised data Release Date March 14, 2025), the combined collection CERES_EBAF Edition4.2.1",
+      "collection_concept_id": "C3880496704-LARC_CLOUD",
+      "doi": "10.5067/TERRA-AQUA-NOAA20/CERES/EBAF_L3B004.2.1",
+      "granule": "CERES_EBAF_Edition4.2.1_200003-202605.nc",
+      "granule_size_mb_cmr": 1983.76,
+      "query": "https://cmr.earthdata.nasa.gov/search/granules.json?collection_concept_id=C3880496704-LARC_CLOUD&page_size=10 on 2026-09-15: three granules (through 2025-12, 2026-03 and 2026-05); the newest was read",
+      "url": "https://opendap.earthdata.nasa.gov/collections/C3880496704-LARC_CLOUD/granules/CERES_EBAF_Edition4.2.1_200003-202605.nc.nc4?toa_net_all_mon,gtoa_net_all_mon,lat,lon,time",
+      "what": "a netCDF-4 subset served by the ASDC OPeNDAP (Hyrax) endpoint carrying only the five variables the loader reads: toa_net_all_mon (time, lat, lon), gtoa_net_all_mon (time), lat, lon, time; the file's global attributes (title, version, DOI, institution, Conventions, comment) travel with the subset",
+      "file": "CERES_EBAF_Edition4.2.1_200003-202605.subset.nc",
+      "files": 1,
+      "total_bytes": 36788997,
+      "retrieved_utc": "2026-09-15T17:55:19Z",
+      "status": 200,
+      "attempts": "401 without credentials at 2026-09-15T17:55:18Z, then 200 with the bearer token",
+      "sha256": "sha256:9ed5917859fc5308c59d4246b21b9fe03cb403b4e021fbbeced18b202c427099",
+      "verification": "HTTP 200, HDF5 signature, opened with netCDF4; 315 monthly fields 2000-03 through 2026-05, 180 by 360 cells, every cell carrying a value; the product's own global mean gtoa_net_all_mon reproduced from toa_net_all_mon with the CERES zonal geodetic weights (below) to a maximum difference of 2.4e-4 W m-2 across the 315 months"
+    }
+  ],
+  "not_retrieved": [
+    {
+      "url": "https://data.asdc.earthdata.nasa.gov/asdc-prod-protected/CERES/CERES_EBAF-TOA_Edition4.2.1/CERES_EBAF-TOA_Edition4.2.1_200003-202606.nc",
+      "product": "CERES_EBAF-TOA Edition4.2.1 (C3880497643-LARC_CLOUD), the TOA-only collection, 894 MB",
+      "attempted_utc": "2026-09-15T17:45:09Z",
+      "status": "the archive host redirects to a CloudFront distribution that this environment's proxy refuses (CONNECT answered 403), with and without the token; the same TOA fluxes are carried by the combined EBAF granule read above (the dataset concept: March 2000 through March 2022 is the same in both, and the TOA algorithm is one), so the combined granule's toa_net_all_mon is what was read"
+    },
+    {
+      "url": "https://opendap.earthdata.nasa.gov/collections/C3880497643-LARC_CLOUD/granules/CERES_EBAF-TOA_Edition4.2.1_200003-202606.nc.dmr",
+      "attempted_utc": "2026-09-15T17:51:00Z",
+      "status": "404: the OPeNDAP endpoint holds no dmrpp for the TOA-only granule"
+    },
+    {
+      "url": "https://asdc.larc.nasa.gov/data/CERES/EBAF/TOA_Edition4.2.1/",
+      "attempted_utc": "2026-09-15T17:50:00Z",
+      "status": "200, a directory page that links only to the CMR virtual directory, which links to the CloudFront host above"
+    }
+  ],
+  "ocean_receipt": {
+    "file": "ohc-2000-receipt.json",
+    "sha256": "sha256:aaa4377df17a26fb95c263a5d5d030a8ca6abeb7d5a1df2ea49a13da7d482b13",
+    "computation": "references/computations/argo_ohc.py in the ocean-science plugin (github.com/open-science-pillars/ocean-science), main at commit e350e1d12bf205c9825c92dc1d1fd7ff8b07de84, package ocean-science 0.8.2",
+    "command": "uv run knowledge/references/computations/argo_ohc.py --data-root knowledge/references/retrieval/argo-ohc-root --window 2006-01:2020-12 --depth 2000 --runtime energy-budget-seed --receipt PATH, run in the ocean-science clone on 2026-09-15T17:43:16Z, no network",
+    "run_id": "sha256:0f64c6f9f2f330b6",
+    "data_root": "knowledge/references/retrieval/argo-ohc-root, record argo-ohc-root-2026-09-15",
+    "attested": "uv run knowledge/references/attesters/argo_ohc_check.py PATH --data-root knowledge/references/retrieval/argo-ohc-root on 2026-09-15: PASS on every check (fields, code, release, runtime, data, series, recompute, bookkeeping, plausible); the receipt's own verdict consistent_within_uncertainty is false (its endpoint change and fitted change differ by 25.3 ZJ against a bar of 24.1), which is a statement about the Argo series' departure from a line over the window and not about this budget, whose ocean term is the receipt's trend",
+    "headline": "0 to 2000 dbar trend +9.6664 ZJ per year, 95 percent [+8.4546, +10.8782], uncertainty 1.2118 ZJ per year (0.6005 W m-2 of the Earth's surface); fitted change +135.33 ZJ over 14.0 years; endpoint change +110.05 ZJ; 180 of 180 months; deep ocean below 2000 dbar stated as an omission at the published 0.97 plus or minus 0.48 ZJ per year"
+  },
+  "documents_read": [
+    {
+      "url": "https://ceres.larc.nasa.gov/documents/DQ_summaries/Versioned/CERES_EBAF_Ed4.2_DQS_V7.pdf",
+      "what": "CERES_EBAF_Ed4.2 and Ed4.2.1 Data Quality Summary version 7 (2026-07-01), the pinned copy the bundle cites: the anchoring paragraph (SYN1deg net imbalance about 4.3 W m-2 against the expected ocean heating rate about 0.71 W m-2, the objective constrainment) and the geodetic weighting statement (global means from zonal geodetic weights, the solar division factor 4.0034)",
+      "retrieved_utc": "2026-09-15T17:47:00Z",
+      "total_bytes": 4145171,
+      "sha256": "sha256:f778ebd87f188e7435f933d5d325087dcd597d2b536e2c755f959f9d6fe3df32"
+    },
+    {
+      "url": "https://ceres.larc.nasa.gov/documents/GZWdata/zone_weights_lou.txt",
+      "what": "the CERES one degree zonal geodetic weights (180 zones, sum 1.000013), linked from https://ceres.larc.nasa.gov/data/general-product-info/#geodetic-zone-weights-information (read the same day: the oblate spheroid with equatorial radius 6378.137 km and polar radius 6356.752 km, the division factor 4.0034); used offline to confirm that the product's gtoa_net_all_mon is the geodetically weighted mean of toa_net_all_mon",
+      "retrieved_utc": "2026-09-15T17:56:00Z",
+      "total_bytes": 4244,
+      "sha256": "sha256:962c14e814331233074ce102b1e80cbf440983a00b17698395aa67ea541f4e61"
+    },
+    {
+      "url": "https://essd.copernicus.org/articles/15/1675/2023/essd-15-1675-2023.pdf",
+      "what": "von Schuckmann and others (2023), Heat stored in the Earth system 1960 to 2020: where does the energy go?, Earth System Science Data 15, 1675 to 1709, doi:10.5194/essd-15-1675-2023, reached through https://doi.org/10.5194/essd-15-1675-2023 (the journal page, then the PDF): Table 1 (2006 to 2020 ocean layer rates, 0 to 2000 m 0.62 plus or minus 0.2 W m-2 of the global surface), section 2 (the deep ocean below 2000 m, 0.97 plus or minus 0.48 ZJ per year, 0.06 plus or minus 0.03 W m-2, 1992 to 2020), Table 2 (the global atmospheric heat content gain 2006 to 2020, 7.25 plus or minus 1.72 TW), section 6 and figure 9 (the inventory fractions since 2006: ocean about 89 percent, land about 5, cryosphere about 4, atmosphere about 2; the EEI of 0.76 plus or minus 0.2 W m-2 for 2006 to 2020)",
+      "retrieved_utc": "2026-09-15T17:47:30Z",
+      "total_bytes": 3113586,
+      "sha256": "sha256:37fffa6ba636814e7d2add49f6060cdeb5ee4674d9f2897e3ac9db8813733eba",
+      "crossref": "https://api.crossref.org/works/10.5194/essd-15-1675-2023 read 2026-09-15: title, first authors (von Schuckmann, Miniere, Gues, Cuesta-Valero and others), Earth System Science Data 15, 1675 to 1709, 2023-04-17"
+    },
+    {
+      "url": "https://api.crossref.org/works/10.1029/2021GL093047",
+      "what": "the registry record and abstract of Loeb and others (2021), Satellite and Ocean Data Reveal Marked Increase in Earth's Heating Rate, Geophysical Research Letters 48, e2021GL093047, 2021-07: the abstract's 0.50 plus or minus 0.47 W m-2 per decade increase in the Earth's energy imbalance from mid-2005 to mid-2019 from satellite and in situ observations alike (5 to 95 percent confidence); the journal page https://doi.org/10.1029/2021GL093047 and the publisher's PDF link both answered 403 behind a bot check on 2026-09-15 and were not read",
+      "retrieved_utc": "2026-09-15T17:47:40Z"
+    },
+    {
+      "url": "https://cmr.earthdata.nasa.gov/search/granules.json?collection_concept_id=C3880497643-LARC_CLOUD&page_size=10",
+      "what": "the two EBAF-TOA Edition 4.2.1 granules CMR lists (through 2026-05 and 2026-06) with their archive URLs, read 2026-09-15",
+      "retrieved_utc": "2026-09-15T17:49:00Z"
+    }
+  ],
+  "notes": [
+    "weighting: the cos-latitude weighted global mean of toa_net_all_mon sits above the product's geodetic global mean by 0.218 W m-2 on average over the 315 months (0.14 to 0.28 across the annual cycle), because the net flux has a strong meridional gradient and the geodetic weights and the solar division factor 4.0034 shift the balance; the anchor of 0.71 W m-2 applies to the geodetic mean, which is why the computation forms its absolute term from the fourth column of toa-net.csv and its anomaly from the cos-latitude column",
+    "anchor decade: the mean of the product's geodetic global net flux over July 2005 through June 2015 in the file read is 0.7387 W m-2, 0.03 above the 0.71 the summaries name; the cos-latitude mean over the same months is 0.9563 W m-2",
+    "no raw product file is committed: the subset lives in a cache outside the tree and is named here by URL and hash"
+  ]
+}

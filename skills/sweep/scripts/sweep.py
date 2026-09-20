@@ -3,7 +3,7 @@
 # requires-python = ">=3.10"
 # dependencies = []
 # ///
-"""Sweep one declared parameter of an attested ASDC computation and table
+"""Sweep one declared parameter of an attested computation and table
 the receipts, computing nothing.
 
 The concept of a computation states its boundaries in prose, often from
@@ -19,12 +19,12 @@ follow any cell back to a receipt that passed.
 This is the atmospheric-physics port of the ocean-science sweep. The
 command line, the three outputs, the five refusal codes and the exit
 codes are that skill's, so a reader who knows one sweep knows both. What
-differs is the catalog (the two ASDC computations this capability
-wraps), the flag spelling rule (a declared parameter with an underscore,
+differs is the catalog (the two computations this capability carries),
+the flag spelling rule (a declared parameter with an underscore,
 `clear_sky`, is passed as `--clear-sky`) and one correctness change: the
 attester is given `--data-root DIR` on a data-root sweep, because the
-ASDC attesters take the data digests on the executor's word without it
-and FAIL a data-root refusal outright.
+attesters take the data digests on the executor's word without it and
+FAIL a data-root refusal outright.
 
 Every cell of the table is a field of one receipt, read by the path the
 catalog below records. The script fits nothing, averages nothing and
@@ -72,10 +72,10 @@ partial table:
                           manifest digest, or the fixture's seed and
                           digest), so the table would be two roots.
 
-The executor, the attester and the concept are reached at the installed
-provider bundle's path, the way the wrapping skills reach them: the
-installer's record (`claude plugin list --json`), or a checkout named
-by NASA_DAAC_KNOWLEDGE. Nothing is copied here.
+The executor, the attester and the concept are files of this package,
+reached at `${CLAUDE_PLUGIN_ROOT}` the way the skills that run them
+reach them; the gotcha and the convention a refusal cites stay in the
+provider bundle and are cited by bundle path.
 
 Usage:
   sweep.py --computation cloud-radiative-effect --parameter region \
@@ -98,13 +98,11 @@ import datetime as dt
 import json
 import os
 import re
-import shutil
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
 
-PROVIDER_PLUGIN = "nasa-daac-knowledge"
 BUNDLE = "asdc"
 
 # One entry per computation this sweep can drive. The columns are the
@@ -118,9 +116,9 @@ BUNDLE = "asdc"
 # receipt carries them; nothing here rounds or unrounds a number.
 CATALOG = {
     "cloud-radiative-effect": {
-        "concept": "computations/cloud-radiative-effect.md",
-        "executor": "references/computations/cloud_radiative_effect.py",
-        "attester": "references/attesters/cloud_radiative_effect_check.py",
+        "concept": "knowledge/computations/cloud-radiative-effect.md",
+        "executor": "skills/cloud-radiative-effect/scripts/cloud_radiative_effect.py",
+        "attester": "skills/cloud-radiative-effect/scripts/cloud_radiative_effect_check.py",
         "skill": "atmospheric-physics/cloud-radiative-effect",
         "columns": [
             ("window", "bound_parameters.window"),
@@ -146,9 +144,9 @@ CATALOG = {
         ],
     },
     "energy-budget": {
-        "concept": "computations/energy-budget.md",
-        "executor": "references/computations/energy_budget.py",
-        "attester": "references/attesters/energy_budget_check.py",
+        "concept": "knowledge/computations/energy-budget.md",
+        "executor": "skills/energy-budget-closure/scripts/energy_budget.py",
+        "attester": "skills/energy-budget-closure/scripts/energy_budget_check.py",
         "skill": "atmospheric-physics/energy-budget-closure",
         "columns": [
             ("window", "bound_parameters.window"),
@@ -194,44 +192,37 @@ def refuse(code: str, message: str) -> int:
 
 # ---- the installed bundle
 
-def provider_root() -> Path:
-    """The installed provider plugin's root, from the installer's record."""
-    override = os.environ.get("NASA_DAAC_KNOWLEDGE")
+def package_root() -> Path:
+    """This package's root: `${CLAUDE_PLUGIN_ROOT}` where the runtime
+    sets it, else the package tree this script ships in. The executor,
+    the attester and the concept are files of this package now, so
+    nothing is resolved through an installed provider bundle."""
+    override = os.environ.get("CLAUDE_PLUGIN_ROOT")
     if override:
-        return Path(override).expanduser().resolve()
-    claude = shutil.which("claude")
-    if claude is None:
-        sys.exit("no `claude` on PATH to read the installed-plugin record; "
-                 "set NASA_DAAC_KNOWLEDGE to a checkout of the provider "
-                 "repository instead")
-    rec = subprocess.run([claude, "plugin", "list", "--json"],
-                         capture_output=True, text=True)
-    if rec.returncode != 0:
-        sys.exit(f"`claude plugin list --json` failed: {rec.stderr.strip()}")
-    for entry in json.loads(rec.stdout):
-        if entry.get("id", "").split("@")[0] != PROVIDER_PLUGIN:
-            continue
-        if not entry.get("enabled", True) or entry.get("errors"):
-            sys.exit(f"{entry['id']} is installed but not usable: "
-                     f"{entry.get('errors') or 'disabled'}")
-        return Path(entry["installPath"])
-    sys.exit(f"{PROVIDER_PLUGIN} is not installed; it arrives with this "
-             "plugin's dependencies (`claude plugin install "
-             "atmospheric-physics@open-science-pillars`), or set "
-             "NASA_DAAC_KNOWLEDGE to a checkout of the provider repository")
+        root = Path(override).expanduser().resolve()
+        if not (root / ".osp" / "package.yaml").is_file():
+            sys.exit(f"CLAUDE_PLUGIN_ROOT={root} is no package tree: it "
+                     "carries no .osp/package.yaml")
+        return root
+    here = Path(__file__).resolve().parent
+    for p in (here, *here.parents):
+        if (p / ".osp" / "package.yaml").is_file():
+            return p
+    sys.exit("no CLAUDE_PLUGIN_ROOT in the environment and no package "
+             f"tree above {here}; run this script from its plugin")
 
 
-def bundle_paths(computation: str):
-    """The concept, the executor and the attester at the installed
-    bundle's path; nothing is copied into this repository."""
+def computation_paths(computation: str):
+    """The concept, the executor and the attester of a computation this
+    package carries, resolved against the plugin root."""
     spec = CATALOG[computation]
-    base = provider_root() / "knowledge" / BUNDLE
+    base = package_root()
     paths = {k: base / spec[k] for k in ("concept", "executor", "attester")}
     for name, p in paths.items():
         if not p.is_file():
-            sys.exit(f"the provider bundle carries no {name} for {computation} "
-                     f"at {p}; the sweep needs {PROVIDER_PLUGIN} at a release "
-                     "that ships it")
+            sys.exit(f"this package carries no {name} for {computation} "
+                     f"at {p}; the sweep runs the computations of the "
+                     "package it ships in")
     return paths
 
 
@@ -319,7 +310,7 @@ def attest(attester: Path, receipt: Path, attestation: Path, data_root=None):
     """The attester on this receipt, before any field of it is read.
 
     A data-root receipt is attested with --data-root naming the tree:
-    without it the ASDC attesters take the data digests on the
+    without it the attesters take the data digests on the
     executor's word, and a data-root refusal is not reproduced at all
     and FAILS. Returns (passed, the attester's own verdict line)."""
     cmd = ["uv", "run", str(attester), str(receipt), "--out", str(attestation)]
@@ -487,7 +478,7 @@ def aggregate_refusal(args, spec, across_conventions: bool) -> int:
     that is also the answer to give. Where the rows would span both
     clear-sky conventions the refusal leads with that, because a mean
     across the two is the aggregate this refusal was written for."""
-    concept = f"knowledge/{BUNDLE}/{spec['concept']}"
+    concept = spec["concept"]
     message = (
         f"this sweep will not emit an aggregate across its rows, and what was "
         f"asked for is one: {args.aggregate}. Each row is a receipt the "
@@ -523,7 +514,7 @@ def aggregate_refusal(args, spec, across_conventions: bool) -> int:
 
 def sweep(args) -> int:
     spec = CATALOG[args.computation]
-    paths = bundle_paths(args.computation)
+    paths = computation_paths(args.computation)
     declared = declared_parameters(paths["concept"])
 
     if args.aggregate:
@@ -535,7 +526,7 @@ def sweep(args) -> int:
         return refuse(
             "parameter-not-declared",
             f"{args.parameter} is not a parameter "
-            f"knowledge/{BUNDLE}/{spec['concept']} declares; it declares "
+            f"{spec['concept']} declares; it declares "
             f"{', '.join(declared)}. Sweeping execution plumbing (a seed, an "
             "output path) or an invented knob produces a table of runs no "
             "concept licenses.")
@@ -549,7 +540,7 @@ def sweep(args) -> int:
         if name not in declared:
             return refuse("parameter-not-declared",
                           f"{name} is not a parameter "
-                          f"knowledge/{BUNDLE}/{spec['concept']} declares; it "
+                          f"{spec['concept']} declares; it "
                           f"declares {', '.join(declared)}")
         if name == args.parameter:
             return refuse("parameter-not-stated",
@@ -565,7 +556,7 @@ def sweep(args) -> int:
             f"{', '.join(unstated)} is neither swept nor fixed. State it with "
             f"--fixed {unstated[0]}=VALUE, or --fixed {unstated[0]}={UNBOUND} "
             "to leave it unbound on every run, so the table says what it was. "
-            "Every parameter both ASDC computations declare is required, so "
+            "Every parameter both computations declare is required, so "
             f"{UNBOUND} makes the executor reject the run rather than produce "
             "a receipt.")
 
@@ -613,9 +604,9 @@ def sweep(args) -> int:
                  "is computed here",
         "generated_utc": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds"),
         "computation": args.computation,
-        "concept": f"knowledge/{BUNDLE}/{spec['concept']}",
-        "executor": f"knowledge/{BUNDLE}/{spec['executor']}",
-        "attester": f"knowledge/{BUNDLE}/{spec['attester']}",
+        "concept": spec["concept"],
+        "executor": spec["executor"],
+        "attester": spec["attester"],
         "wrapping_skill": spec["skill"],
         "parameter": args.parameter,
         "values": values,
@@ -666,7 +657,7 @@ def sweep(args) -> int:
 
 def selftest() -> int:
     """Every refusal, on the executors' synthetic fixtures."""
-    cre_paths = bundle_paths("cloud-radiative-effect")
+    cre_paths = computation_paths("cloud-radiative-effect")
     cre_columns = CATALOG["cloud-radiative-effect"]["columns"]
     eb_columns = CATALOG["energy-budget"]["columns"]
     base = ["--input", "fixture", "--seed", "7", "--runtime", "selftest"]
@@ -869,7 +860,7 @@ def selftest() -> int:
         assert declared_parameters(cre_paths["concept"]) == [
             "window", "region", "clear_sky"]
         assert declared_parameters(
-            bundle_paths("energy-budget")["concept"]) == ["window"]
+            computation_paths("energy-budget")["concept"]) == ["window"]
 
     print("sweep selftest: ok "
           f"({len(REFUSALS)} refusals exercised: {', '.join(REFUSALS)}; "

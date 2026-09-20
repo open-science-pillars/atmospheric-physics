@@ -7,22 +7,57 @@ okf_version: "0.2"
 This capability's own knowledge bundle. OKF v0.2 conformant
 (okf_version "0.2" above).
 
-## It holds no concepts
+## Attested Computations
 
-There is nothing to list below, and that is the release rather than an
-omission. This is a wrap-only release (ADR D in the marketplace
-repository's docs/decisions): the capability wraps attested
-computations that are already signed stable in a provider bundle and
-computes nothing of its own, so it owns no scientific claim and states
-no convention a provider does not already state. Every concept its
-skills consult lives in the provider bundle named below and arrives as
-a declared dependency, never as a copy.
+A computation is a skill (ADR E in the marketplace repository's
+docs/decisions): the concept of an attested computation lives in the
+capability that runs it, its executor and its attester are scripts of
+the skill named beside it, a golden under `verification/` proves each
+of those scripts, and the stamped data root the executor reads is
+committed under `knowledge/references/retrieval/` as data.
 
-A concept belongs here when the capability itself owns the convention:
-a rule about how this discipline's workflows are run that no provider
-bundle states, decided and signed here. The first such concept is
-listed here when it lands, and the knowledge-linter flags a concept
-unreachable from this page.
+- [`computations/energy-budget.md`](computations/energy-budget.md), the
+  energy budget closure of the CERES EBAF net top-of-atmosphere flux
+  against the Argo ocean heat content change. Run by the
+  `energy-budget-closure` skill, whose scripts hold the executor
+  `energy_budget.py`, the attester `energy_budget_check.py` and the two
+  loaders that built the root. Its data root is
+  `references/retrieval/energy-budget-root`, and the ocean side is an
+  attested receipt the ocean-science capability's Argo computation
+  produced, committed there as evidence and read, never recomputed; no
+  install dependency on ocean-science is declared for it.
+- [`computations/cloud-radiative-effect.md`](computations/cloud-radiative-effect.md),
+  the cloud radiative effect at the top of the atmosphere, the all-sky
+  flux minus the clear-sky flux of a clear-sky convention the user
+  binds deliberately. Run by the `cloud-radiative-effect` skill, whose
+  scripts hold the executor `cloud_radiative_effect.py`, the attester
+  `cloud_radiative_effect_check.py` and the two loaders that built the
+  root. Its data root is
+  `references/retrieval/cloud-radiative-effect-root`.
+
+Both arrived here on 2026-09-20 from the `asdc` bundle of
+nasa-daac-knowledge, with their code, their roots and their reference
+values re-homed and re-run rather than revised. Both are at `status:
+draft` with their signature blocks untouched, because a move changes
+digests a signature covers; the maintainer re-signs after merge.
+
+## Evidence under `references/`
+
+`references/retrieval/` holds the two stamped data roots: the record,
+the manifest, the loader's stamp, the bookkeeping table, the flux and
+radiation files and, for the energy budget, the Argo receipt. They are
+data and evidence, never code: nothing under `knowledge/` is runnable,
+which `osp.py validate` checks.
+
+## What this bundle does not hold
+
+A dataset, gotcha, convention or recipe concept about a NASA product
+belongs to the provider bundle that owns the product, and the skills
+here cite those by bundle path rather than restating them. On a
+conflict the provider concept wins for a fact about a product, `stable`
+outranks `draft`, and a draft is voiced as a draft. A method's
+reference values are this capability's, and are owned by the two
+concepts above.
 
 ## Provider bundles (declared dependencies)
 
@@ -31,41 +66,22 @@ Data Center's radiation budget and cloud products). Canonical home:
 [nasa-daac-knowledge](https://github.com/open-science-pillars/nasa-daac-knowledge),
 `knowledge/asdc/` in that repository. It is declared under
 `dependencies.knowledge` in `.osp/package.yaml` with a version floor
-(the plugin manifests are rendered from that file, never edited), so
-it installs with this capability.
+(the plugin manifests are rendered from that file, never edited), so it
+installs with this capability. The core skill `consult-knowledge` finds
+every installed bundle through the installer's record.
 
-How it is consulted: the core skill `consult-knowledge` finds every
-installed bundle through the installer's record; the skills here cite
-provider concepts by bundle path,
-`knowledge/asdc/<type>/<concept>.md`, and reach the sanctioned
-executors and attesters under `knowledge/asdc/references/`. On a
-conflict the provider concept wins, `stable` outranks `draft`, and a
-draft is voiced as a draft. Nothing from that bundle is copied here.
-
-What the skills of this release wrap:
-
-- `knowledge/asdc/computations/energy-budget.md`, wrapped by the
-  `energy-budget-closure` skill. Its ocean side is an attested receipt
-  produced by the ocean-science capability's Argo computation and
-  committed in this bundle's data root; it is read, never recomputed.
-- `knowledge/asdc/computations/cloud-radiative-effect.md`, wrapped by
-  the `cloud-radiative-effect` skill.
-
-Three receipt skills, `sweep`, `receipt-figures` and `methods`, operate
-over those same two computations and add no concept here either. A
-receipt skill emits only fields of receipts the provider bundle's
-attester passed, or a table, figure or paragraph of such fields, and
-combines no two receipts into a value no receipt carries; its script
-enforces that test rather than its prose (ADR D as amended in the
-marketplace repository's docs/decisions, and section 12.1 of the
-specification). A sweep that averaged its rows, a figure carrying a
-fitted line or a paragraph stating a fact no receipt carries would each
-be a claim this bundle would have to own, and each script refuses to
-produce one.
-
-The concepts those two rest on, and which the skills cite rather than
-restate, are the bundle's `datasets/ceres-ebaf-ed4-2.md`, its
+The concepts the two computations rest on, and which they cite rather
+than restate, are that bundle's `datasets/ceres-ebaf-ed4-2.md`, its
 `conventions/ceres-clear-sky-conventions.md`, its gotchas
 `ebaf-imbalance-anchored-to-ocean-heating.md`,
-`ebaf-clear-sky-definitions.md` and `ebaf-climatology-baseline.md`,
-and its recipes `energy-budget.md` and `cloud-radiative-effect.md`.
+`ebaf-clear-sky-definitions.md` and `ebaf-climatology-baseline.md`, and
+its recipes `energy-budget.md` and `cloud-radiative-effect.md`.
+
+Three receipt skills, `sweep`, `receipt-figures` and `methods`, operate
+over the two computations above and add no concept here. A receipt
+skill emits only fields of receipts an attester passed, or a table,
+figure or paragraph of such fields, and combines no two receipts into a
+value no receipt carries; its script enforces that test rather than its
+prose. A sweep that averaged its rows, a figure carrying a fitted line
+or a paragraph stating a fact no receipt carries would each be a claim
+this bundle would have to own, and each script refuses to produce one.

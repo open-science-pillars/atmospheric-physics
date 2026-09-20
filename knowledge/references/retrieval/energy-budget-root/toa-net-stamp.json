@@ -1,0 +1,71 @@
+{
+  "term": "toa-net",
+  "product": "CERES EBAF TOA and Surface Fluxes. Monthly Averages and 07/2005 to 06/2015 Climatology.",
+  "product_version": "Edition 4.2.1; Revised data Release Date March 14, 2025",
+  "doi": "10.5067/TERRA-AQUA-NOAA20/CERES/EBAF_L3B004.2.1",
+  "institution": "NASA Langley Research Center",
+  "conventions": "CF-1.4",
+  "climatology_note": "Climatology from 07/2005 to 06/2015",
+  "file": "CERES_EBAF_Edition4.2.1_200003-202605.subset.nc",
+  "variable": {
+    "name": "toa_net_all_mon",
+    "long_name": "Top of The Atmosphere Net Flux, All-Sky conditions, Monthly Means",
+    "standard_name": "TOA Net Flux - All-Sky",
+    "CF_name": "toa_net_downward_flux",
+    "units": "W m-2"
+  },
+  "grid": "180 by 360 one degree cells, latitude centres -89.5 to 89.5, longitude centres 0.5 to 359.5",
+  "weights": "cos-latitude at the cell centre, every cell that carries a value; the product's own global mean (gtoa_net_all_mon, written as the fourth column) uses the project's zonal geodetic weights, an oblate spheroid with the solar division factor 4.0034 (the data quality summary)",
+  "mask": "none beyond the product's fill: 64800 to 64800 of 64800 cells carry a value",
+  "aggregation": "one global mean per calendar month in W m-2, as the product carries it: positive downward, all-sky, anchored (the anchoring block)",
+  "anchoring": {
+    "value_W_m2": 0.71,
+    "uncertainty_W_m2": 0.1,
+    "period": "2005-07 through 2015-06",
+    "statement": "the global mean net TOA flux over July 2005 through June 2015 is set to the in situ heat uptake of 0.71 W m-2 (uncertainty 0.10 at the 95 percent level) by a one-time adjustment of the shortwave and longwave fluxes, unchanged from Edition 4.1 into 4.2 and 4.2.1; the bundle's ebaf-imbalance-anchored-to-ocean-heating gotcha and the Edition 4.2 and 4.0 data quality summaries"
+  },
+  "months": [
+    "2000-03",
+    "2026-05"
+  ],
+  "n_months": 315,
+  "skipped_months": [],
+  "uncertainty_W_m2": 0.5482628646966357,
+  "uncertainty_basis": "stated noise floor: standard deviation of adjacent-month differences of the series with its calendar-month means removed, divided by sqrt(2); the product ships no uncertainty field",
+  "published_monthly_random_error_W_m2": 0.15,
+  "published_monthly_random_error_note": "the random error of a global monthly anomaly after the satellite transitions is estimated below 0.15 W m-2 (Loeb and others 2024, the dataset concept); the floor above is measured on this series, the published number is for comparison",
+  "weighting_cross_check": {
+    "months_compared": 315,
+    "mean_difference_W_m2": 0.21788438685800157,
+    "max_abs_difference_W_m2": 0.28468957522071925,
+    "rule": "cos-latitude mean minus the product's geodetic global mean, per month"
+  },
+  "loader": "references/loaders/eb_ceres_ebaf.py",
+  "loader_sha256": "sha256:44e05e24fbcdf3bc26060cc698e9cc2feace352ea8cc62417e1cdc236f00e379",
+  "written_utc": "2026-09-15T17:55:27Z",
+  "sources": {
+    "CERES_EBAF_Edition4.2.1_200003-202605.subset.nc": "sha256:9ed5917859fc5308c59d4246b21b9fe03cb403b4e021fbbeced18b202c427099"
+  },
+  "download": {
+    "file": "CERES_EBAF_Edition4.2.1_200003-202605.subset.nc",
+    "url": "https://opendap.earthdata.nasa.gov/collections/C3880496704-LARC_CLOUD/granules/CERES_EBAF_Edition4.2.1_200003-202605.nc.nc4?toa_net_all_mon,gtoa_net_all_mon,lat,lon,time",
+    "status": 200,
+    "bytes": 36788997,
+    "retrieved_utc": "2026-09-15T17:55:19Z",
+    "sha256": "sha256:9ed5917859fc5308c59d4246b21b9fe03cb403b4e021fbbeced18b202c427099",
+    "attempts": [
+      {
+        "credentials": "none",
+        "status": 401,
+        "error": "HTTP 401",
+        "started_utc": "2026-09-15T17:55:18Z"
+      },
+      {
+        "credentials": "Earthdata Login bearer token as a request header",
+        "status": 200,
+        "error": null,
+        "started_utc": "2026-09-15T17:55:19Z"
+      }
+    ]
+  }
+}

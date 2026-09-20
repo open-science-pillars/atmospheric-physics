@@ -1,0 +1,39 @@
+# The reference runs of this capability's attested computations, in the
+# form build-kit's osp.py reattest reruns them: the arguments each
+# Attested Computation concept documents as its reference run, so a
+# deliberate edit to a computation is re-attested with one command
+# rather than a hunt through the concept for the parameters.
+#
+# Every path here is relative to the package root: an executor and an
+# attester under skills/<skill>/scripts/, a data root under
+# knowledge/references/retrieval/. A run names its computation, its
+# attester, its arguments and the data root it reads (a key of
+# data_roots, or "none" for a fixture run).
+#
+# The goldens under verification/ run the same four runs on every pull
+# request; this registry is what re-attests one of them by name.
+data_roots:
+  energy-budget: knowledge/references/retrieval/energy-budget-root
+  cloud-radiative-effect: knowledge/references/retrieval/cloud-radiative-effect-root
+runs:
+  energy-budget:
+    computation: skills/energy-budget-closure/scripts/energy_budget.py
+    attester: skills/energy-budget-closure/scripts/energy_budget_check.py
+    data_root: none
+    args: [--fixture, --seed, "7", --window, "2006-01:2020-12", --runtime, reattest]
+  energy-budget-record:
+    computation: skills/energy-budget-closure/scripts/energy_budget.py
+    attester: skills/energy-budget-closure/scripts/energy_budget_check.py
+    data_root: energy-budget
+    args: [--window, "2006-01:2020-12", --runtime, reattest]
+  cloud-radiative-effect:
+    computation: skills/cloud-radiative-effect/scripts/cloud_radiative_effect.py
+    attester: skills/cloud-radiative-effect/scripts/cloud_radiative_effect_check.py
+    data_root: none
+    args: [--fixture, --seed, "7", --region, global, --clear-sky, total-region, --window, "2006-01:2020-12",
+           --runtime, reattest]
+  cloud-radiative-effect-record:
+    computation: skills/cloud-radiative-effect/scripts/cloud_radiative_effect.py
+    attester: skills/cloud-radiative-effect/scripts/cloud_radiative_effect_check.py
+    data_root: cloud-radiative-effect
+    args: [--region, global, --clear-sky, cloud-free-area, --window, "2005-07:2015-06", --runtime, reattest]

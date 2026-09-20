@@ -3,21 +3,20 @@
 # requires-python = ">=3.10"
 # dependencies = []
 # ///
-"""Golden and PROVE wrapper for this capability's wrapping skills: the
-sanctioned executors and attesters of the ASDC bundle, run on the
-bundle's synthetic fixtures, so every chain a skill here wraps is
-proven headless with no data download and no NASA host reachable.
+"""Golden and PROVE wrapper for this capability's two attested
+computations: the sanctioned executors and attesters in the scripts of
+the skills that run them, on their own synthetic fixtures, so every
+chain is proven headless with no data download and no NASA host
+reachable.
 
-Nothing scientific is reimplemented. The computations live in the
-provider bundle under knowledge/asdc/references/, under the contracts
-knowledge/asdc/computations/energy-budget.md and
-knowledge/asdc/computations/cloud-radiative-effect.md; the expected
-values are quoted from those concepts' reference runs and committed
-beside this file under fixtures/ (provenance in the README there).
-The bundle root is resolved the way the skills resolve it:
-NASA_DAAC_KNOWLEDGE names a checkout of the provider repository, else
-the installer's record (`claude plugin list --json`, the entry's
-installPath) names the installed plugin.
+Nothing scientific is reimplemented. The computations live in this
+package under skills/<skill>/scripts/, under the contracts
+knowledge/computations/energy-budget.md and
+knowledge/computations/cloud-radiative-effect.md; the expected values
+are quoted from those concepts' reference runs and committed beside
+this file under fixtures/ (provenance in the README there). Every path
+is resolved against this package's root, the directory above this
+file.
 
 For each chain, and in the order a skill follows: run the executor on
 the fixture with every declared parameter bound and the runtime named;
@@ -32,18 +31,15 @@ Three modes:
                              Exit 0 only when all of it holds.
   --runtime NAME --out R     the PROVE step: run the energy budget
                              chain's fixture computation and write the
-                             receipt at R, the capability block naming
-                             this package and the bundle block naming
-                             the provider bundle.
-  --attest R --out A         run the matching bundle attester on receipt
+                             receipt at R, the capability and bundle
+                             blocks both naming this package.
+  --attest R --out A         run the matching attester on receipt
                              R and write the attestation at A. Exit 0 on
                              PASS.
 """
 
 import argparse
 import json
-import os
-import shutil
 import subprocess
 import sys
 import tempfile
@@ -52,36 +48,8 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 PACKAGE_ROOT = HERE.parent
 FIXTURE = HERE / "fixtures" / "wrapped_computations.json"
-PROVIDER_PLUGIN = "nasa-daac-knowledge"
-BUNDLE = "asdc"
+PACKAGE = "atmospheric-physics"
 PROVE_SKILL = "energy-budget-closure"
-
-
-def provider_root() -> Path:
-    """The installed provider plugin's root, from the installer's record."""
-    override = os.environ.get("NASA_DAAC_KNOWLEDGE")
-    if override:
-        return Path(override).expanduser().resolve()
-    claude = shutil.which("claude")
-    if claude is None:
-        sys.exit("no `claude` on PATH to read the installed-plugin record; "
-                 "set NASA_DAAC_KNOWLEDGE to a checkout of the provider "
-                 "repository instead")
-    rec = subprocess.run([claude, "plugin", "list", "--json"],
-                         capture_output=True, text=True)
-    if rec.returncode != 0:
-        sys.exit(f"`claude plugin list --json` failed: {rec.stderr.strip()}")
-    for entry in json.loads(rec.stdout):
-        if entry.get("id", "").split("@")[0] != PROVIDER_PLUGIN:
-            continue
-        if not entry.get("enabled", True) or entry.get("errors"):
-            sys.exit(f"{entry['id']} is installed but not usable: "
-                     f"{entry.get('errors') or 'disabled'}")
-        return Path(entry["installPath"])
-    sys.exit(f"{PROVIDER_PLUGIN} is not installed; it arrives with this "
-             "plugin's dependencies (`claude plugin install "
-             "atmospheric-physics@open-science-pillars`), or set "
-             "NASA_DAAC_KNOWLEDGE to a checkout of the provider repository")
 
 
 def chains() -> list[dict]:
@@ -89,14 +57,13 @@ def chains() -> list[dict]:
 
 
 def chain_paths(chain: dict) -> tuple[Path, Path]:
-    refs = provider_root() / "knowledge" / BUNDLE / "references"
-    computation = refs.parent / chain["executor"]
-    attester = refs.parent / chain["attester"]
+    computation = PACKAGE_ROOT / chain["executor"]
+    attester = PACKAGE_ROOT / chain["attester"]
     for p in (computation, attester):
         if not p.is_file():
-            sys.exit(f"the provider bundle carries no {p.name} at {p.parent}; "
-                     f"the {chain['skill']} chain needs {PROVIDER_PLUGIN} at a "
-                     "release that ships it")
+            sys.exit(f"this package carries no {p.name} at {p.parent}; the "
+                     f"{chain['skill']} chain runs the scripts of the skill "
+                     "that carries the computation")
     return computation, attester
 
 
@@ -140,11 +107,12 @@ def check_receipt(chain: dict, receipt: dict) -> None:
     assert receipt["refused"] is False, f"{skill}: the reference run refused"
     assert receipt["runtime"]["name"], f"{skill}: the receipt names no runtime"
     assert receipt["run_id"].startswith("sha256:"), f"{skill}: no run identifier"
-    assert receipt["capability"]["name"] == "atmospheric-physics", (
+    assert receipt["capability"]["name"] == PACKAGE, (
         f"{skill}: the capability block names {receipt['capability']['name']!r}, "
         "not this package")
-    assert receipt["bundle"]["name"] == PROVIDER_PLUGIN, (
-        f"{skill}: the bundle block names {receipt['bundle']['name']!r}")
+    assert receipt["bundle"]["name"] == PACKAGE, (
+        f"{skill}: the bundle block names {receipt['bundle']['name']!r}, not "
+        "the package the executor ships in")
 
     months = receipt["months"]
     assert months["n_used"] == expect["months_used"], f"{skill}: months used"
@@ -215,7 +183,7 @@ def golden() -> int:
             except AssertionError as bad:
                 failures.append(f"{skill}: {bad}")
                 continue
-            print(f"== {skill} wraps {chain['concept']}")
+            print(f"== {skill} runs {chain['concept']}")
             print(f"   bound {chain['bound_parameters']}")
             print(f"   {verdict}")
 
@@ -240,8 +208,8 @@ def golden() -> int:
         print(f"FAIL {bad}", file=sys.stderr)
     if failures:
         return 1
-    print(f"wrapped computations: {len(chains())} chains, each run, attested and refused as the "
-          "concept records")
+    print(f"the computations this package carries: {len(chains())} chains, each run, "
+          "attested and refused as the concept records")
     return 0
 
 
@@ -258,7 +226,7 @@ def attest(receipt_path: Path, out: Path) -> int:
     computation = receipt.get("computation", "")
     chain = next((c for c in chains() if c["executor"] == computation), None)
     if chain is None:
-        sys.exit(f"no wrapping skill here runs {computation!r}")
+        sys.exit(f"no skill here runs {computation!r}")
     _, attester = chain_paths(chain)
     att = run_attester(attester, receipt_path, out)
     print((att.stdout or "") + (att.stderr or ""), end="")

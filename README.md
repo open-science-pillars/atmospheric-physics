@@ -1,16 +1,20 @@
 # Atmospheric Physics
 
-This capability wraps attested computations that are signed stable in a
-provider knowledge bundle, and computes nothing of its own. Every number
-it can report is owned by a concept in the ASDC bundle of
-[nasa-daac-knowledge](https://github.com/open-science-pillars/nasa-daac-knowledge):
-a skill here names that concept, runs its sanctioned executor at the
-path the installed bundle puts it, runs the attester on the receipt
-before a number is quoted, and reports the verdict, the run identifier,
-the runtime and the caveats the concept states. Reachability is what
-this release adds, not breadth; a capability that computed a number of
-its own would be domain expansion and waits on the decision that
-governs it.
+This capability carries two attested computations over the CERES EBAF
+radiation budget products: the energy budget closure and the cloud
+radiative effect at the top of the atmosphere. A computation is a
+skill, so each concept lives in `knowledge/computations/`, its
+sanctioned executor and attester are scripts of the skill that runs it,
+a golden under `verification/` proves each of those scripts, and the
+stamped data root the executor reads is committed under
+`knowledge/references/retrieval/` as data. A skill here names its
+concept, runs the executor, runs the attester on the receipt before a
+number is quoted, and reports the verdict, the run identifier, the
+runtime and the caveats the concept states. The facts about the
+products themselves stay with the archive that owns them, in the ASDC
+bundle of
+[nasa-daac-knowledge](https://github.com/open-science-pillars/nasa-daac-knowledge),
+and are cited by bundle path rather than restated.
 
 A domain capability: discipline Atmospheric Physics inside the
 Atmosphere sphere. Pillar means sphere, one of the five Earth science
@@ -18,7 +22,7 @@ spheres; a capability is skills, knowledge signed by its stewards and
 deterministic checks, delivered as one plugin. The words used on this
 page are defined in the
 [glossary](https://github.com/open-science-pillars/marketplace/blob/main/GLOSSARY.md),
-and the decision this release is made under is ADR D in
+and the decision this release is made under is ADR E in
 [marketplace/docs/decisions](https://github.com/open-science-pillars/marketplace/tree/main/docs/decisions).
 
 ## Install
@@ -32,8 +36,9 @@ claude plugin install atmospheric-physics@open-science-pillars
 
 What comes with it: `core`, the foundation capability, and
 `nasa-daac-knowledge`, the provider bundle whose ASDC concepts the
-skills here run. Both are declared dependencies, so the installer
-brings them; nothing from either is copied into this repository.
+computations here cite for facts about the products. Both are declared
+dependencies, so the installer brings them; no concept of either is
+copied here, and nothing this capability runs comes from either.
 
 On Claude Cowork: add the marketplace by repository
 (`open-science-pillars/marketplace`) under Customize > Plugins > Add
@@ -45,7 +50,7 @@ Every script a skill here invokes declares its dependencies in a PEP 723
 header and runs as `uv run <script>`; uv builds the environment on first
 run. Never `python script.py`, which skips the header. No account and no
 credential are needed to run either chain on its fixture, and no
-download is needed to run either on the data root the provider bundle
+download is needed to run either on the data root this package
 commits.
 
 ## Runtimes
@@ -72,33 +77,35 @@ A runtime is advertised as supported only on a qualified record for this exact r
 
 ## What's inside
 
-- **Wrapping skills** (`skills/`, one `SKILL.md` each), one per wrapped
-  computation and named for the workflow rather than for the product:
+- **Computation skills** (`skills/`, one `SKILL.md` each), one per
+  computation and named for the workflow rather than for the product.
+  Each carries its executor, its attester and the loaders that built
+  its data root in its own `scripts/` directory:
 
-  - `energy-budget-closure` wraps
-    `knowledge/asdc/computations/energy-budget.md`: the CERES EBAF net
+  - `energy-budget-closure` runs
+    `knowledge/computations/energy-budget.md`: the CERES EBAF net
     top-of-atmosphere flux over a window against the 0 to 2000 dbar
     ocean heat content rate, with the published deep ocean and
     non-ocean terms, the residual against the combined uncertainty, and
     the anomaly trend in which the product's anchor cancels. The ocean
     side is an attested receipt produced by the ocean-science
-    capability's Argo computation and committed in the provider
-    bundle's data root; this skill reads it and never recomputes it.
-  - `cloud-radiative-effect` wraps
-    `knowledge/asdc/computations/cloud-radiative-effect.md`: the
+    capability's Argo computation and committed in this package's data
+    root as evidence; this skill reads it and never recomputes it, and
+    no install dependency on ocean-science is declared for it.
+  - `cloud-radiative-effect` runs
+    `knowledge/computations/cloud-radiative-effect.md`: the
     shortwave, longwave and net effect of clouds at the top of the
     atmosphere over a window and a region, formed against a clear-sky
     convention the user chooses deliberately, with the same three terms
     under the other convention reported beside them.
 
 - **Receipt skills** (`skills/`), the postdoc's three. A receipt skill
-  computes nothing of its own either: every number it emits is a field
-  of a receipt the bundle's attester passed, or a table, figure or
-  paragraph of such fields, and it combines no two receipts into a
-  value no receipt carries. Its script enforces that rather than its
-  prose (ADR D as amended, specification 12.1):
+  computes nothing of its own: every number it emits is a field of a
+  receipt an attester passed, or a table, figure or paragraph of such
+  fields, and it combines no two receipts into a value no receipt
+  carries. Its script enforces that rather than its prose:
 
-  - `sweep` runs a wrapped executor once per value of one parameter the
+  - `sweep` runs an executor once per value of one parameter the
     concept declares and writes a CSV, a markdown table and a JSON
     manifest of the executor's own headline fields per receipt, a
     refused run included as a row carrying its reason code. It refuses
@@ -114,34 +121,43 @@ A runtime is advertised as supported only on a qualified record for this exact r
     names the receipt field behind every sentence. A fact from anywhere
     else is refused.
 
-- **Knowledge** (`knowledge/`): this capability's own bundle. It holds
-  no concepts, and `knowledge/index.md` says so and says why: the
-  scientific concepts the skills consult live in the provider bundle
-  and arrive as the declared dependency. A concept lands here when the
-  capability itself owns a convention that no provider bundle states.
+- **Knowledge** (`knowledge/`): this capability's own bundle, holding
+  the two Attested Computation concepts under `computations/` and the
+  two stamped data roots under `references/retrieval/` as data. Nothing
+  under `knowledge/` is runnable, which `osp.py validate` checks. The
+  dataset, convention, gotcha and recipe concepts about the CERES
+  products stay in the provider bundle and are cited by bundle path;
+  `knowledge/index.md` says which.
 
-- **Verification** (`verification/`): `wrapped_computations.py`, the
-  golden that runs both chains headless and offline (the executor on
-  its fixture, the attester on the receipt, the receipt against the
-  values the signed concept records, then the chain's refusal case),
-  and `receipt_skills.py`, the golden that runs the three receipt
-  skills the same way (each script's selftest, three fixture sweeps
-  checked cell by cell, three figures whose every drawn array is
-  checked against the receipt field it comes from, two methods
-  paragraphs checked against the receipt fields they were filled from,
-  and every refusal each script enforces). Both read committed
-  expectations under `fixtures/`.
+- **Verification** (`verification/`): `energy_budget_chain.py` and
+  `cloud_radiative_effect_chain.py`, the two chain goldens (the
+  attester's selftest, both loaders' selftests, the executor on its
+  fixture, the attester on the receipt, the receipt against what the
+  concept records, the chain's refusal case, the data root's manifest
+  check and the anchored real-data run attested against the tree, with
+  the eight regions on both clear-sky conventions for the cloud
+  radiative effect); `wrapped_computations.py`, which runs both fixture
+  chains and is the release qualification surface; and
+  `receipt_skills.py`, which runs the three receipt skills the same way
+  (each script's selftest, three fixture sweeps checked cell by cell,
+  three figures whose every drawn array is checked against the receipt
+  field it comes from, two methods paragraphs checked against the
+  receipt fields they were filled from, and every refusal each script
+  enforces). All read committed expectations under `fixtures/`, and
+  `reference_runs.yaml` beside them is the registry `osp.py reattest`
+  re-runs a reference run from.
 
 ## What this release does not do
 
-It carries no skill that computes a number, no connector, no agent and
-no computation of its own. The receipt skills are not an exception to
-that: a sweep that averaged its rows into a rate, a figure with a
-fitted trend on it or a paragraph with a fact the receipt does not
-carry would each be a number of this capability's own, and each script
-refuses to produce one. An analysis that needs something the ASDC
-bundle has not signed belongs in that bundle first, where the number
-can be reviewed and signed, and reaches a reader here only once it is.
+It carries no connector, no agent and no computation beyond the two
+above. The receipt skills are not an exception: a sweep that averaged
+its rows into a rate, a figure with a fitted trend on it or a paragraph
+with a fact the receipt does not carry would each be a number no
+receipt owns, and each script refuses to produce one. A new computation
+in this sphere is domain expansion and waits on the decision that
+governs it. A fact about a CERES product that the ASDC bundle has not
+signed belongs in that bundle first, where it can be reviewed and
+signed, and reaches a reader here only once it is.
 
 ## Ownership
 
@@ -150,8 +166,8 @@ one person holds the team during the interim solo period, and accepting
 a maintainer is a membership change, never a rearrangement. Provider
 contacts who could confirm the facts this capability relies on: ASDC
 (CERES). A confirmation is invited on every concept the skills cite and
-required on none; the concepts live in the provider bundle, and each
-carries its own confirm link.
+required on none; the product concepts live in the provider bundle,
+and each carries its own confirm link.
 
 ## Contributing
 
@@ -159,8 +175,9 @@ Start with the marketplace repository's
 [CONTRIBUTING.md](https://github.com/open-science-pillars/marketplace/blob/main/CONTRIBUTING.md)
 and the guides under its `docs/` (contributing a skill, contributing
 knowledge, testing, the package authoring guide). A change to what a
-skill here reports is usually a change to the concept it wraps, in
-nasa-daac-knowledge, and is reviewed there.
+skill here reports is a change to the concept beside it and is reviewed
+here; a change to a fact about a CERES product is a change in
+nasa-daac-knowledge and is reviewed there.
 
 ## Place in the organization
 
