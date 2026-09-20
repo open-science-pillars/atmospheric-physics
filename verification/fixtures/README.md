@@ -58,19 +58,19 @@ edited here to make a golden pass is the golden lying.
 
 ## `receipt-skills-fixture.json`
 
-What the three receipt skills (`sweep`, `receipt-figures`, `methods`)
-produce on this package's executors' synthetic fixtures at seed 7, read
-by `receipt_skills.py`.
+What `sweep`, `receipt-figures` and `methods` produce on this package's
+executors' synthetic fixtures at seed 7, read by `receipt_skills.py`.
 
 **Provenance.** Measured, not quoted: the file is written by
 `uv run verification/receipt_skills.py --measure` from what the three
 skills produce, and every value in it arrives through a receipt. Each
-sweep cell is a field of a receipt the bundle's attester passed, copied
-by the receipt field path the sweep manifest records beside its column;
-each figure digest is the sha256 of an array the renderer drew from
-such a receipt; each methods entry is the set of receipt fields a
-paragraph was filled from, with the reference ids the concept's own
-frontmatter carries. Re-measured 2026-09-20 against this package's
+sweep cell is a field of a receipt the computation's own attester
+passed, a script this package carries beside the skill that runs the
+computation, copied by the receipt field path the sweep manifest
+records beside its column; each figure digest is the sha256 of an array
+the renderer drew from such a receipt; each methods entry is the set of
+receipt fields a paragraph was filled from, with the reference ids the
+concept's own frontmatter carries. Re-measured 2026-09-20 against this package's
 `cloud_radiative_effect.py` and `energy_budget.py`, whose digests the
 file names, after the move changed those digests; the fixtures
 regenerate deterministically from the seed with no numeric library in
@@ -95,8 +95,8 @@ arrays are checked against the receipt they were drawn from inside the
 same run rather than against a recorded digest.
 
 **When it changes.** When an executor's digest changes, which the
-golden reports by name, and then the provider bundle's change is the
-thing to read first; or when a skill deliberately changes which receipt
-field a column, a figure or a sentence reads. Re-measure with
-`--measure` and say in the pull request what moved and why. A value
-edited here to make the golden pass is the golden lying.
+golden reports by name, and then the change to that executor in this
+package is the thing to read first; or when a skill deliberately
+changes which receipt field a column, a figure or a sentence reads.
+Re-measure with `--measure` and say in the pull request what moved and
+why. A value edited here to make the golden pass is the golden lying.

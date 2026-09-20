@@ -99,11 +99,12 @@ A runtime is advertised as supported only on a qualified record for this exact r
     convention the user chooses deliberately, with the same three terms
     under the other convention reported beside them.
 
-- **Receipt skills** (`skills/`), the postdoc's three. A receipt skill
-  computes nothing of its own: every number it emits is a field of a
-  receipt an attester passed, or a table, figure or paragraph of such
-  fields, and it combines no two receipts into a value no receipt
-  carries. Its script enforces that rather than its prose:
+- **Skills that compute nothing** (`skills/`), the postdoc's three.
+  Each of them computes nothing of its own: every number it emits is a
+  field of a receipt an attester passed, or a table, figure or
+  paragraph of such fields, and it combines no two receipts into a
+  value no receipt carries. Each script enforces that rather than its
+  prose:
 
   - `sweep` runs an executor once per value of one parameter the
     concept declares and writes a CSV, a markdown table and a JSON
@@ -138,8 +139,8 @@ A runtime is advertised as supported only on a qualified record for this exact r
   the eight regions on both clear-sky conventions for the cloud
   radiative effect); `wrapped_computations.py`, which runs both fixture
   chains and is the release qualification surface; and
-  `receipt_skills.py`, which runs the three receipt skills the same way
-  (each script's selftest, three fixture sweeps checked cell by cell,
+  `receipt_skills.py`, which runs those three the same way (each
+  script's selftest, three fixture sweeps checked cell by cell,
   three figures whose every drawn array is checked against the receipt
   field it comes from, two methods paragraphs checked against the
   receipt fields they were filled from, and every refusal each script
@@ -150,8 +151,8 @@ A runtime is advertised as supported only on a qualified record for this exact r
 ## What this release does not do
 
 It carries no connector, no agent and no computation beyond the two
-above. The receipt skills are not an exception: a sweep that averaged
-its rows into a rate, a figure with a fitted trend on it or a paragraph
+above. Those three are not an exception: a sweep that averaged its
+rows into a rate, a figure with a fitted trend on it or a paragraph
 with a fact the receipt does not carry would each be a number no
 receipt owns, and each script refuses to produce one. A new computation
 in this sphere is domain expansion and waits on the decision that

@@ -3,11 +3,11 @@
 # requires-python = ">=3.10"
 # dependencies = []
 # ///
-"""Golden and PROVE wrapper for this capability's two attested
-computations: the sanctioned executors and attesters in the scripts of
-the skills that run them, on their own synthetic fixtures, so every
-chain is proven headless with no data download and no NASA host
-reachable.
+"""Golden and release qualification surface for this capability's two
+attested computations: the sanctioned executors and attesters in the
+scripts of the skills that run them, on their own synthetic fixtures,
+so every chain is proven headless with no data download and no NASA
+host reachable.
 
 Nothing scientific is reimplemented. The computations live in this
 package under skills/<skill>/scripts/, under the contracts
@@ -29,10 +29,10 @@ Three modes:
 
   (no flags)                 the golden: both chains, both refusals.
                              Exit 0 only when all of it holds.
-  --runtime NAME --out R     the PROVE step: run the energy budget
-                             chain's fixture computation and write the
-                             receipt at R, the capability and bundle
-                             blocks both naming this package.
+  --runtime NAME --out R     the qualification run: run the energy
+                             budget chain's fixture computation and
+                             write the receipt at R, the capability and
+                             bundle blocks both naming this package.
   --attest R --out A         run the matching attester on receipt
                              R and write the attestation at A. Exit 0 on
                              PASS.
@@ -49,7 +49,7 @@ HERE = Path(__file__).resolve().parent
 PACKAGE_ROOT = HERE.parent
 FIXTURE = HERE / "fixtures" / "wrapped_computations.json"
 PACKAGE = "atmospheric-physics"
-PROVE_SKILL = "energy-budget-closure"
+QUALIFICATION_SKILL = "energy-budget-closure"
 
 
 def chains() -> list[dict]:
@@ -214,7 +214,7 @@ def golden() -> int:
 
 
 def prove(runtime: str, runtime_version: str | None, out: Path) -> int:
-    chain = next(c for c in chains() if c["skill"] == PROVE_SKILL)
+    chain = next(c for c in chains() if c["skill"] == QUALIFICATION_SKILL)
     computation, _ = chain_paths(chain)
     run = run_computation(computation, chain, chain["args"], out, runtime, runtime_version)
     print((run.stdout or "") + (run.stderr or ""), end="")
@@ -236,7 +236,7 @@ def attest(receipt_path: Path, out: Path) -> int:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--runtime", help="the runtime that ran this (PROVE)")
+    ap.add_argument("--runtime", help="the runtime that ran this (the qualification run)")
     ap.add_argument("--runtime-version")
     ap.add_argument("--attest", metavar="RECEIPT", help="attest this receipt")
     ap.add_argument("--out", metavar="PATH", help="where the receipt or attestation is written")

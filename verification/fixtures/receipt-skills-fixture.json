@@ -1,8 +1,10 @@
 {
   "about": [
-    "What the three receipt skills produce on the ASDC executors' synthetic",
-    "fixtures at seed 7, read by verification/receipt_skills.py. Every cell",
-    "below is a field of a receipt the bundle's attester passed, copied by the",
+    "What sweep, receipt-figures and methods produce on this package's",
+    "executors' synthetic fixtures at seed 7, read by",
+    "verification/receipt_skills.py. Every cell below is a field of a receipt",
+    "the computation's own attester passed, a script this package carries",
+    "beside the skill that runs the computation, copied by the",
     "receipt field path the sweep manifest records beside each column; every",
     "figure digest is the sha256 of an array the renderer drew from such a",
     "receipt; every methods entry is the set of receipt fields the paragraph",
