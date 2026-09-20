@@ -1,0 +1,346 @@
+{
+    "about": [
+        "What verification/cloud_radiative_effect_chain.py holds the cloud radiative effect to.",
+        "Two kinds of value, marked as such. `runs` are quoted from the Reference runs section of",
+        "knowledge/computations/cloud-radiative-effect.md and are the concept's numbers. `regions` is",
+        "measured, not quoted: the eight regions on both clear-sky conventions over the window the",
+        "concept's regional reference run uses, read from the receipts of runs on the committed data",
+        "root at the new paths on 2026-09-20, every cell a term of a receipt the attester passed. The",
+        "four cells the concept states (global and antarctic, both conventions) are the concept's and",
+        "are asserted against `runs` as well. A run identifier is bound to the runtime name and to the",
+        "package the run is evidence for, so none is asserted here."
+    ],
+    "concept": "knowledge/computations/cloud-radiative-effect.md",
+    "executor": "skills/cloud-radiative-effect/scripts/cloud_radiative_effect.py",
+    "attester": "skills/cloud-radiative-effect/scripts/cloud_radiative_effect_check.py",
+    "loaders": [
+        "skills/cloud-radiative-effect/scripts/cre_ceres_fluxes.py",
+        "skills/cloud-radiative-effect/scripts/cre_data_root.py"
+    ],
+    "data_root": "knowledge/references/retrieval/cloud-radiative-effect-root",
+    "record": "cloud-radiative-effect-root-2026-09-19",
+    "recorded": "2026-09-20, at the paths this pull request moves the computation to",
+    "tolerance": 0.0001,
+    "measured_tolerance": 1e-09,
+    "runs": [
+        {
+            "name": "fixture",
+            "quoted_from": "the concept's Reference runs section, the fixture run at seed 7, global, total-region, over 2006-01 through 2020-12",
+            "args": [
+                "--fixture",
+                "--seed",
+                "7",
+                "--region",
+                "global",
+                "--clear-sky",
+                "total-region",
+                "--window",
+                "2006-01:2020-12"
+            ],
+            "bound_parameters": {
+                "window": "2006-01:2020-12",
+                "region": "global",
+                "clear_sky": "total-region"
+            },
+            "months_used": 180,
+            "months_in_window": 180,
+            "terms": {
+                "cre_shortwave": {
+                    "value": -45.56,
+                    "uncertainty": 0.3096
+                },
+                "cre_longwave": {
+                    "value": 25.723,
+                    "uncertainty": 0.2449
+                },
+                "cre_net": {
+                    "value": -19.837,
+                    "uncertainty": 0.3774
+                }
+            },
+            "residual_within": 0.01,
+            "verdict": true,
+            "contrast_convention": "cloud-free-area",
+            "contrast_cre_net": -18.0774,
+            "contrast_difference": -1.7596
+        },
+        {
+            "name": "record-published-anchor",
+            "quoted_from": "the concept's Reference runs section, the real-data run on the stamped data root, global, cloud-free-area, 2005-07 through 2015-06",
+            "on_data_root": true,
+            "args": [
+                "--region",
+                "global",
+                "--clear-sky",
+                "cloud-free-area",
+                "--window",
+                "2005-07:2015-06"
+            ],
+            "bound_parameters": {
+                "window": "2005-07:2015-06",
+                "region": "global",
+                "clear_sky": "cloud-free-area"
+            },
+            "months_used": 120,
+            "months_in_window": 120,
+            "terms": {
+                "cre_shortwave": {
+                    "value": -45.8232,
+                    "uncertainty": 0.1267
+                },
+                "cre_longwave": {
+                    "value": 27.934,
+                    "uncertainty": 0.0633
+                },
+                "cre_net": {
+                    "value": -17.8894,
+                    "uncertainty": 0.1433
+                }
+            },
+            "residual_within": 0.01,
+            "verdict": true,
+            "contrast_convention": "total-region",
+            "contrast_cre_net": -19.6352,
+            "contrast_difference": 1.7458,
+            "published_distance_cre_net": 0.0106
+        },
+        {
+            "name": "record-other-convention",
+            "quoted_from": "the concept's Reference runs section, the companion run on the same window and region with the other convention, which states no published distance",
+            "on_data_root": true,
+            "args": [
+                "--region",
+                "global",
+                "--clear-sky",
+                "total-region",
+                "--window",
+                "2005-07:2015-06"
+            ],
+            "bound_parameters": {
+                "window": "2005-07:2015-06",
+                "region": "global",
+                "clear_sky": "total-region"
+            },
+            "months_used": 120,
+            "months_in_window": 120,
+            "terms": {
+                "cre_shortwave": {
+                    "value": -45.35,
+                    "uncertainty": 0.1276
+                },
+                "cre_longwave": {
+                    "value": 25.7148,
+                    "uncertainty": 0.0665
+                },
+                "cre_net": {
+                    "value": -19.6352,
+                    "uncertainty": 0.1494
+                }
+            },
+            "residual_within": 0.01,
+            "verdict": true,
+            "contrast_convention": "cloud-free-area",
+            "contrast_cre_net": -17.8894,
+            "contrast_difference": -1.7458,
+            "no_published_distance": true
+        },
+        {
+            "name": "record-antarctic",
+            "quoted_from": "the concept's Reference runs section, the regional run on the same data root, antarctic, total-region, 2006-01 through 2020-12",
+            "on_data_root": true,
+            "args": [
+                "--region",
+                "antarctic",
+                "--clear-sky",
+                "total-region",
+                "--window",
+                "2006-01:2020-12"
+            ],
+            "bound_parameters": {
+                "window": "2006-01:2020-12",
+                "region": "antarctic",
+                "clear_sky": "total-region"
+            },
+            "months_used": 180,
+            "months_in_window": 180,
+            "terms": {
+                "cre_shortwave": {
+                    "value": -28.8432
+                },
+                "cre_longwave": {
+                    "value": 17.8481
+                },
+                "cre_net": {
+                    "value": -10.9951
+                }
+            },
+            "residual_within": 0.01,
+            "verdict": true,
+            "contrast_convention": "cloud-free-area",
+            "contrast_cre_net": -12.6639
+        }
+    ],
+    "refusal": {
+        "args": [
+            "--fixture",
+            "--seed",
+            "7",
+            "--region",
+            "global",
+            "--clear-sky",
+            "pristine",
+            "--window",
+            "2006-01:2020-12"
+        ],
+        "reason_code": "clear-sky-convention-not-carried",
+        "quoted_from": "the concept's Reference runs section, the refusal case the chain exercises"
+    },
+    "regions": {
+        "window": "2006-01:2020-12",
+        "conventions": [
+            "total-region",
+            "cloud-free-area"
+        ],
+        "sign_reversal_bands": [
+            "arctic",
+            "antarctic"
+        ],
+        "rule": [
+            "Over every band but the two polar ones the total-region net effect is the more negative",
+            "of the two, so total-region minus cloud-free-area is negative; over the arctic and the",
+            "antarctic the sign reverses, which is why a regional cloud radiative effect cannot be",
+            "moved between the conventions by a single global number. The golden asserts the sign",
+            "band by band, and every cell against the receipt it came from."
+        ],
+        "table": [
+            {
+                "region": "global",
+                "total-region": {
+                    "cre_shortwave": -45.1774438777778,
+                    "cre_longwave": 25.534681227777774,
+                    "cre_net": -19.642766088888884,
+                    "contrast_cre_net": -17.85916250555556
+                },
+                "cloud-free-area": {
+                    "cre_shortwave": -45.64855005555556,
+                    "cre_longwave": 27.789508244444434,
+                    "cre_net": -17.85916250555556,
+                    "contrast_cre_net": -19.642766088888884
+                },
+                "total_region_minus_cloud_free_area_net": -1.7836035833333241
+            },
+            {
+                "region": "tropics",
+                "total-region": {
+                    "cre_shortwave": -44.583037899999994,
+                    "cre_longwave": 29.939238155555582,
+                    "cre_net": -14.643872022222228,
+                    "contrast_cre_net": -11.935678566666663
+                },
+                "cloud-free-area": {
+                    "cre_shortwave": -45.045995972222244,
+                    "cre_longwave": 33.1100699722222,
+                    "cre_net": -11.935678566666663,
+                    "contrast_cre_net": -14.643872022222228
+                },
+                "total_region_minus_cloud_free_area_net": -2.7081934555555645
+            },
+            {
+                "region": "northern-extratropics",
+                "total-region": {
+                    "cre_shortwave": -40.54464336666665,
+                    "cre_longwave": 22.091456416666666,
+                    "cre_net": -18.453143216666653,
+                    "contrast_cre_net": -17.248482455555564
+                },
+                "cloud-free-area": {
+                    "cre_shortwave": -41.21776100000002,
+                    "cre_longwave": 23.969816822222224,
+                    "cre_net": -17.248482455555564,
+                    "contrast_cre_net": -18.453143216666653
+                },
+                "total_region_minus_cloud_free_area_net": -1.2046607611110893
+            },
+            {
+                "region": "southern-extratropics",
+                "total-region": {
+                    "cre_shortwave": -50.4245014111111,
+                    "cre_longwave": 24.42636740000001,
+                    "cre_net": -25.998113477777796,
+                    "contrast_cre_net": -24.59101149444444
+                },
+                "cloud-free-area": {
+                    "cre_shortwave": -50.70201562222222,
+                    "cre_longwave": 26.11108766111111,
+                    "cre_net": -24.59101149444444,
+                    "contrast_cre_net": -25.998113477777796
+                },
+                "total_region_minus_cloud_free_area_net": -1.4071019833333551
+            },
+            {
+                "region": "northern-midlatitudes",
+                "total-region": {
+                    "cre_shortwave": -47.70882499999999,
+                    "cre_longwave": 25.230621022222223,
+                    "cre_net": -22.478231322222225,
+                    "contrast_cre_net": -20.959165350000006
+                },
+                "cloud-free-area": {
+                    "cre_shortwave": -48.62228722777778,
+                    "cre_longwave": 27.663549600000007,
+                    "cre_net": -20.959165350000006,
+                    "contrast_cre_net": -22.478231322222225
+                },
+                "total_region_minus_cloud_free_area_net": -1.5190659722222186
+            },
+            {
+                "region": "southern-midlatitudes",
+                "total-region": {
+                    "cre_shortwave": -62.318357966666646,
+                    "cre_longwave": 28.421997633333337,
+                    "cre_net": -33.89634470555556,
+                    "contrast_cre_net": -32.00506491666667
+                },
+                "cloud-free-area": {
+                    "cre_shortwave": -62.888515372222244,
+                    "cre_longwave": 30.88368315000001,
+                    "cre_net": -32.00506491666667,
+                    "contrast_cre_net": -33.89634470555556
+                },
+                "total_region_minus_cloud_free_area_net": -1.8912797888888946
+            },
+            {
+                "region": "arctic",
+                "total-region": {
+                    "cre_shortwave": -28.184047666666668,
+                    "cre_longwave": 16.43436553888889,
+                    "cre_net": -11.749571699999999,
+                    "contrast_cre_net": -12.649689772222233
+                },
+                "cloud-free-area": {
+                    "cre_shortwave": -28.236703611111114,
+                    "cre_longwave": 15.587011605555555,
+                    "cre_net": -12.649689772222233,
+                    "contrast_cre_net": -11.749571699999999
+                },
+                "total_region_minus_cloud_free_area_net": 0.9001180722222344
+            },
+            {
+                "region": "antarctic",
+                "total-region": {
+                    "cre_shortwave": -28.843203227777778,
+                    "cre_longwave": 17.84807293333333,
+                    "cre_net": -10.99514840555555,
+                    "contrast_cre_net": -12.663864050000006
+                },
+                "cloud-free-area": {
+                    "cre_shortwave": -28.28781001666667,
+                    "cre_longwave": 15.623718433333329,
+                    "cre_net": -12.663864050000006,
+                    "contrast_cre_net": -10.99514840555555
+                },
+                "total_region_minus_cloud_free_area_net": 1.6687156444444557
+            }
+        ]
+    }
+}

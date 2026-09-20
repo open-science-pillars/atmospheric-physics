@@ -1,0 +1,1054 @@
+{
+  "record": "cloud-radiative-effect-root-2026-09-19",
+  "manifest": {
+    "cre-fluxes.csv": "sha256:4c67491f2c979bb7444afaaa9175dbc8ce42d7cdeaeb1f4278b56fcb78c4ad7d",
+    "cre-fluxes-stamp.json": "sha256:64b8c60741f4135db3276d78227352300f5f5509bd3277e248c6a0edb5f5c1fe",
+    "SOURCES.json": "sha256:29e726a7643d4c835f174f34b609f45b0f0b0f95f35a2f1f5fea9b03082294c6"
+  },
+  "manifest_sha256": "sha256:443b78f6315a0c8a6f75d8d9ef7bc49361958d83cab0cf42b702f0c42070f39e",
+  "verified_utc": "2026-09-19T06:47:14Z",
+  "terms": {
+    "cre-fluxes": {
+      "term": "cre-fluxes",
+      "product": "CERES EBAF TOA and Surface Fluxes. Monthly Averages and 07/2005 to 06/2015 Climatology.",
+      "product_version": "Edition 4.2.1; Revised data Release Date March 14, 2025",
+      "doi": "10.5067/TERRA-AQUA-NOAA20/CERES/EBAF_L3B004.2.1",
+      "institution": "NASA Langley Research Center",
+      "conventions_attribute": "CF-1.4",
+      "climatology_note": "Climatology from 07/2005 to 06/2015",
+      "file": "CERES_EBAF_Edition4.2.1_200003-202605.subset.nc",
+      "variables": {
+        "toa_lw_all_mon": {
+          "long_name": "Top of The Atmosphere Longwave Flux, All-Sky conditions, Monthly Means ",
+          "standard_name": "TOA Longwave Flux - All-Sky",
+          "CF_name": "toa_outgoing_longwave_flux",
+          "units": "W m-2"
+        },
+        "toa_lw_clr_c_mon": {
+          "long_name": "Top of The Atmosphere Longwave Flux, Clear-Sky (for cloud-free areas of region) conditions, Monthly Means",
+          "standard_name": "TOA Longwave Flux - Clear-Sky (for cloud-free areas of region)",
+          "CF_name": "none",
+          "units": "W m-2"
+        },
+        "toa_lw_clr_t_mon": {
+          "long_name": "Top of The Atmosphere Longwave Flux, Clear-Sky (for total region) conditions, Monthly Means",
+          "standard_name": "TOA Longwave Flux - Clear-Sky (for total region)",
+          "CF_name": "none",
+          "units": "W m-2"
+        },
+        "toa_net_all_mon": {
+          "long_name": "Top of The Atmosphere Net Flux, All-Sky conditions, Monthly Means",
+          "standard_name": "TOA Net Flux - All-Sky",
+          "CF_name": "toa_net_downward_flux",
+          "units": "W m-2"
+        },
+        "toa_net_clr_c_mon": {
+          "long_name": "Top of The Atmosphere Net Flux, Clear-Sky (for cloud-free areas of region) conditions, Monthly Means",
+          "standard_name": "TOA Net Flux - Clear-Sky (for cloud-free areas of region)",
+          "CF_name": "none",
+          "units": "W m-2"
+        },
+        "toa_net_clr_t_mon": {
+          "long_name": "Top of The Atmosphere Net Flux, Clear-Sky (for total region) conditions, Monthly Means",
+          "standard_name": "TOA Net Flux - Clear-Sky (for total region)",
+          "CF_name": "none",
+          "units": "W m-2"
+        },
+        "toa_sw_all_mon": {
+          "long_name": "Top of The Atmosphere Shortwave Flux, All-Sky conditions, Monthly Means",
+          "standard_name": "TOA Shortwave Flux - All-Sky",
+          "CF_name": "toa_outgoing_shortwave_flux",
+          "units": "W m-2"
+        },
+        "toa_sw_clr_c_mon": {
+          "long_name": "Top of The Atmosphere Shortwave Flux, Clear-Sky (for cloud-free areas of region) conditions, Monthly Means",
+          "standard_name": "TOA Shortwave Flux - Clear-Sky (for cloud-free areas of region)",
+          "CF_name": "none",
+          "units": "W m-2"
+        },
+        "toa_sw_clr_t_mon": {
+          "long_name": "Top of The Atmosphere Shortwave Flux, Clear-Sky (for total region) conditions, Monthly Means",
+          "standard_name": "TOA Shortwave Flux - Clear-Sky (for total region)",
+          "CF_name": "none",
+          "units": "W m-2"
+        }
+      },
+      "clear_sky_conventions": {
+        "total-region": {
+          "variable_suffix": "clr_t",
+          "variables": [
+            "toa_sw_clr_t_mon",
+            "toa_lw_clr_t_mon",
+            "toa_net_clr_t_mon"
+          ],
+          "long_name": "Top of The Atmosphere Net Flux, Clear-Sky (for total region) conditions, Monthly Means"
+        },
+        "cloud-free-area": {
+          "variable_suffix": "clr_c",
+          "variables": [
+            "toa_sw_clr_c_mon",
+            "toa_lw_clr_c_mon",
+            "toa_net_clr_c_mon"
+          ],
+          "long_name": "Top of The Atmosphere Net Flux, Clear-Sky (for cloud-free areas of region) conditions, Monthly Means"
+        }
+      },
+      "cre_rule": "the shortwave and longwave fields are outgoing fluxes and the net field is downward minus upward, so the cloud radiative effect is the clear-sky minus the all-sky flux in the shortwave and the longwave and the all-sky minus the clear-sky flux in the net, which is the product's own arithmetic (the data quality summary: cloud radiative effects are computed as all-sky flux minus clear-sky flux, the net being downward minus upward)",
+      "grid": "180 by 360 one degree cells, latitude centres -89.5 to 89.5, longitude centres 0.5 to 359.5",
+      "weights": "the CERES one degree zonal geodetic weights, the weights the product's own global means are formed with (an oblate spheroid, the equatorial radius 6378.137 km and the polar radius 6356.752 km, the solar division factor 4.0034 rather than 4); each zone's weight spread evenly over the cells of that zone that carry a value",
+      "weights_file": "zone_weights_lou.txt",
+      "weights_sha256": "sha256:962c14e814331233074ce102b1e80cbf440983a00b17698395aa67ea541f4e61",
+      "weights_zones": 180,
+      "weights_sum": 1.000013000000001,
+      "weights_source": "https://ceres.larc.nasa.gov/documents/GZWdata/zone_weights_lou.txt",
+      "regions": {
+        "global": {
+          "latitude_band": [
+            -90.0,
+            90.0
+          ],
+          "weight_share": 1.000013000000001,
+          "zones": 180,
+          "cells_with_a_value": [
+            64800,
+            64800
+          ]
+        },
+        "tropics": {
+          "latitude_band": [
+            -20.0,
+            20.0
+          ],
+          "weight_share": 0.34067200000000003,
+          "zones": 40,
+          "cells_with_a_value": [
+            14400,
+            14400
+          ]
+        },
+        "northern-extratropics": {
+          "latitude_band": [
+            20.0,
+            90.0
+          ],
+          "weight_share": 0.32967099999999994,
+          "zones": 70,
+          "cells_with_a_value": [
+            25200,
+            25200
+          ]
+        },
+        "southern-extratropics": {
+          "latitude_band": [
+            -90.0,
+            -20.0
+          ],
+          "weight_share": 0.3296700000000001,
+          "zones": 70,
+          "cells_with_a_value": [
+            25200,
+            25200
+          ]
+        },
+        "northern-midlatitudes": {
+          "latitude_band": [
+            30.0,
+            60.0
+          ],
+          "weight_share": 0.18336500000000006,
+          "zones": 30,
+          "cells_with_a_value": [
+            10800,
+            10800
+          ]
+        },
+        "southern-midlatitudes": {
+          "latitude_band": [
+            -60.0,
+            -30.0
+          ],
+          "weight_share": 0.18336699999999997,
+          "zones": 30,
+          "cells_with_a_value": [
+            10800,
+            10800
+          ]
+        },
+        "arctic": {
+          "latitude_band": [
+            60.0,
+            90.0
+          ],
+          "weight_share": 0.06747899999999997,
+          "zones": 30,
+          "cells_with_a_value": [
+            10800,
+            10800
+          ]
+        },
+        "antarctic": {
+          "latitude_band": [
+            -90.0,
+            -60.0
+          ],
+          "weight_share": 0.06747700000000001,
+          "zones": 30,
+          "cells_with_a_value": [
+            10800,
+            10800
+          ]
+        }
+      },
+      "mask": "latitude bands of whole one degree zones; no surface type mask, since the subset read carries no surface type field, so a land or ocean region is not resolvable here and the computation refuses one",
+      "aggregation": "one area weighted regional mean per calendar month per field in W m-2, as the product carries them; the cloud radiative effect terms are formed by the computation from these columns",
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315,
+      "skipped_months": {},
+      "uncertainty_basis": "stated noise floor, per region and convention: standard deviation of adjacent-month differences of that cloud radiative effect term's series with its calendar-month means removed, divided by sqrt(2); the product ships no uncertainty field",
+      "uncertainty_floors": {
+        "global/total-region": {
+          "cre_sw_W_m2": 0.4365032388963635,
+          "cre_lw_W_m2": 0.2515608180693485,
+          "cre_net_W_m2": 0.40932565120355585,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -45.08190000815257,
+          "window_mean_cre_lw_W_m2": 25.53646466292755,
+          "window_mean_cre_net_W_m2": -19.54543675266386,
+          "decomposition_max_abs_W_m2": 0.001470845557868472
+        },
+        "global/cloud-free-area": {
+          "cre_sw_W_m2": 0.433296416205318,
+          "cre_lw_W_m2": 0.2641030096494058,
+          "cre_net_W_m2": 0.3957646186257102,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -45.54731937944988,
+          "window_mean_cre_lw_W_m2": 27.76900180291145,
+          "window_mean_cre_net_W_m2": -17.778444780569558,
+          "decomposition_max_abs_W_m2": 0.0015871513662588654
+        },
+        "tropics/total-region": {
+          "cre_sw_W_m2": 0.8211430366510241,
+          "cre_lw_W_m2": 0.555318201287581,
+          "cre_net_W_m2": 0.6330660580006849,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -44.511828638257846,
+          "window_mean_cre_lw_W_m2": 29.95854529298554,
+          "window_mean_cre_net_W_m2": -14.55333032466095,
+          "decomposition_max_abs_W_m2": 0.005237702501602826
+        },
+        "tropics/cloud-free-area": {
+          "cre_sw_W_m2": 0.8271051323443291,
+          "cre_lw_W_m2": 0.5651063209504604,
+          "cre_net_W_m2": 0.6266866794352796,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -44.962515136210044,
+          "window_mean_cre_lw_W_m2": 33.081459909911516,
+          "window_mean_cre_net_W_m2": -11.880783516994763,
+          "decomposition_max_abs_W_m2": 0.0044242217142524964
+        },
+        "northern-extratropics/total-region": {
+          "cre_sw_W_m2": 0.8988262529063973,
+          "cre_lw_W_m2": 0.4612698833482782,
+          "cre_net_W_m2": 0.7738713829211532,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -40.457931662253706,
+          "window_mean_cre_lw_W_m2": 22.04837571309307,
+          "window_mean_cre_net_W_m2": -18.409545684217868,
+          "decomposition_max_abs_W_m2": 0.0019367568219337272
+        },
+        "northern-extratropics/cloud-free-area": {
+          "cre_sw_W_m2": 0.8739698866064314,
+          "cre_lw_W_m2": 0.4805662820053854,
+          "cre_net_W_m2": 0.747174655802306,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -41.11319951450459,
+          "window_mean_cre_lw_W_m2": 23.91560441816177,
+          "window_mean_cre_net_W_m2": -17.19816899804976,
+          "decomposition_max_abs_W_m2": 0.0037902776592488863
+        },
+        "southern-extratropics/total-region": {
+          "cre_sw_W_m2": 0.8596996132831414,
+          "cre_lw_W_m2": 0.4266849674186451,
+          "cre_net_W_m2": 0.768294084362566,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -50.29497860883099,
+          "window_mean_cre_lw_W_m2": 24.454906498028738,
+          "window_mean_cre_net_W_m2": -25.840038097846264,
+          "decomposition_max_abs_W_m2": 0.001668465167483646
+        },
+        "southern-extratropics/cloud-free-area": {
+          "cre_sw_W_m2": 0.8609807172391705,
+          "cre_lw_W_m2": 0.473516980229387,
+          "cre_net_W_m2": 0.7534944650364476,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -50.58577347339058,
+          "window_mean_cre_lw_W_m2": 26.132661344270737,
+          "window_mean_cre_net_W_m2": -24.453204860296722,
+          "decomposition_max_abs_W_m2": 0.0023765400422917082
+        },
+        "northern-midlatitudes/total-region": {
+          "cre_sw_W_m2": 1.2022781773046605,
+          "cre_lw_W_m2": 0.6381621825072082,
+          "cre_net_W_m2": 1.0513764111891748,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -47.66365438211965,
+          "window_mean_cre_lw_W_m2": 25.23470416817659,
+          "window_mean_cre_net_W_m2": -22.42898833266293,
+          "decomposition_max_abs_W_m2": 0.0019659254706709817
+        },
+        "northern-midlatitudes/cloud-free-area": {
+          "cre_sw_W_m2": 1.1937822411858456,
+          "cre_lw_W_m2": 0.6399138572350127,
+          "cre_net_W_m2": 1.0370463577614808,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -48.5594879754023,
+          "window_mean_cre_lw_W_m2": 27.66995106556689,
+          "window_mean_cre_net_W_m2": -20.88997775056389,
+          "decomposition_max_abs_W_m2": 0.004139173326567658
+        },
+        "southern-midlatitudes/total-region": {
+          "cre_sw_W_m2": 0.9561814022519878,
+          "cre_lw_W_m2": 0.5445972754112315,
+          "cre_net_W_m2": 0.9444807326536332,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -62.1795411420828,
+          "window_mean_cre_lw_W_m2": 28.482551811588156,
+          "window_mean_cre_net_W_m2": -33.696941739956166,
+          "decomposition_max_abs_W_m2": 0.00208614495340953
+        },
+        "southern-midlatitudes/cloud-free-area": {
+          "cre_sw_W_m2": 0.9477574352152704,
+          "cre_lw_W_m2": 0.5632164045710941,
+          "cre_net_W_m2": 0.9231160063958802,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -62.75162941344775,
+          "window_mean_cre_lw_W_m2": 30.930080019065866,
+          "window_mean_cre_net_W_m2": -31.821736107972175,
+          "decomposition_max_abs_W_m2": 0.002332956242597106
+        },
+        "arctic/total-region": {
+          "cre_sw_W_m2": 1.679023530348625,
+          "cre_lw_W_m2": 0.8073902211291931,
+          "cre_net_W_m2": 1.6533652378516404,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -28.079960353672163,
+          "window_mean_cre_lw_W_m2": 16.281091565676657,
+          "window_mean_cre_net_W_m2": -11.798802494413298,
+          "decomposition_max_abs_W_m2": 0.0032429177796018394
+        },
+        "arctic/cloud-free-area": {
+          "cre_sw_W_m2": 1.6154647093056562,
+          "cre_lw_W_m2": 0.685480655316933,
+          "cre_net_W_m2": 1.6181380985096103,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -28.111403495645266,
+          "window_mean_cre_lw_W_m2": 15.403095897660249,
+          "window_mean_cre_net_W_m2": -12.708341750238615,
+          "decomposition_max_abs_W_m2": 0.007066505548081636
+        },
+        "antarctic/total-region": {
+          "cre_sw_W_m2": 1.5860701598003502,
+          "cre_lw_W_m2": 0.5420148726637497,
+          "cre_net_W_m2": 1.6178199549799344,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -28.67040148341965,
+          "window_mean_cre_lw_W_m2": 17.77863352902928,
+          "window_mean_cre_net_W_m2": -10.89178387299294,
+          "decomposition_max_abs_W_m2": 0.0034753051334561746
+        },
+        "antarctic/cloud-free-area": {
+          "cre_sw_W_m2": 1.5730006628856765,
+          "cre_lw_W_m2": 0.506201116187963,
+          "cre_net_W_m2": 1.6016865802345948,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -28.17497227237006,
+          "window_mean_cre_lw_W_m2": 15.595474525586166,
+          "window_mean_cre_net_W_m2": -12.579330678680272,
+          "decomposition_max_abs_W_m2": 0.007857286895820437
+        }
+      },
+      "published_regional_monthly_uncertainty": {
+        "all_sky_W_m2": {
+          "terra_only": 3.0,
+          "terra_aqua": 2.5
+        },
+        "clear_sky_shortwave_W_m2": {
+          "terra_only": 6.0,
+          "terra_aqua": 5.0
+        },
+        "clear_sky_longwave_W_m2": {
+          "terra_only": 5.0,
+          "terra_aqua": 4.5
+        },
+        "note": "the one standard deviation uncertainty in a one degree regional monthly TOA flux for the Terra-only and the Terra plus Aqua periods, from Loeb and others 2018 as the bundle's EBAF dataset concept carries them; these are regional monthly uncertainties on the fluxes, not on a regional mean of a cloud radiative effect, and they are written here for comparison only, never mixed into the floor above"
+      },
+      "weighting_cross_check": {
+        "rule": "the zonal geodetic weights applied here over the global band against the product's own gtoa_ global means, per month",
+        "fields": {
+          "toa_sw_all_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.0004462248997754159
+          },
+          "toa_lw_all_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.0001162062229127514
+          },
+          "toa_net_all_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.00024148727614914378
+          },
+          "toa_sw_clr_t_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 3.819424224360546e-05
+          },
+          "toa_lw_clr_t_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.00016630674616635588
+          },
+          "toa_net_clr_t_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 3.857712138710667e-05
+          },
+          "toa_sw_clr_c_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.0003687038954680588
+          },
+          "toa_lw_clr_c_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.00015393539035812864
+          },
+          "toa_net_clr_c_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.00030326385777001974
+          }
+        }
+      },
+      "product_cre_cross_check": {
+        "rule": "the total-region cloud radiative effect formed here over the global band against the product's own gtoa_cre_ variables, per month; the product's cloud radiative effect variables are the total-region convention alone, as their long names state, so the cloud-free-area convention has no such cross-check",
+        "terms": {
+          "cre_sw": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 4.149583804746726e-05
+          },
+          "cre_lw": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 1.4415551646607128e-05
+          },
+          "cre_net": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.0014664606775411926
+          }
+        }
+      },
+      "loader": "references/loaders/cre_ceres_fluxes.py",
+      "loader_sha256": "sha256:f2ecc6166b4dba8a29c1971cf96e7aa8bcdf4a8fe06c41c1fe0e888d5ce7a800",
+      "written_utc": "2026-09-19T06:40:21Z",
+      "sources": {
+        "CERES_EBAF_Edition4.2.1_200003-202605.subset.nc": "sha256:66dcc604094fb2e20e26c5103d75c11ddf11920c730a6b4d7c36a8284f88fb0b",
+        "zone_weights_lou.txt": "sha256:962c14e814331233074ce102b1e80cbf440983a00b17698395aa67ea541f4e61"
+      },
+      "download": {
+        "file": "CERES_EBAF_Edition4.2.1_200003-202605.subset.nc",
+        "url": "https://opendap.earthdata.nasa.gov/collections/C3880496704-LARC_CLOUD/granules/CERES_EBAF_Edition4.2.1_200003-202605.nc.nc4?toa_sw_all_mon,toa_lw_all_mon,toa_net_all_mon,toa_sw_clr_t_mon,toa_lw_clr_t_mon,toa_net_clr_t_mon,toa_sw_clr_c_mon,toa_lw_clr_c_mon,toa_net_clr_c_mon,toa_cre_sw_mon,toa_cre_lw_mon,toa_cre_net_mon,gtoa_sw_all_mon,gtoa_lw_all_mon,gtoa_net_all_mon,gtoa_sw_clr_t_mon,gtoa_lw_clr_t_mon,gtoa_net_clr_t_mon,gtoa_sw_clr_c_mon,gtoa_lw_clr_c_mon,gtoa_net_clr_c_mon,gtoa_cre_sw_mon,gtoa_cre_lw_mon,gtoa_cre_net_mon,lat,lon,time",
+        "status": 200,
+        "bytes": 553908789,
+        "retrieved_utc": "2026-09-19T06:38:18Z",
+        "sha256": "sha256:66dcc604094fb2e20e26c5103d75c11ddf11920c730a6b4d7c36a8284f88fb0b",
+        "attempts": [
+          {
+            "credentials": "none",
+            "status": 401,
+            "error": "HTTP 401",
+            "started_utc": "2026-09-19T06:38:16Z"
+          },
+          {
+            "credentials": "Earthdata Login bearer token as a request header",
+            "status": 200,
+            "error": null,
+            "started_utc": "2026-09-19T06:38:18Z"
+          }
+        ]
+      },
+      "weights_download": {
+        "file": "zone_weights_lou.txt",
+        "url": "https://ceres.larc.nasa.gov/documents/GZWdata/zone_weights_lou.txt",
+        "status": 200,
+        "bytes": 4244,
+        "retrieved_utc": "2026-09-19T06:39:26Z",
+        "sha256": "sha256:962c14e814331233074ce102b1e80cbf440983a00b17698395aa67ea541f4e61",
+        "attempts": [
+          {
+            "credentials": "none",
+            "status": 200,
+            "error": null,
+            "started_utc": "2026-09-19T06:39:26Z"
+          }
+        ]
+      }
+    }
+  },
+  "coverage": {
+    "antarctic/cloud-free-area": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    },
+    "antarctic/total-region": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    },
+    "arctic/cloud-free-area": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    },
+    "arctic/total-region": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    },
+    "global/cloud-free-area": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    },
+    "global/total-region": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    },
+    "northern-extratropics/cloud-free-area": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    },
+    "northern-extratropics/total-region": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    },
+    "northern-midlatitudes/cloud-free-area": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    },
+    "northern-midlatitudes/total-region": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    },
+    "southern-extratropics/cloud-free-area": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    },
+    "southern-extratropics/total-region": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    },
+    "southern-midlatitudes/cloud-free-area": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    },
+    "southern-midlatitudes/total-region": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    },
+    "tropics/cloud-free-area": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    },
+    "tropics/total-region": {
+      "months": [
+        "2000-03",
+        "2026-05"
+      ],
+      "n_months": 315
+    }
+  },
+  "bookkeeping": {
+    "convention": {
+      "statement": "the two clear-sky conventions the energy balanced product carries, each read from its own variables: cloud-free-area from toa_sw_clr_c_mon, toa_lw_clr_c_mon, toa_net_clr_c_mon; total-region from toa_sw_clr_t_mon, toa_lw_clr_t_mon, toa_net_clr_t_mon",
+      "conventions": {
+        "total-region": {
+          "variable_suffix": "clr_t",
+          "variables": [
+            "toa_sw_clr_t_mon",
+            "toa_lw_clr_t_mon",
+            "toa_net_clr_t_mon"
+          ],
+          "long_name": "Top of The Atmosphere Net Flux, Clear-Sky (for total region) conditions, Monthly Means"
+        },
+        "cloud-free-area": {
+          "variable_suffix": "clr_c",
+          "variables": [
+            "toa_sw_clr_c_mon",
+            "toa_lw_clr_c_mon",
+            "toa_net_clr_c_mon"
+          ],
+          "long_name": "Top of The Atmosphere Net Flux, Clear-Sky (for cloud-free areas of region) conditions, Monthly Means"
+        }
+      },
+      "cre_rule": "the shortwave and longwave fields are outgoing fluxes and the net field is downward minus upward, so the cloud radiative effect is the clear-sky minus the all-sky flux in the shortwave and the longwave and the all-sky minus the clear-sky flux in the net, which is the product's own arithmetic (the data quality summary: cloud radiative effects are computed as all-sky flux minus clear-sky flux, the net being downward minus upward)",
+      "note": "a cloud radiative effect is all-sky minus clear-sky in every one of these products, so it inherits the convention of the field it subtracts; the bundle's convention concept conventions/ceres-clear-sky-conventions.md states the four quantities the radiation products call clear-sky and which one each field carries",
+      "product_cre_cross_check": {
+        "rule": "the total-region cloud radiative effect formed here over the global band against the product's own gtoa_cre_ variables, per month; the product's cloud radiative effect variables are the total-region convention alone, as their long names state, so the cloud-free-area convention has no such cross-check",
+        "terms": {
+          "cre_sw": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 4.149583804746726e-05
+          },
+          "cre_lw": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 1.4415551646607128e-05
+          },
+          "cre_net": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.0014664606775411926
+          }
+        }
+      }
+    },
+    "weighting": {
+      "statement": "the CERES one degree zonal geodetic weights, the weights the product's own global means are formed with (an oblate spheroid, the equatorial radius 6378.137 km and the polar radius 6356.752 km, the solar division factor 4.0034 rather than 4); each zone's weight spread evenly over the cells of that zone that carry a value",
+      "weights_file": "zone_weights_lou.txt",
+      "weights_sha256": "sha256:962c14e814331233074ce102b1e80cbf440983a00b17698395aa67ea541f4e61",
+      "weights_source": "https://ceres.larc.nasa.gov/documents/GZWdata/zone_weights_lou.txt",
+      "weights_zones": 180,
+      "weights_sum": 1.000013000000001,
+      "loader_cross_check": {
+        "rule": "the zonal geodetic weights applied here over the global band against the product's own gtoa_ global means, per month",
+        "fields": {
+          "toa_sw_all_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.0004462248997754159
+          },
+          "toa_lw_all_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.0001162062229127514
+          },
+          "toa_net_all_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.00024148727614914378
+          },
+          "toa_sw_clr_t_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 3.819424224360546e-05
+          },
+          "toa_lw_clr_t_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.00016630674616635588
+          },
+          "toa_net_clr_t_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 3.857712138710667e-05
+          },
+          "toa_sw_clr_c_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.0003687038954680588
+          },
+          "toa_lw_clr_c_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.00015393539035812864
+          },
+          "toa_net_clr_c_mon": {
+            "months_compared": 315,
+            "max_abs_difference_W_m2": 0.00030326385777001974
+          }
+        }
+      },
+      "note": "a region is a band of whole one degree zones, so its mean is the product's own global mean restricted to those zones"
+    },
+    "edition": {
+      "statement": "CERES EBAF TOA and Surface Fluxes. Monthly Averages and 07/2005 to 06/2015 Climatology.; Edition 4.2.1; Revised data Release Date March 14, 2025; DOI 10.5067/TERRA-AQUA-NOAA20/CERES/EBAF_L3B004.2.1; file CERES_EBAF_Edition4.2.1_200003-202605.subset.nc",
+      "product_version": "Edition 4.2.1; Revised data Release Date March 14, 2025",
+      "doi": "10.5067/TERRA-AQUA-NOAA20/CERES/EBAF_L3B004.2.1",
+      "file": "CERES_EBAF_Edition4.2.1_200003-202605.subset.nc",
+      "climatology_note": "Climatology from 07/2005 to 06/2015",
+      "variables": {
+        "toa_lw_all_mon": {
+          "long_name": "Top of The Atmosphere Longwave Flux, All-Sky conditions, Monthly Means ",
+          "standard_name": "TOA Longwave Flux - All-Sky",
+          "CF_name": "toa_outgoing_longwave_flux",
+          "units": "W m-2"
+        },
+        "toa_lw_clr_c_mon": {
+          "long_name": "Top of The Atmosphere Longwave Flux, Clear-Sky (for cloud-free areas of region) conditions, Monthly Means",
+          "standard_name": "TOA Longwave Flux - Clear-Sky (for cloud-free areas of region)",
+          "CF_name": "none",
+          "units": "W m-2"
+        },
+        "toa_lw_clr_t_mon": {
+          "long_name": "Top of The Atmosphere Longwave Flux, Clear-Sky (for total region) conditions, Monthly Means",
+          "standard_name": "TOA Longwave Flux - Clear-Sky (for total region)",
+          "CF_name": "none",
+          "units": "W m-2"
+        },
+        "toa_net_all_mon": {
+          "long_name": "Top of The Atmosphere Net Flux, All-Sky conditions, Monthly Means",
+          "standard_name": "TOA Net Flux - All-Sky",
+          "CF_name": "toa_net_downward_flux",
+          "units": "W m-2"
+        },
+        "toa_net_clr_c_mon": {
+          "long_name": "Top of The Atmosphere Net Flux, Clear-Sky (for cloud-free areas of region) conditions, Monthly Means",
+          "standard_name": "TOA Net Flux - Clear-Sky (for cloud-free areas of region)",
+          "CF_name": "none",
+          "units": "W m-2"
+        },
+        "toa_net_clr_t_mon": {
+          "long_name": "Top of The Atmosphere Net Flux, Clear-Sky (for total region) conditions, Monthly Means",
+          "standard_name": "TOA Net Flux - Clear-Sky (for total region)",
+          "CF_name": "none",
+          "units": "W m-2"
+        },
+        "toa_sw_all_mon": {
+          "long_name": "Top of The Atmosphere Shortwave Flux, All-Sky conditions, Monthly Means",
+          "standard_name": "TOA Shortwave Flux - All-Sky",
+          "CF_name": "toa_outgoing_shortwave_flux",
+          "units": "W m-2"
+        },
+        "toa_sw_clr_c_mon": {
+          "long_name": "Top of The Atmosphere Shortwave Flux, Clear-Sky (for cloud-free areas of region) conditions, Monthly Means",
+          "standard_name": "TOA Shortwave Flux - Clear-Sky (for cloud-free areas of region)",
+          "CF_name": "none",
+          "units": "W m-2"
+        },
+        "toa_sw_clr_t_mon": {
+          "long_name": "Top of The Atmosphere Shortwave Flux, Clear-Sky (for total region) conditions, Monthly Means",
+          "standard_name": "TOA Shortwave Flux - Clear-Sky (for total region)",
+          "CF_name": "none",
+          "units": "W m-2"
+        }
+      }
+    },
+    "uncertainty": {
+      "basis": "stated noise floor, per region and convention: standard deviation of adjacent-month differences of that cloud radiative effect term's series with its calendar-month means removed, divided by sqrt(2); the product ships no uncertainty field",
+      "floors": {
+        "global/total-region": {
+          "cre_sw_W_m2": 0.4365032388963635,
+          "cre_lw_W_m2": 0.2515608180693485,
+          "cre_net_W_m2": 0.40932565120355585,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -45.08190000815257,
+          "window_mean_cre_lw_W_m2": 25.53646466292755,
+          "window_mean_cre_net_W_m2": -19.54543675266386,
+          "decomposition_max_abs_W_m2": 0.001470845557868472
+        },
+        "global/cloud-free-area": {
+          "cre_sw_W_m2": 0.433296416205318,
+          "cre_lw_W_m2": 0.2641030096494058,
+          "cre_net_W_m2": 0.3957646186257102,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -45.54731937944988,
+          "window_mean_cre_lw_W_m2": 27.76900180291145,
+          "window_mean_cre_net_W_m2": -17.778444780569558,
+          "decomposition_max_abs_W_m2": 0.0015871513662588654
+        },
+        "tropics/total-region": {
+          "cre_sw_W_m2": 0.8211430366510241,
+          "cre_lw_W_m2": 0.555318201287581,
+          "cre_net_W_m2": 0.6330660580006849,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -44.511828638257846,
+          "window_mean_cre_lw_W_m2": 29.95854529298554,
+          "window_mean_cre_net_W_m2": -14.55333032466095,
+          "decomposition_max_abs_W_m2": 0.005237702501602826
+        },
+        "tropics/cloud-free-area": {
+          "cre_sw_W_m2": 0.8271051323443291,
+          "cre_lw_W_m2": 0.5651063209504604,
+          "cre_net_W_m2": 0.6266866794352796,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -44.962515136210044,
+          "window_mean_cre_lw_W_m2": 33.081459909911516,
+          "window_mean_cre_net_W_m2": -11.880783516994763,
+          "decomposition_max_abs_W_m2": 0.0044242217142524964
+        },
+        "northern-extratropics/total-region": {
+          "cre_sw_W_m2": 0.8988262529063973,
+          "cre_lw_W_m2": 0.4612698833482782,
+          "cre_net_W_m2": 0.7738713829211532,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -40.457931662253706,
+          "window_mean_cre_lw_W_m2": 22.04837571309307,
+          "window_mean_cre_net_W_m2": -18.409545684217868,
+          "decomposition_max_abs_W_m2": 0.0019367568219337272
+        },
+        "northern-extratropics/cloud-free-area": {
+          "cre_sw_W_m2": 0.8739698866064314,
+          "cre_lw_W_m2": 0.4805662820053854,
+          "cre_net_W_m2": 0.747174655802306,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -41.11319951450459,
+          "window_mean_cre_lw_W_m2": 23.91560441816177,
+          "window_mean_cre_net_W_m2": -17.19816899804976,
+          "decomposition_max_abs_W_m2": 0.0037902776592488863
+        },
+        "southern-extratropics/total-region": {
+          "cre_sw_W_m2": 0.8596996132831414,
+          "cre_lw_W_m2": 0.4266849674186451,
+          "cre_net_W_m2": 0.768294084362566,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -50.29497860883099,
+          "window_mean_cre_lw_W_m2": 24.454906498028738,
+          "window_mean_cre_net_W_m2": -25.840038097846264,
+          "decomposition_max_abs_W_m2": 0.001668465167483646
+        },
+        "southern-extratropics/cloud-free-area": {
+          "cre_sw_W_m2": 0.8609807172391705,
+          "cre_lw_W_m2": 0.473516980229387,
+          "cre_net_W_m2": 0.7534944650364476,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -50.58577347339058,
+          "window_mean_cre_lw_W_m2": 26.132661344270737,
+          "window_mean_cre_net_W_m2": -24.453204860296722,
+          "decomposition_max_abs_W_m2": 0.0023765400422917082
+        },
+        "northern-midlatitudes/total-region": {
+          "cre_sw_W_m2": 1.2022781773046605,
+          "cre_lw_W_m2": 0.6381621825072082,
+          "cre_net_W_m2": 1.0513764111891748,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -47.66365438211965,
+          "window_mean_cre_lw_W_m2": 25.23470416817659,
+          "window_mean_cre_net_W_m2": -22.42898833266293,
+          "decomposition_max_abs_W_m2": 0.0019659254706709817
+        },
+        "northern-midlatitudes/cloud-free-area": {
+          "cre_sw_W_m2": 1.1937822411858456,
+          "cre_lw_W_m2": 0.6399138572350127,
+          "cre_net_W_m2": 1.0370463577614808,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -48.5594879754023,
+          "window_mean_cre_lw_W_m2": 27.66995106556689,
+          "window_mean_cre_net_W_m2": -20.88997775056389,
+          "decomposition_max_abs_W_m2": 0.004139173326567658
+        },
+        "southern-midlatitudes/total-region": {
+          "cre_sw_W_m2": 0.9561814022519878,
+          "cre_lw_W_m2": 0.5445972754112315,
+          "cre_net_W_m2": 0.9444807326536332,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -62.1795411420828,
+          "window_mean_cre_lw_W_m2": 28.482551811588156,
+          "window_mean_cre_net_W_m2": -33.696941739956166,
+          "decomposition_max_abs_W_m2": 0.00208614495340953
+        },
+        "southern-midlatitudes/cloud-free-area": {
+          "cre_sw_W_m2": 0.9477574352152704,
+          "cre_lw_W_m2": 0.5632164045710941,
+          "cre_net_W_m2": 0.9231160063958802,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -62.75162941344775,
+          "window_mean_cre_lw_W_m2": 30.930080019065866,
+          "window_mean_cre_net_W_m2": -31.821736107972175,
+          "decomposition_max_abs_W_m2": 0.002332956242597106
+        },
+        "arctic/total-region": {
+          "cre_sw_W_m2": 1.679023530348625,
+          "cre_lw_W_m2": 0.8073902211291931,
+          "cre_net_W_m2": 1.6533652378516404,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -28.079960353672163,
+          "window_mean_cre_lw_W_m2": 16.281091565676657,
+          "window_mean_cre_net_W_m2": -11.798802494413298,
+          "decomposition_max_abs_W_m2": 0.0032429177796018394
+        },
+        "arctic/cloud-free-area": {
+          "cre_sw_W_m2": 1.6154647093056562,
+          "cre_lw_W_m2": 0.685480655316933,
+          "cre_net_W_m2": 1.6181380985096103,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -28.111403495645266,
+          "window_mean_cre_lw_W_m2": 15.403095897660249,
+          "window_mean_cre_net_W_m2": -12.708341750238615,
+          "decomposition_max_abs_W_m2": 0.007066505548081636
+        },
+        "antarctic/total-region": {
+          "cre_sw_W_m2": 1.5860701598003502,
+          "cre_lw_W_m2": 0.5420148726637497,
+          "cre_net_W_m2": 1.6178199549799344,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -28.67040148341965,
+          "window_mean_cre_lw_W_m2": 17.77863352902928,
+          "window_mean_cre_net_W_m2": -10.89178387299294,
+          "decomposition_max_abs_W_m2": 0.0034753051334561746
+        },
+        "antarctic/cloud-free-area": {
+          "cre_sw_W_m2": 1.5730006628856765,
+          "cre_lw_W_m2": 0.506201116187963,
+          "cre_net_W_m2": 1.6016865802345948,
+          "n_months": 315,
+          "window_mean_cre_sw_W_m2": -28.17497227237006,
+          "window_mean_cre_lw_W_m2": 15.595474525586166,
+          "window_mean_cre_net_W_m2": -12.579330678680272,
+          "decomposition_max_abs_W_m2": 0.007857286895820437
+        }
+      },
+      "published_regional_monthly": {
+        "all_sky_W_m2": {
+          "terra_only": 3.0,
+          "terra_aqua": 2.5
+        },
+        "clear_sky_shortwave_W_m2": {
+          "terra_only": 6.0,
+          "terra_aqua": 5.0
+        },
+        "clear_sky_longwave_W_m2": {
+          "terra_only": 5.0,
+          "terra_aqua": 4.5
+        },
+        "note": "the one standard deviation uncertainty in a one degree regional monthly TOA flux for the Terra-only and the Terra plus Aqua periods, from Loeb and others 2018 as the bundle's EBAF dataset concept carries them; these are regional monthly uncertainties on the fluxes, not on a regional mean of a cloud radiative effect, and they are written here for comparison only, never mixed into the floor above"
+      }
+    },
+    "region": {
+      "statement": "latitude bands of whole one degree zones; no surface type mask, since the subset read carries no surface type field, so a land or ocean region is not resolvable here and the computation refuses one",
+      "regions": {
+        "global": {
+          "latitude_band": [
+            -90.0,
+            90.0
+          ],
+          "weight_share": 1.000013000000001,
+          "zones": 180,
+          "cells_with_a_value": [
+            64800,
+            64800
+          ]
+        },
+        "tropics": {
+          "latitude_band": [
+            -20.0,
+            20.0
+          ],
+          "weight_share": 0.34067200000000003,
+          "zones": 40,
+          "cells_with_a_value": [
+            14400,
+            14400
+          ]
+        },
+        "northern-extratropics": {
+          "latitude_band": [
+            20.0,
+            90.0
+          ],
+          "weight_share": 0.32967099999999994,
+          "zones": 70,
+          "cells_with_a_value": [
+            25200,
+            25200
+          ]
+        },
+        "southern-extratropics": {
+          "latitude_band": [
+            -90.0,
+            -20.0
+          ],
+          "weight_share": 0.3296700000000001,
+          "zones": 70,
+          "cells_with_a_value": [
+            25200,
+            25200
+          ]
+        },
+        "northern-midlatitudes": {
+          "latitude_band": [
+            30.0,
+            60.0
+          ],
+          "weight_share": 0.18336500000000006,
+          "zones": 30,
+          "cells_with_a_value": [
+            10800,
+            10800
+          ]
+        },
+        "southern-midlatitudes": {
+          "latitude_band": [
+            -60.0,
+            -30.0
+          ],
+          "weight_share": 0.18336699999999997,
+          "zones": 30,
+          "cells_with_a_value": [
+            10800,
+            10800
+          ]
+        },
+        "arctic": {
+          "latitude_band": [
+            60.0,
+            90.0
+          ],
+          "weight_share": 0.06747899999999997,
+          "zones": 30,
+          "cells_with_a_value": [
+            10800,
+            10800
+          ]
+        },
+        "antarctic": {
+          "latitude_band": [
+            -90.0,
+            -60.0
+          ],
+          "weight_share": 0.06747700000000001,
+          "zones": 30,
+          "cells_with_a_value": [
+            10800,
+            10800
+          ]
+        }
+      },
+      "grid": "180 by 360 one degree cells, latitude centres -89.5 to 89.5, longitude centres 0.5 to 359.5"
+    },
+    "months": {
+      "cre_fluxes": [
+        "2000-03",
+        "2026-05"
+      ],
+      "cre_fluxes_n_months": 315,
+      "skipped": {}
+    }
+  }
+}

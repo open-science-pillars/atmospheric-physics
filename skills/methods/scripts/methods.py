@@ -3,7 +3,7 @@
 # requires-python = ">=3.10"
 # dependencies = []
 # ///
-"""Write the methods paragraph and the reference list of an attested ASDC
+"""Write the methods paragraph and the reference list of an attested
 run from the receipt's bookkeeping block and the concept's sources, and
 from nothing else.
 
@@ -27,7 +27,7 @@ partial paragraph:
 
   attester-did-not-pass   the attester did not PASS this receipt. A
                           data-root receipt is attested with
-                          --data-root DIR, without which the ASDC
+                          --data-root DIR, without which the
                           attesters take the data digests on the
                           executor's word.
   refused-receipt         a refusal receipt. It carries a reason code
@@ -45,10 +45,9 @@ partial paragraph:
   unknown-computation     a receipt of a computation this catalog does
                           not carry a paragraph for.
 
-The concept, the attester and the receipt's computation are reached at
-the installed provider bundle's path, the way the wrapping skills reach
-them: the installer's record (`claude plugin list --json`), or a
-checkout named by NASA_DAAC_KNOWLEDGE. Nothing is copied here.
+The concept, the attester and the receipt's computation are files of
+this package, reached at `${CLAUDE_PLUGIN_ROOT}` the way the skills
+that run them reach them.
 
 Usage:
   uv run skills/methods/scripts/methods.py RECEIPT.json \
@@ -62,14 +61,13 @@ import argparse
 import json
 import os
 import re
-import shutil
 import subprocess
 import sys
 import tempfile
 from pathlib import Path
 
-PROVIDER_PLUGIN = "nasa-daac-knowledge"
 BUNDLE = "asdc"
+CAPABILITY = "atmospheric-physics"
 REFUSALS = ("attester-did-not-pass", "refused-receipt", "fact-not-in-receipt",
             "source-not-in-concept", "unknown-computation")
 
@@ -79,17 +77,17 @@ REFUSALS = ("attester-did-not-pass", "refused-receipt", "fact-not-in-receipt",
 # paths, and a sentence whose paths the receipt does not carry is
 # dropped and listed as not carried. Nothing here states a fact.
 CATALOG = {
-    "references/computations/cloud_radiative_effect.py": {
+    "skills/cloud-radiative-effect/scripts/cloud_radiative_effect.py": {
         "name": "cloud-radiative-effect",
-        "concept": "computations/cloud-radiative-effect.md",
-        "attester": "references/attesters/cloud_radiative_effect_check.py",
+        "concept": "knowledge/computations/cloud-radiative-effect.md",
+        "attester": "skills/cloud-radiative-effect/scripts/cloud_radiative_effect_check.py",
         "skill": "atmospheric-physics/cloud-radiative-effect",
         "sentences": [
             ("run",
              "The cloud radiative effect at the top of the atmosphere was "
              "computed for the region {region} over {window} with the "
-             "attested computation {concept_path} of the {bundle} provider "
-             "bundle, run {run_id} under the executor {code_sha256}.",
+             "attested computation {concept_path} of the {capability} "
+             "capability, run {run_id} under the executor {code_sha256}.",
              {"region": "bound_parameters.region",
               "window": "bound_parameters.window",
               "run_id": "run_id", "code_sha256": "code_sha256"}),
@@ -210,16 +208,16 @@ CATALOG = {
             "sign": ["dqs"],
         },
     },
-    "references/computations/energy_budget.py": {
+    "skills/energy-budget-closure/scripts/energy_budget.py": {
         "name": "energy-budget",
-        "concept": "computations/energy-budget.md",
-        "attester": "references/attesters/energy_budget_check.py",
+        "concept": "knowledge/computations/energy-budget.md",
+        "attester": "skills/energy-budget-closure/scripts/energy_budget_check.py",
         "skill": "atmospheric-physics/energy-budget-closure",
         "sentences": [
             ("run",
              "The Earth energy budget was closed over {window} with the "
-             "attested computation {concept_path} of the {bundle} provider "
-             "bundle, run {run_id} under the executor {code_sha256}.",
+             "attested computation {concept_path} of the {capability} "
+             "capability, run {run_id} under the executor {code_sha256}.",
              {"window": "bound_parameters.window", "run_id": "run_id",
               "code_sha256": "code_sha256"}),
             ("input",
@@ -354,31 +352,24 @@ def refuse(code: str, message: str):
 
 # ---- the installed bundle
 
-def provider_root() -> Path:
-    """The installed provider plugin's root, from the installer's record."""
-    override = os.environ.get("NASA_DAAC_KNOWLEDGE")
+def package_root() -> Path:
+    """This package's root: `${CLAUDE_PLUGIN_ROOT}` where the runtime
+    sets it, else the package tree this script ships in. The executor,
+    the attester and the concept are files of this package now, so
+    nothing is resolved through an installed provider bundle."""
+    override = os.environ.get("CLAUDE_PLUGIN_ROOT")
     if override:
-        return Path(override).expanduser().resolve()
-    claude = shutil.which("claude")
-    if claude is None:
-        sys.exit("no `claude` on PATH to read the installed-plugin record; "
-                 "set NASA_DAAC_KNOWLEDGE to a checkout of the provider "
-                 "repository instead")
-    rec = subprocess.run([claude, "plugin", "list", "--json"],
-                         capture_output=True, text=True)
-    if rec.returncode != 0:
-        sys.exit(f"`claude plugin list --json` failed: {rec.stderr.strip()}")
-    for entry in json.loads(rec.stdout):
-        if entry.get("id", "").split("@")[0] != PROVIDER_PLUGIN:
-            continue
-        if not entry.get("enabled", True) or entry.get("errors"):
-            sys.exit(f"{entry['id']} is installed but not usable: "
-                     f"{entry.get('errors') or 'disabled'}")
-        return Path(entry["installPath"])
-    sys.exit(f"{PROVIDER_PLUGIN} is not installed; it arrives with this "
-             "plugin's dependencies (`claude plugin install "
-             "atmospheric-physics@open-science-pillars`), or set "
-             "NASA_DAAC_KNOWLEDGE to a checkout of the provider repository")
+        root = Path(override).expanduser().resolve()
+        if not (root / ".osp" / "package.yaml").is_file():
+            sys.exit(f"CLAUDE_PLUGIN_ROOT={root} is no package tree: it "
+                     "carries no .osp/package.yaml")
+        return root
+    here = Path(__file__).resolve().parent
+    for p in (here, *here.parents):
+        if (p / ".osp" / "package.yaml").is_file():
+            return p
+    sys.exit("no CLAUDE_PLUGIN_ROOT in the environment and no package "
+             f"tree above {here}; run this script from its plugin")
 
 
 def attest(receipt_path: Path, attester: Path, data_root=None) -> str:
@@ -517,7 +508,7 @@ def compose(receipt: dict, spec: dict, context: dict):
 
 def write_methods(receipt: dict, spec: dict, concept_path: str,
                   sources, verdict: str, cite_only, cited_only: bool = False):
-    context = {"concept_path": f"knowledge/{BUNDLE}/{concept_path}",
+    context = {"concept_path": concept_path, "capability": CAPABILITY,
                "bundle": BUNDLE}
     written, provenance, missing = compose(receipt, spec, context)
     ids = [entry["id"] for entry in sources]
@@ -525,7 +516,7 @@ def write_methods(receipt: dict, spec: dict, concept_path: str,
         unknown = [want for want in cite_only if want not in ids]
         if unknown:
             refuse("source-not-in-concept",
-                   f"the concept knowledge/{BUNDLE}/{concept_path} carries no "
+                   f"the concept {concept_path} carries no "
                    f"source {', '.join(unknown)}; it carries "
                    f"{', '.join(ids)}. A citation is the concept's source "
                    "entry or it is not written here.")
@@ -548,7 +539,7 @@ def write_methods(receipt: dict, spec: dict, concept_path: str,
              "named in the provenance section, on a receipt the attester "
              "passed. Nothing here is composed freehand and no number is "
              "this capability's own; the computation that owns them is "
-             f"knowledge/{BUNDLE}/{concept_path}, and the footnotes are that "
+             f"{concept_path}, and the footnotes are that "
              "concept's own source entries.", ""]
     lines.append(" ".join(marked))
     lines += ["", "## What this paragraph licenses", "",
@@ -570,7 +561,7 @@ def write_methods(receipt: dict, spec: dict, concept_path: str,
             lines.append(f"- `{name}`: the receipt carries none of "
                          + ", ".join(f"`{gap}`" for gap in gaps))
     lines += ["", "## References", "",
-              f"The source entries knowledge/{BUNDLE}/{concept_path} carries, "
+              f"The source entries {concept_path} carries, "
               "in its own order and its own words. A reference this list does "
               "not carry is not one this skill will write.", ""]
     for entry in sources:
@@ -598,11 +589,11 @@ def run_methods(args) -> int:
                f"this skill carries no paragraph for {computation}; it "
                f"carries {', '.join(sorted(CATALOG))}")
     spec = CATALOG[computation]
-    base = provider_root() / "knowledge" / BUNDLE
+    base = package_root()
     concept, attester = base / spec["concept"], base / spec["attester"]
     for label, path in (("concept", concept), ("attester", attester)):
         if not path.is_file():
-            sys.exit(f"the provider bundle carries no {label} at {path}")
+            sys.exit(f"this package carries no {label} at {path}")
     verdict = attest(receipt_path, attester, args.data_root)
     if receipt.get("refused"):
         refuse("refused-receipt",
@@ -628,9 +619,11 @@ def run_methods(args) -> int:
 
 def selftest() -> int:
     """The paragraph and every refusal, on the executors' fixtures."""
-    base = provider_root() / "knowledge" / BUNDLE
-    cre_exec = base / "references" / "computations" / "cloud_radiative_effect.py"
-    eb_exec = base / "references" / "computations" / "energy_budget.py"
+    base = package_root()
+    cre_exec = (base / "skills" / "cloud-radiative-effect" / "scripts"
+                / "cloud_radiative_effect.py")
+    eb_exec = (base / "skills" / "energy-budget-closure" / "scripts"
+               / "energy_budget.py")
     me = str(Path(__file__).resolve())
 
     def methods(argv):
@@ -678,8 +671,8 @@ def selftest() -> int:
         marked = set(re.findall(r"\[\^([A-Za-z0-9._-]+)\](?!:)", text))
         assert marked and marked <= listed, (marked - listed)
         # and the markers are the concept's own source ids
-        concept = provider_root() / "knowledge" / BUNDLE / CATALOG[
-            "references/computations/cloud_radiative_effect.py"]["concept"]
+        concept = package_root() / CATALOG[
+            "skills/cloud-radiative-effect/scripts/cloud_radiative_effect.py"]["concept"]
         assert marked <= {entry["id"] for entry in concept_sources(concept)}
 
         # 2. The closure paragraph names the anchoring decade and the
@@ -738,7 +731,7 @@ def selftest() -> int:
 
         # 8. The reference list is the concept's own source entries.
         sources = concept_sources(base / CATALOG[
-            "references/computations/cloud_radiative_effect.py"]["concept"])
+            "skills/cloud-radiative-effect/scripts/cloud_radiative_effect.py"]["concept"])
         ids = [entry["id"] for entry in sources]
         assert ids[:3] == ["convention", "gotcha-clear-sky", "dataset"], ids
         assert all(entry.get("title") and entry.get("resource")

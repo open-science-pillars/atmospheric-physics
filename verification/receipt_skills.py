@@ -8,15 +8,14 @@ methods, exercised offline against the expectations committed beside
 this file.
 
 Nothing scientific is reimplemented here and nothing is downloaded. The
-three skills drive the sanctioned executors and attesters in the ASDC
-bundle (knowledge/asdc/references/, under the contracts
-knowledge/asdc/computations/cloud-radiative-effect.md and
-knowledge/asdc/computations/energy-budget.md) on those executors'
-synthetic fixtures, which are generated at run time from the seed the
+three skills drive the sanctioned executors and attesters this package
+carries (skills/<skill>/scripts/, under the contracts
+knowledge/computations/cloud-radiative-effect.md and
+knowledge/computations/energy-budget.md) on those executors' synthetic
+fixtures, which are generated at run time from the seed the
 expectations file names, so this golden is headless and offline with no
-NASA host reachable. The bundle root is resolved by each skill's script
-the way the wrapping skills resolve it: NASA_DAAC_KNOWLEDGE names a
-checkout of the provider repository, else the installer's record.
+NASA host reachable. Each skill's script resolves those paths against
+the package root, at ${CLAUDE_PLUGIN_ROOT} where the runtime sets it.
 
 What is checked, in order:
 

@@ -1,12 +1,12 @@
 ---
 name: energy-budget-closure
-description: "Run the attested energy budget closure of the ASDC bundle, the CERES EBAF net top-of-atmosphere flux against the Argo ocean heat content rate with the published deep ocean and non-ocean terms, through the provider bundle's sanctioned executor, and attest the receipt before quoting any number from it. Keywords: energy budget, Earth energy imbalance, EEI, budget closure, CERES, EBAF, net TOA flux, ocean heat content, Argo, heat inventory, anchoring, anomaly trend."
+description: "Run the attested energy budget closure this capability carries, the CERES EBAF net top-of-atmosphere flux against the Argo ocean heat content rate with the published deep ocean and non-ocean terms, through the sanctioned executor in this skill's scripts, and attest the receipt before quoting any number from it. Keywords: energy budget, Earth energy imbalance, EEI, budget closure, CERES, EBAF, net TOA flux, ocean heat content, Argo, heat inventory, anchoring, anomaly trend."
 ---
 
 # energy-budget-closure
 
 Run instructions for the attested computation
-`knowledge/asdc/computations/energy-budget.md` in the provider bundle:
+`knowledge/computations/energy-budget.md` in this capability:
 over one stated window of calendar months, four rate terms in watts per
 square metre of the Earth's surface with the stamp each came from
 (`toa_net`, `ohc_0_2000`, `deep_ocean`, `non_ocean`), the residual, the
@@ -15,29 +15,30 @@ four terms as energy over the window in zettajoules, and beside them
 the EBAF net flux anomaly against the window's own mean with its linear
 trend, in which the product's anchor cancels.
 
-This capability computes nothing. The contract (the parameter, the
-receipt fields, the refusal codes, the attester criterion) is the
-concept and the executor's own usage text; this skill is the procedure
-an agent follows to run it, and every number it reports is owned by
-that signed concept. Read the concept before the first run, and read
-the bundle's recipe `knowledge/asdc/recipes/energy-budget.md` for how
-to read what comes back.
+This skill carries the computation: the executor and the attester are
+scripts beside this file. The contract (the parameter, the receipt
+fields, the refusal codes, the attester criterion) is the concept and
+the executor's own usage text; this skill is the procedure an agent
+follows to run it, and every number it reports is owned by that signed
+concept. Read the concept before the first run, and read the provider
+bundle's recipe `knowledge/asdc/recipes/energy-budget.md` for how to
+read what comes back.
 
 ## Where the executor is
 
-The provider bundle arrives with the `nasa-daac-knowledge` dependency.
-Its root is the `installPath` of that entry in
-`claude plugin list --json`, which is the installer's own record of
-what is installed; a checkout named by `NASA_DAAC_KNOWLEDGE` is the one
-override, for a workspace that holds the repository beside this one.
-`$ASDC` below stands for `<that root>/knowledge/asdc`:
+The executor, the attester and the two loaders are scripts of this
+skill, and the concept and the data root are in this package beside
+them. `${CLAUDE_PLUGIN_ROOT}` is this package's root as the runtime
+installed it, and `$EB` below stands for
+`${CLAUDE_PLUGIN_ROOT}/skills/energy-budget-closure/scripts`:
 
-- concept: `$ASDC/computations/energy-budget.md`
-- executor: `$ASDC/references/computations/energy_budget.py`
-- attester: `$ASDC/references/attesters/energy_budget_check.py`
-- the committed data root: `$ASDC/references/retrieval/energy-budget-root`
-- the loaders that built it: `$ASDC/references/loaders/eb_ceres_ebaf.py`
-  and `eb_data_root.py`
+- concept: `${CLAUDE_PLUGIN_ROOT}/knowledge/computations/energy-budget.md`
+- executor: `$EB/energy_budget.py`
+- attester: `$EB/energy_budget_check.py`
+- the committed data root:
+  `${CLAUDE_PLUGIN_ROOT}/knowledge/references/retrieval/energy-budget-root`
+- the loaders that built it: `$EB/eb_ceres_ebaf.py` and
+  `$EB/eb_data_root.py`
 
 Never edit the executor or the attester. The attester hashes the
 executor on disk, so an edited computation invalidates every earlier
@@ -69,10 +70,12 @@ two runtime names carries two identifiers and the same numbers.
 It is read from the Argo ocean heat content receipt that the
 ocean-science capability's computation
 (`knowledge/computations/argo-ohc.md` in that capability, executor
-`argo_ohc.py`, wrapped by its `argo-ohc` skill) produced on that
-capability's own committed data root, attested there, and placed in
-this bundle's data root as
-`$ASDC/references/retrieval/energy-budget-root/ohc-2000-receipt.json`.
+`argo_ohc.py`, run by its `argo-ohc` skill) produced on that
+capability's own committed data root, attested there, and committed in
+this package's data root as
+`${CLAUDE_PLUGIN_ROOT}/knowledge/references/retrieval/energy-budget-root/ohc-2000-receipt.json`
+as evidence, with no install dependency on ocean-science declared for
+it.
 The executor copies that receipt's identity (its computation, code
 digest, run id, window, bundle and record) into its own receipt, and
 the attester checks the copy against the tree.
@@ -98,9 +101,9 @@ What follows from that, and belongs in every report:
    on the synthetic fixture or a real run on the committed data root;
    which Argo receipt the ocean side will come from and over what
    window; and what the user means to do with the verdict. Consult the
-   concept and the two gotchas it rests on, and cite all three by bundle
-   path, the concept first, because it is the one that owns every number
-   this run can report: `knowledge/asdc/computations/energy-budget.md`,
+   concept and the two gotchas it rests on, and cite all three by path,
+   the concept first, because it is the one that owns every number
+   this run can report: `knowledge/computations/energy-budget.md`,
    then `knowledge/asdc/gotchas/ebaf-imbalance-anchored-to-ocean-heating.md`
    (the anchor, its decade, and what the ocean data did not set) and
    `knowledge/asdc/gotchas/ebaf-climatology-baseline.md` (the product's
@@ -111,7 +114,7 @@ What follows from that, and belongs in every report:
    records):
 
    ```bash
-   uv run $ASDC/references/computations/energy_budget.py \
+   uv run $EB/energy_budget.py \
      --fixture --seed 7 --window 2006-01:2020-12 \
      --runtime claude-code --receipt /tmp/energy-budget-receipt.json
    ```
@@ -125,8 +128,8 @@ What follows from that, and belongs in every report:
 3. **The real run on the committed data root:**
 
    ```bash
-   uv run $ASDC/references/computations/energy_budget.py \
-     --data-root $ASDC/references/retrieval/energy-budget-root \
+   uv run $EB/energy_budget.py \
+     --data-root ${CLAUDE_PLUGIN_ROOT}/knowledge/references/retrieval/energy-budget-root \
      --window 2006-01:2020-12 \
      --runtime claude-code --receipt /tmp/energy-budget-record.json
    ```
@@ -145,7 +148,7 @@ What follows from that, and belongs in every report:
    in words, and exits 3.
 
    ```bash
-   uv run $ASDC/references/computations/energy_budget.py \
+   uv run $EB/energy_budget.py \
      --fixture --window 1998-01:2005-12 \
      --runtime claude-code --receipt /tmp/refusal.json
    echo $?   # 3, and the receipt carries window-outside-record
@@ -163,7 +166,7 @@ What follows from that, and belongs in every report:
    receipt:
 
    ```bash
-   uv run $ASDC/references/attesters/energy_budget_check.py \
+   uv run $EB/energy_budget_check.py \
      /tmp/energy-budget-receipt.json [--data-root DIR] [--out /tmp/attestation.json]
    ```
 
@@ -218,7 +221,8 @@ What follows from that, and belongs in every report:
 - Never form the anomaly against the product's own climatology; the
   computation forms it against the window's own mean, and the base
   period of that climatology is the anchor decade.
-- Never state a number this release owns. Every figure in a report
-  comes from the receipt or from the concept, cited by bundle path.
+- Never state a number this release owns outside its concept. Every
+  figure in a report comes from the receipt or from the concept, cited
+  by path.
 - Never commit a receipt, an attestation or a generated fixture to this
   repository.

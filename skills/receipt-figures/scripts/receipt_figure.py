@@ -3,7 +3,7 @@
 # requires-python = ">=3.10"
 # dependencies = ["matplotlib"]
 # ///
-"""Draw a figure from an attested ASDC receipt, and from nothing else.
+"""Draw a figure from an attested receipt, and from nothing else.
 
 This is the atmospheric-physics port of the ocean-science receipt-figures
 renderer, with its discipline intact and its modes changed to what these
@@ -45,7 +45,7 @@ partial figure:
 
   attester-did-not-pass    the attester did not PASS this receipt. A
                            data-root receipt is attested with
-                           --data-root DIR, without which the ASDC
+                           --data-root DIR, without which the
                            attesters take the data digests on the
                            executor's word.
   refused-receipt          a refusal receipt. It carries a reason code
@@ -76,9 +76,8 @@ partial figure:
                            improvised.
 
 The attester is named by --attester: a path, or a bare name resolved
-under the installed provider plugin's knowledge/asdc/references/attesters
-(the installer's record via `claude plugin list --json`, or a checkout
-named by NASA_DAAC_KNOWLEDGE). Nothing is copied here.
+in the scripts of the skill that runs the computation, under
+`${CLAUDE_PLUGIN_ROOT}`.
 
 Usage:
   uv run skills/receipt-figures/scripts/receipt_figure.py budget RECEIPT.json \
@@ -97,14 +96,12 @@ import datetime as dt
 import hashlib
 import json
 import os
-import shutil
 import subprocess
 import sys
 import tempfile
 import textwrap
 from pathlib import Path
 
-PROVIDER_PLUGIN = "nasa-daac-knowledge"
 BUNDLE = "asdc"
 REFUSALS = ("attester-did-not-pass", "refused-receipt",
             "receipt-not-for-this-mode", "array-not-in-receipt",
@@ -133,42 +130,36 @@ def refuse(code: str, message: str):
 
 # ---- the installed bundle
 
-def provider_root() -> Path:
-    """The installed provider plugin's root, from the installer's record."""
-    override = os.environ.get("NASA_DAAC_KNOWLEDGE")
+def package_root() -> Path:
+    """This package's root: `${CLAUDE_PLUGIN_ROOT}` where the runtime
+    sets it, else the package tree this script ships in. The executor,
+    the attester and the concept are files of this package now, so
+    nothing is resolved through an installed provider bundle."""
+    override = os.environ.get("CLAUDE_PLUGIN_ROOT")
     if override:
-        return Path(override).expanduser().resolve()
-    claude = shutil.which("claude")
-    if claude is None:
-        sys.exit("no `claude` on PATH to read the installed-plugin record; "
-                 "set NASA_DAAC_KNOWLEDGE to a checkout of the provider "
-                 "repository instead")
-    rec = subprocess.run([claude, "plugin", "list", "--json"],
-                         capture_output=True, text=True)
-    if rec.returncode != 0:
-        sys.exit(f"`claude plugin list --json` failed: {rec.stderr.strip()}")
-    for entry in json.loads(rec.stdout):
-        if entry.get("id", "").split("@")[0] != PROVIDER_PLUGIN:
-            continue
-        if not entry.get("enabled", True) or entry.get("errors"):
-            sys.exit(f"{entry['id']} is installed but not usable: "
-                     f"{entry.get('errors') or 'disabled'}")
-        return Path(entry["installPath"])
-    sys.exit(f"{PROVIDER_PLUGIN} is not installed; it arrives with this "
-             "plugin's dependencies (`claude plugin install "
-             "atmospheric-physics@open-science-pillars`), or set "
-             "NASA_DAAC_KNOWLEDGE to a checkout of the provider repository")
+        root = Path(override).expanduser().resolve()
+        if not (root / ".osp" / "package.yaml").is_file():
+            sys.exit(f"CLAUDE_PLUGIN_ROOT={root} is no package tree: it "
+                     "carries no .osp/package.yaml")
+        return root
+    here = Path(__file__).resolve().parent
+    for p in (here, *here.parents):
+        if (p / ".osp" / "package.yaml").is_file():
+            return p
+    sys.exit("no CLAUDE_PLUGIN_ROOT in the environment and no package "
+             f"tree above {here}; run this script from its plugin")
 
 
 def resolve_attester(name: str) -> Path:
     p = Path(name).expanduser()
     if p.is_file():
         return p.resolve()
-    candidate = (provider_root() / "knowledge" / BUNDLE / "references"
-                 / "attesters" / (name if name.endswith(".py") else name + ".py"))
-    if not candidate.is_file():
-        sys.exit(f"attester {name} not found at {candidate}")
-    return candidate
+    stem = name if name.endswith(".py") else name + ".py"
+    hits = sorted(package_root().glob(f"skills/*/scripts/{stem}"))
+    if len(hits) != 1:
+        sys.exit(f"attester {name} not found in this package's skills: "
+                 f"{[str(h) for h in hits] or 'no match'}")
+    return hits[0]
 
 
 def attest(receipt_path: Path, attester: Path, data_root=None) -> str:
@@ -531,11 +522,13 @@ def render(args) -> int:
 
 def selftest() -> int:
     """Every mode and every refusal, on the executors' fixtures."""
-    root = provider_root() / "knowledge" / BUNDLE
-    cre_exec = root / "references" / "computations" / "cloud_radiative_effect.py"
-    eb_exec = root / "references" / "computations" / "energy_budget.py"
-    cre_att = root / "references" / "attesters" / "cloud_radiative_effect_check.py"
-    eb_att = root / "references" / "attesters" / "energy_budget_check.py"
+    root = package_root()
+    cre = root / "skills" / "cloud-radiative-effect" / "scripts"
+    eb = root / "skills" / "energy-budget-closure" / "scripts"
+    cre_exec = cre / "cloud_radiative_effect.py"
+    eb_exec = eb / "energy_budget.py"
+    cre_att = cre / "cloud_radiative_effect_check.py"
+    eb_att = eb / "energy_budget_check.py"
     me = str(Path(__file__).resolve())
 
     def figure(argv):

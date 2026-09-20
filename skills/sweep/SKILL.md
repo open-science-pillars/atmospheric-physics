@@ -1,6 +1,6 @@
 ---
 name: sweep
-description: "Sweep one parameter an attested ASDC computation declares and table the receipts: the sanctioned executor once per value, the attester on every receipt before any field is read, and a CSV, a markdown table and a JSON manifest of the executor's own headline fields, with a refused run as a row carrying its refusal code. Keywords: parameter sweep, every region, both clear-sky conventions, total-region, cloud-free-area, convention contrast, window dependence, sensitivity, table of runs, cloud radiative effect by region, energy budget closure over many windows."
+description: "Sweep one parameter an attested computation of this capability declares and table the receipts: the sanctioned executor once per value, the attester on every receipt before any field is read, and a CSV, a markdown table and a JSON manifest of the executor's own headline fields, with a refused run as a row carrying its refusal code. Keywords: parameter sweep, every region, both clear-sky conventions, total-region, cloud-free-area, convention contrast, window dependence, sensitivity, table of runs, cloud radiative effect by region, energy budget closure over many windows."
 ---
 
 # sweep
@@ -9,8 +9,8 @@ This skill computes nothing. Every number it puts in a table is a field
 of one receipt that the provider bundle's attester passed, copied by
 the receipt field path the script records beside each column, and the
 computation that owns those numbers is the concept the sweep names
-(`knowledge/asdc/computations/cloud-radiative-effect.md` for the cloud
-radiative effect, `knowledge/asdc/computations/energy-budget.md` for
+(`knowledge/computations/cloud-radiative-effect.md` for the cloud
+radiative effect, `knowledge/computations/energy-budget.md` for
 the closure). The script fits nothing, averages nothing and carries no
 expected value of its own. What the sweep adds is arrangement: a
 concept states its boundaries in prose from a handful of runs someone
@@ -37,24 +37,24 @@ at a time.
 
 ## Where the executors, the attesters and the concepts are
 
-The provider bundle is installed with the nasa-daac-knowledge
-dependency; its root is the `installPath` of that entry in
-`claude plugin list --json`, or a checkout named by
-`NASA_DAAC_KNOWLEDGE`. The script resolves it that way, exactly as the
-wrapping skills and the receipt-figures renderer do, and copies nothing
-into this repository. `$ASDC` below stands for
-`<that root>/knowledge/asdc`:
+Both computations are carried by this package, and the script
+resolves them at `${CLAUDE_PLUGIN_ROOT}`, exactly as the skills that
+run them and the receipt-figures renderer do. `$ROOT` below stands for
+`${CLAUDE_PLUGIN_ROOT}`:
 
 - `--computation cloud-radiative-effect`: concept
-  `$ASDC/computations/cloud-radiative-effect.md`, executor
-  `$ASDC/references/computations/cloud_radiative_effect.py`, attester
-  `$ASDC/references/attesters/cloud_radiative_effect_check.py`, data
-  root `$ASDC/references/retrieval/cloud-radiative-effect-root`.
+  `$ROOT/knowledge/computations/cloud-radiative-effect.md`, executor
+  `$ROOT/skills/cloud-radiative-effect/scripts/cloud_radiative_effect.py`,
+  attester
+  `$ROOT/skills/cloud-radiative-effect/scripts/cloud_radiative_effect_check.py`,
+  data root
+  `$ROOT/knowledge/references/retrieval/cloud-radiative-effect-root`.
 - `--computation energy-budget`: concept
-  `$ASDC/computations/energy-budget.md`, executor
-  `$ASDC/references/computations/energy_budget.py`, attester
-  `$ASDC/references/attesters/energy_budget_check.py`, data root
-  `$ASDC/references/retrieval/energy-budget-root`.
+  `$ROOT/knowledge/computations/energy-budget.md`, executor
+  `$ROOT/skills/energy-budget-closure/scripts/energy_budget.py`,
+  attester
+  `$ROOT/skills/energy-budget-closure/scripts/energy_budget_check.py`,
+  data root `$ROOT/knowledge/references/retrieval/energy-budget-root`.
 
 The declared parameter set is read from each concept's frontmatter, not
 kept as a list in the script. A declared parameter whose name carries
@@ -74,7 +74,7 @@ uv run skills/sweep/scripts/sweep.py \
   --computation cloud-radiative-effect --parameter region \
   --values global,tropics,northern-extratropics,southern-extratropics,northern-midlatitudes,southern-midlatitudes,arctic,antarctic \
   --fixed window=2005-07:2015-06 --fixed clear_sky=total-region \
-  --input data-root --data-root $ASDC/references/retrieval/cloud-radiative-effect-root \
+  --input data-root --data-root $ROOT/knowledge/references/retrieval/cloud-radiative-effect-root \
   --runtime claude-code --capability-root . \
   --out-dir /tmp/sweep-cre-regions
 ```
@@ -84,14 +84,14 @@ uv run skills/sweep/scripts/sweep.py \
   rule in months that expands to explicit values, which the manifest
   and every row then carry.
 - `--fixed NAME=VALUE` states another declared parameter. Every
-  parameter both ASDC computations declare is required, so
+  parameter both computations declare is required, so
   `NAME=unbound` here makes the executor reject the run rather than
   produce a receipt; state a value.
 - `--input fixture [--seed N]` rehearses on the executor's synthetic
   record; `--input data-root DIR` is a real run on a stamped tree. One
   input for the whole sweep: a table is one method on one root. The
   tree is given to the attester as well as to the executor, because
-  without it the ASDC attesters take the data digests on the executor's
+  without it the attesters take the data digests on the executor's
   word and do not reproduce a data-root refusal at all.
 - `--runtime NAME` is passed to every run (from Claude Code, pass
   `--runtime claude-code`), and `--capability-root DIR` names the

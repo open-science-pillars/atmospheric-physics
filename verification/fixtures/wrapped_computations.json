@@ -1,20 +1,20 @@
 {
   "about": [
-    "The expected values of the two wrapping chains this capability carries, one entry per skill.",
-    "Every number here is quoted from the Reference run section of the concept named in `concept`,",
-    "which is signed stable in the nasa-daac-knowledge asdc bundle. This capability computes nothing",
-    "and owns none of these numbers: the fixture exists so the golden fails when a chain stops",
-    "reproducing what the signed concept records, not so that a number can be asserted here.",
-    "The run identifier of a fixture run is bound to the runtime name, so it is deliberately not",
-    "asserted; the values below are the same under any runtime name."
+    "The expected values of the fixture run of each attested computation this capability carries,",
+    "one entry per skill. Every number here is quoted from the Reference run section of the concept",
+    "named in `concept`, which this package owns and which the move of 2026-09-20 left at status",
+    "draft pending the maintainer's re-sign: the fixture exists so the golden fails when a chain",
+    "stops reproducing what the concept records, not so that a number can be asserted here.",
+    "The run identifier of a fixture run is bound to the runtime name and to the package the run is",
+    "evidence for, so it is deliberately not asserted; the values below are the same under any name."
   ],
-  "recorded": "2026-09-19",
+  "recorded": "2026-09-19, re-read at the new paths on 2026-09-20 without a number moving",
   "chains": [
     {
       "skill": "energy-budget-closure",
-      "concept": "knowledge/asdc/computations/energy-budget.md",
-      "executor": "references/computations/energy_budget.py",
-      "attester": "references/attesters/energy_budget_check.py",
+      "concept": "knowledge/computations/energy-budget.md",
+      "executor": "skills/energy-budget-closure/scripts/energy_budget.py",
+      "attester": "skills/energy-budget-closure/scripts/energy_budget_check.py",
       "quoted_from": "the concept's Reference run section, the fixture run at seed 7 over 2006-01 through 2020-12",
       "bound_parameters": {"window": "2006-01:2020-12"},
       "args": ["--window", "2006-01:2020-12"],
@@ -44,9 +44,9 @@
     },
     {
       "skill": "cloud-radiative-effect",
-      "concept": "knowledge/asdc/computations/cloud-radiative-effect.md",
-      "executor": "references/computations/cloud_radiative_effect.py",
-      "attester": "references/attesters/cloud_radiative_effect_check.py",
+      "concept": "knowledge/computations/cloud-radiative-effect.md",
+      "executor": "skills/cloud-radiative-effect/scripts/cloud_radiative_effect.py",
+      "attester": "skills/cloud-radiative-effect/scripts/cloud_radiative_effect_check.py",
       "quoted_from": "the concept's Reference runs section, the fixture run at seed 7 over 2006-01 through 2020-12, global, total-region",
       "bound_parameters": {"window": "2006-01:2020-12", "region": "global", "clear_sky": "total-region"},
       "args": ["--window", "2006-01:2020-12", "--region", "global", "--clear-sky", "total-region"],

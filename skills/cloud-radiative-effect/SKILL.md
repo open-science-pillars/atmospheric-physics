@@ -1,13 +1,13 @@
 ---
 name: cloud-radiative-effect
-description: "Run the attested cloud radiative effect of the ASDC bundle, the CERES EBAF all-sky flux minus the clear-sky flux of a clear-sky convention the user chooses deliberately, through the provider bundle's sanctioned executor, and attest the receipt before quoting any number from it. Keywords: cloud radiative effect, CRE, cloud forcing, clear-sky, cloud-free area, total region, convention, shortwave, longwave, net, CERES, EBAF, radiation budget, region, latitude band."
+description: "Run the attested cloud radiative effect this capability carries, the CERES EBAF all-sky flux minus the clear-sky flux of a clear-sky convention the user chooses deliberately, through the sanctioned executor in this skill's scripts, and attest the receipt before quoting any number from it. Keywords: cloud radiative effect, CRE, cloud forcing, clear-sky, cloud-free area, total region, convention, shortwave, longwave, net, CERES, EBAF, radiation budget, region, latitude band."
 ---
 
 # cloud-radiative-effect
 
 Run instructions for the attested computation
-`knowledge/asdc/computations/cloud-radiative-effect.md` in the provider
-bundle: over one stated window and one stated region, the shortwave,
+`knowledge/computations/cloud-radiative-effect.md` in this
+capability: over one stated window and one stated region, the shortwave,
 longwave and net effect of clouds on the top-of-atmosphere radiation
 budget as the difference between the all-sky and the clear-sky fluxes
 of the energy balanced product, each with an uncertainty and the stamp
@@ -16,29 +16,30 @@ verdict `decomposition_closes`, the same three terms under the other
 clear-sky convention beside them, and the distance from the published
 global mean where the run is of its region, convention and period.
 
-This capability computes nothing. The contract (the parameters, the
-receipt fields, the refusal codes, the attester criterion) is the
-concept and the executor's own usage text; this skill is the procedure
-an agent follows to run it, and every number it reports is owned by
-that signed concept. Read the concept before the first run, and the
+This skill carries the computation: the executor and the attester are
+scripts beside this file. The contract (the parameters, the receipt
+fields, the refusal codes, the attester criterion) is the concept and
+the executor's own usage text; this skill is the procedure an agent
+follows to run it, and every number it reports is owned by that signed
+concept. Read the concept before the first run, and the provider
 bundle's recipe `knowledge/asdc/recipes/cloud-radiative-effect.md` for
 how to read what comes back.
 
 ## Where the executor is
 
-The provider bundle arrives with the `nasa-daac-knowledge` dependency.
-Its root is the `installPath` of that entry in
-`claude plugin list --json`, which is the installer's own record of
-what is installed; a checkout named by `NASA_DAAC_KNOWLEDGE` is the one
-override, for a workspace that holds the repository beside this one.
-`$ASDC` below stands for `<that root>/knowledge/asdc`:
+The executor, the attester and the two loaders are scripts of this
+skill, and the concept and the data root are in this package beside
+them. `${CLAUDE_PLUGIN_ROOT}` is this package's root as the runtime
+installed it, and `$CRE` below stands for
+`${CLAUDE_PLUGIN_ROOT}/skills/cloud-radiative-effect/scripts`:
 
-- concept: `$ASDC/computations/cloud-radiative-effect.md`
-- executor: `$ASDC/references/computations/cloud_radiative_effect.py`
-- attester: `$ASDC/references/attesters/cloud_radiative_effect_check.py`
-- the committed data root: `$ASDC/references/retrieval/cloud-radiative-effect-root`
-- the loaders that built it: `$ASDC/references/loaders/cre_ceres_fluxes.py`
-  and `cre_data_root.py`
+- concept: `${CLAUDE_PLUGIN_ROOT}/knowledge/computations/cloud-radiative-effect.md`
+- executor: `$CRE/cloud_radiative_effect.py`
+- attester: `$CRE/cloud_radiative_effect_check.py`
+- the committed data root:
+  `${CLAUDE_PLUGIN_ROOT}/knowledge/references/retrieval/cloud-radiative-effect-root`
+- the loaders that built it: `$CRE/cre_ceres_fluxes.py` and
+  `$CRE/cre_data_root.py`
 
 Never edit the executor or the attester. The attester hashes the
 executor on disk, so an edited computation invalidates every earlier
@@ -113,16 +114,16 @@ conventions by a single global number.
    user chose and why, and whether the run is a rehearsal on the
    synthetic fixture or a real run on the committed data root. Consult
    the concept, the convention concept and the clear-sky gotcha, and
-   cite all three by bundle path, the concept first, because it is the
+   cite all three by path, the concept first, because it is the
    one that owns every number this run can report:
-   `knowledge/asdc/computations/cloud-radiative-effect.md`,
+   `knowledge/computations/cloud-radiative-effect.md`,
    `knowledge/asdc/conventions/ceres-clear-sky-conventions.md` and
    `knowledge/asdc/gotchas/ebaf-clear-sky-definitions.md`.
 2. **The fixture run** (the rehearsal, and the reference the concept
    records):
 
    ```bash
-   uv run $ASDC/references/computations/cloud_radiative_effect.py \
+   uv run $CRE/cloud_radiative_effect.py \
      --fixture --seed 7 --window 2006-01:2020-12 \
      --region global --clear-sky total-region \
      --runtime claude-code --receipt /tmp/cre-receipt.json
@@ -137,8 +138,8 @@ conventions by a single global number.
 3. **The real run on the committed data root:**
 
    ```bash
-   uv run $ASDC/references/computations/cloud_radiative_effect.py \
-     --data-root $ASDC/references/retrieval/cloud-radiative-effect-root \
+   uv run $CRE/cloud_radiative_effect.py \
+     --data-root ${CLAUDE_PLUGIN_ROOT}/knowledge/references/retrieval/cloud-radiative-effect-root \
      --window 2005-07:2015-06 --region global --clear-sky cloud-free-area \
      --runtime claude-code --receipt /tmp/cre-record.json
    ```
@@ -154,7 +155,7 @@ conventions by a single global number.
    in words, and exits 3.
 
    ```bash
-   uv run $ASDC/references/computations/cloud_radiative_effect.py \
+   uv run $CRE/cloud_radiative_effect.py \
      --fixture --window 2006-01:2020-12 --region global --clear-sky pristine \
      --runtime claude-code --receipt /tmp/refusal.json
    echo $?   # 3, and the receipt carries clear-sky-convention-not-carried
@@ -174,7 +175,7 @@ conventions by a single global number.
    receipt:
 
    ```bash
-   uv run $ASDC/references/attesters/cloud_radiative_effect_check.py \
+   uv run $CRE/cloud_radiative_effect_check.py \
      /tmp/cre-receipt.json [--data-root DIR] [--out /tmp/attestation.json]
    ```
 
@@ -228,7 +229,8 @@ conventions by a single global number.
   the computation refuses or a convention the product does not carry.
 - Never report the published distance for a run whose region,
   convention or period is not the published figure's.
-- Never state a number this release owns. Every figure in a report
-  comes from the receipt or from the concept, cited by bundle path.
+- Never state a number this release owns outside its concept. Every
+  figure in a report comes from the receipt or from the concept, cited
+  by path.
 - Never commit a receipt, an attestation or a generated fixture to this
   repository.

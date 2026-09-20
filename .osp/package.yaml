@@ -1,13 +1,17 @@
-# Package identity, content, dependencies, presentation metadata and REACH
-# (ADR B). The Claude package files and the Agent Plugins package are
-# rendered from this file by build-kit's osp.py render; the gate fails on
-# a hand edit to any of them.
+# Package identity, content, dependencies, presentation metadata and the
+# runtime projections (ADR B). The Claude package files and the Agent
+# Plugins package are rendered from this file by build-kit's osp.py
+# render; the gate fails on a hand edit to any of them.
 #
-# A wrap-only release (ADR D): the content is the wrapping skills, this
-# capability's own bundle and the golden that proves the chains. The
-# scientific concepts arrive with the nasa-daac-knowledge dependency and
-# are never copied here, so the floor below is the release that carries
-# the executor.skill keys of the computations these skills wrap.
+# A computation is a skill (ADR E): the content is the two attested
+# computations this capability owns, each concept under knowledge/ with
+# its executor, attester and loaders in the scripts of the skill that
+# runs it, the stamped data roots beside them as data, the three receipt
+# skills over their receipts, and the goldens that prove every script.
+# The dependency below stays because the dataset, convention, gotcha and
+# recipe concepts about the CERES products are the provider bundle's and
+# are cited, never copied; the floor is unchanged, because nothing this
+# capability runs comes from that bundle any more.
 schema_version: 1
 package:
   name: atmospheric-physics
@@ -24,9 +28,9 @@ dependencies:
   - name: nasa-daac-knowledge
     version: '>=2026.9.4'
 metadata:
-  description: 'Atmospheric physics: run instructions for the attested radiation budget computations signed
-    in the ASDC bundle, the CERES EBAF energy budget closure and the cloud radiative effect at the top of
-    the atmosphere.'
+  description: 'Atmospheric physics: the attested radiation budget computations over the CERES EBAF
+    products, the energy budget closure against the Argo ocean heat content receipt and the cloud radiative
+    effect at the top of the atmosphere, each with its executor, its attester and its golden.'
   keywords:
   - atmospheric-physics
   - atmosphere

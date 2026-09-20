@@ -50,19 +50,17 @@ probes:
     skill: energy-budget-closure
     prompt: Close the Earth's energy budget over 2006 through 2020 from the CERES EBAF net top-of-atmosphere
       flux and the Argo ocean heat content receipt, and show me the plan before anything is run.
-    # The sibling capabilities expect their own package name here, because a
-    # skill that computes something says whose computation it is. A wrapping
-    # skill does the opposite on purpose: every number it can report is owned
-    # by a concept in the provider bundle, and the skill names that concept by
-    # bundle path and never claims it. So the expectation is the concept path
-    # and the ocean side's provenance, which the skill must state before any
-    # run, and a plan that omitted either would be the failure worth catching.
+    # A skill that computes something says whose computation it is, and
+    # since the move this one is this package's: the expectation is the
+    # concept's path here and the ocean side's provenance, which the skill
+    # must state before any run, and a plan that omitted either would be the
+    # failure worth catching.
     expect:
-    - knowledge/asdc/computations/energy-budget[.]md
+    - knowledge/computations/energy-budget[.]md
     - receipt
   prove:
-    prompt: 'Run this capability''s wrapping golden on the provider bundle''s synthetic fixture and report
-      the verdict and the residual it prints. The command is: uv run ${PLUGIN_ROOT}/verification/wrapped_computations.py
+    prompt: 'Run this capability''s fixture golden on the energy budget computation''s synthetic fixture
+      and report the verdict and the residual it prints. The command is: uv run ${PLUGIN_ROOT}/verification/wrapped_computations.py
       --runtime ${RUNTIME} --out ${WORK}/receipt.json'
     receipt: ${WORK}/receipt.json
     command:

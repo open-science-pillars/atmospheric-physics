@@ -1,25 +1,28 @@
 name: goldens
 # The goldens under verification/, each named here with the command that
-# runs it (the placement rule, P5: a golden the workflow does not list is
-# a golden nothing runs).
+# runs it.
 #
-# verification/wrapped_computations.py exercises both wrapping skills'
-# chains: for each, the provider bundle's sanctioned executor on its
-# synthetic fixture, the attester on the receipt, the receipt against the
-# values the signed concept records, and the chain's refusal case. The
-# fixture it reads is the committed expectations file under
-# verification/fixtures/ (provenance in the README there). The job reads
-# no live service, needs no credential and carries no secret.
+# verification/energy_budget_chain.py and
+# verification/cloud_radiative_effect_chain.py are the chains the
+# provider bundle's check routine ran before the computations moved
+# here: for each, the attester's selftest, both loaders' selftests, the
+# executor on its synthetic fixture, the attester on the receipt, the
+# receipt against the values the concept records, the chain's refusal
+# case, the committed data root's manifest check and the anchored
+# real-data run attested against the tree. The cloud radiative effect
+# golden also runs the eight regions on both clear-sky conventions and
+# holds the sign reversal of the convention difference over the polar
+# bands. Both read the executors, the attesters, the concepts and the
+# data roots of this package, need no credential, carry no secret and
+# reach no live service.
 #
-# The executors and attesters live in the provider bundle and are never
-# copied here, so the job checks that repository out beside the plugin
-# and names it the way a skill's override does: NASA_DAAC_KNOWLEDGE. On
-# an installed plugin the same golden resolves the bundle through the
-# installer's record instead.
-#
-# verification/wrapped_computations.py is also the release qualification
-# surface (.osp/surfaces.yaml) and runs there with the qualification
-# prompts.
+# verification/wrapped_computations.py exercises both chains' fixture
+# runs the way a skill runs them: the executor on its fixture, the
+# attester on the receipt, the receipt against the values the concept
+# records, and the chain's refusal case. The expectations it reads are
+# committed under verification/fixtures/ (provenance in the README
+# there). It is also the release qualification surface
+# (.osp/surfaces.yaml) and runs there with the qualification prompts.
 #
 # verification/receipt_skills.py exercises the three receipt skills
 # (sweep, receipt-figures, methods): each script's own selftest, three
@@ -31,9 +34,7 @@ name: goldens
 # the refusals each script enforces, the aggregate across the two
 # clear-sky conventions among them. No bit-exact digest of a derived
 # float is recorded or asserted, because a window mean is not
-# bit-reproducible across interpreters. It drives the same provider
-# executors and attesters on their synthetic fixtures, reads no live
-# service, needs no credential and carries no secret.
+# bit-reproducible across interpreters.
 on:
   pull_request:
   push:
@@ -50,16 +51,12 @@ jobs:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           path: plugin
-      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
-        with:
-          repository: open-science-pillars/nasa-daac-knowledge
-          path: nasa-daac-knowledge
       - uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5
-      - name: Both wrapping chains pass offline on the committed fixture
-        env:
-          NASA_DAAC_KNOWLEDGE: ${{ github.workspace }}/nasa-daac-knowledge
+      - name: The energy budget chain passes offline on the committed root
+        run: uv run verification/energy_budget_chain.py
+      - name: The cloud radiative effect chain passes offline on the committed root
+        run: uv run verification/cloud_radiative_effect_chain.py
+      - name: Both fixture chains pass offline on the committed expectations
         run: uv run verification/wrapped_computations.py
       - name: The three receipt skills pass offline on the committed expectations
-        env:
-          NASA_DAAC_KNOWLEDGE: ${{ github.workspace }}/nasa-daac-knowledge
         run: uv run verification/receipt_skills.py

@@ -1,0 +1,110 @@
+{
+  "purpose": "provenance of the inputs of the cloud radiative effect data root: the CERES EBAF Edition 4.2.1 product subset the flux loader read, the CERES one degree zonal geodetic weights it weighted the fields with, and the documents and registry records read to describe them; the product file itself is never committed",
+  "credentials": "Earthdata Login bearer token from the environment sent as a request header on the second attempt of the OPeNDAP download only (the first attempt, without it, answered 401); the token is not recorded here or anywhere in this root",
+  "downloads": [
+    {
+      "term": "cre-fluxes",
+      "product": "CERES EBAF TOA and Surface Fluxes, Edition 4.2.1 (Revised data Release Date March 14, 2025), the combined collection CERES_EBAF Edition4.2.1",
+      "collection_concept_id": "C3880496704-LARC_CLOUD",
+      "doi": "10.5067/TERRA-AQUA-NOAA20/CERES/EBAF_L3B004.2.1",
+      "granule": "CERES_EBAF_Edition4.2.1_200003-202605.nc",
+      "granule_size_mb_cmr": 1983.76,
+      "query": "https://cmr.earthdata.nasa.gov/search/granules.json?collection_concept_id=C3880496704-LARC_CLOUD&page_size=10 on 2026-09-19: three granules (through 2025-12, 2026-03 and 2026-05); the newest was read",
+      "url": "https://opendap.earthdata.nasa.gov/collections/C3880496704-LARC_CLOUD/granules/CERES_EBAF_Edition4.2.1_200003-202605.nc.nc4?toa_sw_all_mon,toa_lw_all_mon,toa_net_all_mon,toa_sw_clr_t_mon,toa_lw_clr_t_mon,toa_net_clr_t_mon,toa_sw_clr_c_mon,toa_lw_clr_c_mon,toa_net_clr_c_mon,toa_cre_sw_mon,toa_cre_lw_mon,toa_cre_net_mon,gtoa_sw_all_mon,gtoa_lw_all_mon,gtoa_net_all_mon,gtoa_sw_clr_t_mon,gtoa_lw_clr_t_mon,gtoa_net_clr_t_mon,gtoa_sw_clr_c_mon,gtoa_lw_clr_c_mon,gtoa_net_clr_c_mon,gtoa_cre_sw_mon,gtoa_cre_lw_mon,gtoa_cre_net_mon,lat,lon,time",
+      "what": "a netCDF-4 subset served by the ASDC OPeNDAP (Hyrax) endpoint carrying the twenty-four flux variables the loader reads and their coordinates: the three all-sky bands, the three bands of each of the two clear-sky conventions, the product's own three cloud radiative effect variables, the twelve matching gtoa_ global means, and lat, lon and time; the file's global attributes (title, version, DOI, institution, Conventions, comment) travel with the subset",
+      "file": "CERES_EBAF_Edition4.2.1_200003-202605.subset.nc",
+      "files": 1,
+      "total_bytes": 553908789,
+      "retrieved_utc": "2026-09-19T06:38:18Z",
+      "status": 200,
+      "attempts": "401 without credentials at 2026-09-19T06:38:16Z, then 200 with the bearer token",
+      "sha256": "sha256:66dcc604094fb2e20e26c5103d75c11ddf11920c730a6b4d7c36a8284f88fb0b",
+      "verification": "HTTP 200, opened with netCDF4; 315 monthly fields 2000-03 through 2026-05, 180 by 360 cells, every cell of every field carrying a value in every month; the zonal geodetic weights below applied to each of the nine regional fields reproduce the product's own gtoa_ global means to a maximum difference of 4.5e-4 W m-2 across the 315 months, and the total-region cloud radiative effect formed from them reproduces the product's own gtoa_cre_ variables to 4.1e-5 (shortwave), 1.4e-5 (longwave) and 1.5e-3 (net) W m-2"
+    },
+    {
+      "term": "weights",
+      "what": "the CERES geodetic one degree zonal weights, 180 zones summing to 1.000013, the weights the product's own global means are formed with; linked from the CERES general product information page's geodetic zone weights section, whose text gives the oblate spheroid (equatorial radius 6378.137 km, polar radius 6356.752314245 km) and the solar division factor 4.0034 rather than 4",
+      "url": "https://ceres.larc.nasa.gov/documents/GZWdata/zone_weights_lou.txt",
+      "file": "zone_weights_lou.txt",
+      "total_bytes": 4244,
+      "retrieved_utc": "2026-09-19T06:39:26Z",
+      "status": 200,
+      "attempts": "200 without credentials",
+      "sha256": "sha256:962c14e814331233074ce102b1e80cbf440983a00b17698395aa67ea541f4e61",
+      "verification": "180 one degree zonal weights read, centres -89.50 through 89.50, the sum 1.000013; the same file and hash the bundle's energy budget data root records"
+    }
+  ],
+  "not_retrieved": [
+    {
+      "url": "https://data.asdc.earthdata.nasa.gov/asdc-prod-protected/CERES/CERES_EBAF_Edition4.2.1/CERES_EBAF_Edition4.2.1_200003-202605.nc",
+      "product": "the full 1983 MB EBAF granule from the archive host",
+      "attempted_utc": "not attempted on 2026-09-19",
+      "status": "not attempted: the bundle's energy budget data root records that this host redirects to a content distribution host the drafting environment's egress policy refuses at the connection (CONNECT answered 403) and that the OPeNDAP subset carries the same fields; the subsetting service answered in full here, so the full granule was not needed"
+    }
+  ],
+  "documents_read": [
+    {
+      "url": "https://ceres.larc.nasa.gov/documents/DQ_summaries/CERES_EBAF_Ed4.2_DQS.pdf",
+      "what": "CERES_EBAF_Ed4.2 and Ed4.2.1 Data Quality Summary, version 8, released 9/10/2026, 41 pages, read 2026-09-19: the clear-sky gap problem and its filling, the total-region clear-sky flux added at Edition 4.1 and the statement that the cloud radiative effects of Edition 4.2 are determined from it where Edition 4.0 used the cloud-free portions only, the cautions that cloud radiative effects are computed as all-sky flux minus clear-sky flux and that the net flux is downward minus upward, the unphysical cloud effect signs under the cloud-free-area definition, and the statement that global means are determined using zonal geodetic weights",
+      "retrieved_utc": "2026-09-19T06:30:22Z",
+      "total_bytes": 4320249,
+      "sha256": "sha256:8b00f86c168f8a93ada6ec59a5cc6ac813c4e9467ceb7a53a9d0b6c294fd63ad"
+    },
+    {
+      "url": "https://ceres.larc.nasa.gov/documents/DQ_summaries/CERES_EBAF_Ed4.0_DQS.pdf",
+      "what": "CERES_EBAF_Ed4.0 Data Quality Summary, 2018-01-17, 38 pages, read 2026-09-19: Table 6-1, the global mean TOA fluxes from EBAF Ed4.0 and Ed2.8 for July 2005 through June 2015, which is the published global mean cloud radiative effect this computation is anchored to (shortwave -45.8, longwave 28.0, net -17.9 W m-2 for Edition 4.0, whose clear-sky flux is the cloud-free-area one), with the all-sky and clear-sky fluxes beside them; and Table 6-3, the global mean cloud radiative effect trends for March 2000 through June 2015",
+      "retrieved_utc": "2026-09-19T06:31:03Z",
+      "total_bytes": 2603071,
+      "sha256": "sha256:4ee6affdd51612a03e2edb77ba9cade27208882672c6cff81e8ef93cae1a3a14"
+    },
+    {
+      "url": "https://opendap.earthdata.nasa.gov/collections/C3880496704-LARC_CLOUD/granules/CERES_EBAF_Edition4.2.1_200003-202605.nc.dmr",
+      "what": "the granule's OPeNDAP metadata response, read 2026-09-19 with the bearer token, for the variable names and their long names: the two clear-sky suffixes (_clr_t_ for Clear-Sky (for total region), _clr_c_ for Clear-Sky (for cloud-free areas of region)) and the product's own cloud radiative effect variables, whose long names read uses Clear-Sky for total region, which is how a reader confirms from the file which convention the product's own effect carries",
+      "retrieved_utc": "2026-09-19T06:29:47Z",
+      "sha256": "sha256:4f0feea337a002b673dbe4c0071f547d07d745c8c1f39f1d084ede3884746945"
+    },
+    {
+      "url": "https://cmr.earthdata.nasa.gov/search/concepts/C3880496704-LARC_CLOUD.umm_json",
+      "what": "CMR collection record for CERES_EBAF Edition4.2.1, read 2026-09-19: short name CERES_EBAF, version Edition4.2.1, DOI 10.5067/TERRA-AQUA-NOAA20/CERES/EBAF_L3B004.2.1, temporal extent beginning 2000-03-01 and ending at present",
+      "retrieved_utc": "2026-09-19T06:41:10Z",
+      "sha256": "sha256:bc9b6fdedab3a88bc87c676558c2e0686afb6ce453df3126b6565a5c047e4733"
+    },
+    {
+      "url": "https://cmr.earthdata.nasa.gov/search/granules.json?collection_concept_id=C3880496704-LARC_CLOUD&page_size=10",
+      "what": "CMR granule listing, read 2026-09-19: three granules, through 2025-12, 2026-03 and 2026-05; the newest was read",
+      "retrieved_utc": "2026-09-19T06:28:55Z",
+      "sha256": "sha256:cd14450543ebe34658f791cfaf0d5dd37ec998c7be6047a9a7d334566088fcc3"
+    }
+  ],
+  "registry_records_verified": [
+    {
+      "doi": "10.1175/JCLI-D-19-0381.1",
+      "url": "https://api.crossref.org/works/10.1175/JCLI-D-19-0381.1",
+      "verified_utc": "2026-09-19T06:36:00Z",
+      "record": "Loeb, Norman G.; Rose, Fred G.; Kato, Seiji; Rutan, David A.; Su, Wenying; Wang, Hailan and others, Toward a Consistent Definition between Satellite and Model Clear-Sky Radiative Fluxes, Journal of Climate 33, 61 to 75, 2020; the journal page sits behind a bot check and was not read"
+    },
+    {
+      "doi": "10.1175/JCLI-D-17-0208.1",
+      "url": "https://api.crossref.org/works/10.1175/JCLI-D-17-0208.1",
+      "verified_utc": "2026-09-19T06:36:00Z",
+      "record": "Loeb, Norman G.; Doelling, David R.; Wang, Hailan; Su, Wenying; Nguyen, Cathy; Corbett, Joseph G. and others, Clouds and the Earth's Radiant Energy System (CERES) Energy Balanced and Filled (EBAF) Top-of-Atmosphere (TOA) Edition-4.0 Data Product, Journal of Climate 31, 895 to 918, 2018; the journal page sits behind a bot check and was not read"
+    },
+    {
+      "doi": "10.1175/JCLI-D-24-0180.1",
+      "url": "https://api.crossref.org/works/10.1175/JCLI-D-24-0180.1",
+      "verified_utc": "2026-09-19T06:36:00Z",
+      "record": "Loeb, Norman G.; Doelling, David R.; Kato, Seiji; Su, Wenying; Mlynczak, Pamela E.; Wilkins, Joshua C. and others, Continuity in Top-of-Atmosphere Earth Radiation Budget Observations, Journal of Climate 37, 6093 to 6108, 2024; the journal page sits behind a bot check and was not read"
+    },
+    {
+      "doi": "10.5067/TERRA-AQUA-NOAA20/CERES/EBAF_L3B004.2.1",
+      "url": "https://doi.org/10.5067/TERRA-AQUA-NOAA20/CERES/EBAF_L3B004.2.1",
+      "verified_utc": "2026-09-19T06:41:30Z",
+      "record": "the product DOI resolves (302) to the Earthdata catalog page larc-cloud-ceres-ebaf-toa-edition4.2.1-0, the TOA-only collection's page rather than the combined product's; the bundle's EBAF dataset concept already records that the two DOIs resolve to each other's catalog page, and this run re-observed it, adding nothing new"
+    }
+  ],
+  "produced_here": {
+    "cre-fluxes.csv": "written by references/loaders/cre_ceres_fluxes.py from the subset and the weights above: 5040 rows, eight regions by two clear-sky conventions by 315 months, each row the area weighted regional means of the three all-sky and the three clear-sky fluxes with the three per-month uncertainty floors",
+    "cre-fluxes-stamp.json": "written by the same loader: what was read, from where, when, the product version, the grid, the weights and their hash, the variable each convention reads, the regions and their share of the geodetic weight, the aggregation, the uncertainty floors, the two cross-checks and the sha256 of every file read",
+    "RECORD.json": "written by references/loaders/cre_data_root.py --root DIR --record cloud-radiative-effect-root-2026-09-19 and verified with --check: the manifest of the three files, the coverage table, the loader's stamp and the bookkeeping table the computation requires"
+  }
+}

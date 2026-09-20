@@ -1,6 +1,6 @@
 ---
 name: receipt-figures
-description: "Draw a time series or a convention contrast from an attested ASDC computation receipt, and from nothing else: the renderer runs the receipt's attester first, verifies every array it draws against the receipt's own bookkeeping and hashes, and writes the run identifier, the code digest and the verdict into the caption. Keywords: plot, figure, chart, show me the series, net TOA flux series, energy budget figure, all-sky and clear-sky series, cloud radiative effect series, convention contrast, total-region against cloud-free-area, caption, provenance."
+description: "Draw a time series or a convention contrast from an attested computation receipt, and from nothing else: the renderer runs the receipt's attester first, verifies every array it draws against the receipt's own bookkeeping and hashes, and writes the run identifier, the code digest and the verdict into the caption. Keywords: plot, figure, chart, show me the series, net TOA flux series, energy budget figure, all-sky and clear-sky series, cloud radiative effect series, convention contrast, total-region against cloud-free-area, caption, provenance."
 ---
 
 # receipt-figures
@@ -9,8 +9,8 @@ This skill computes nothing. Every point it plots is a value the
 receipt carries, every line it annotates is annotated with the
 receipt's own field, and the computation that owns those numbers is
 the concept the receipt names
-(`knowledge/asdc/computations/energy-budget.md`,
-`knowledge/asdc/computations/cloud-radiative-effect.md`). The renderer
+(`knowledge/computations/energy-budget.md`,
+`knowledge/computations/cloud-radiative-effect.md`). The renderer
 fits no trend, takes no mean and combines no two receipts. A picture is
 the easiest place for an unattested number to slip in, so this one
 draws only from a receipt the attester passed, verifies every array it
@@ -20,10 +20,9 @@ This is the port of the ocean-science skill of the same name, with its
 discipline intact and its modes changed to what these receipts carry.
 The renderer ships beside this skill
 (`scripts/receipt_figure.py`, PEP 723, matplotlib). It finds the
-attesters in the installed provider bundle through the installer's
-record (`claude plugin list --json`), or in a checkout named by
-`NASA_DAAC_KNOWLEDGE`, the same way the wrapping skills and the sweep
-do, and copies nothing into this repository.
+attesters in the scripts of the skill that runs each computation,
+under `${CLAUDE_PLUGIN_ROOT}`, the same way the skills that run them
+and the sweep do.
 
 ## The three modes, and what each draws
 
@@ -57,8 +56,9 @@ no receipt licenses. `map` exists only to refuse, by name.
 
 ## Behavior, in order
 
-1. **Get the receipt from a run of the wrapping skill.** Read that
-   skill first (`energy-budget-closure`, `cloud-radiative-effect`): it
+1. **Get the receipt from a run of the skill that runs the
+   computation.** Read that skill first (`energy-budget-closure`,
+   `cloud-radiative-effect`): it
    states the parameters, the refusal codes and the caveats that travel
    with every number in the picture. A figure from a sweep's receipts
    is a figure of one of its rows; name the row and its run id.
@@ -66,19 +66,19 @@ no receipt licenses. `map` exists only to refuse, by name.
    (`energy_budget_check`, `cloud_radiative_effect_check`). The
    renderer runs it first and refuses to draw on anything but PASS. For
    a receipt produced on a stamped data root, pass `--data-root DIR`:
-   without it the ASDC attesters take the data digests on the
+   without it the attesters take the data digests on the
    executor's word and do not verify them against the tree.
 3. **Draw, from the plugin root:**
 
    ```bash
    uv run skills/receipt-figures/scripts/receipt_figure.py budget RECEIPT.json \
      --attester energy_budget_check \
-     --data-root $ASDC/references/retrieval/energy-budget-root \
+     --data-root ${CLAUDE_PLUGIN_ROOT}/knowledge/references/retrieval/energy-budget-root \
      --out budget.png
 
    uv run skills/receipt-figures/scripts/receipt_figure.py cre-series RECEIPT.json \
      --attester cloud_radiative_effect_check --band net \
-     --data-root $ASDC/references/retrieval/cloud-radiative-effect-root \
+     --data-root ${CLAUDE_PLUGIN_ROOT}/knowledge/references/retrieval/cloud-radiative-effect-root \
      --out cre_net.png
 
    uv run skills/receipt-figures/scripts/receipt_figure.py contrast RECEIPT.json \

@@ -1,6 +1,6 @@
 ---
 name: methods
-description: "Write the methods paragraph and the reference list of an attested ASDC run from the receipt's bookkeeping block and the concept's sources and from nothing else, naming the edition, the release date, the clear-sky convention, the anchoring decade and the Argo receipt's identity as the receipt records them, with the receipt field behind every sentence. Keywords: methods section, methods paragraph, write up, reference list, references, citation, provenance, how was this computed, what do I put in the paper, data availability, edition, release date, convention, anchoring decade, Argo receipt."
+description: "Write the methods paragraph and the reference list of an attested run from the receipt's bookkeeping block and the concept's sources and from nothing else, naming the edition, the release date, the clear-sky convention, the anchoring decade and the Argo receipt's identity as the receipt records them, with the receipt field behind every sentence. Keywords: methods section, methods paragraph, write up, reference list, references, citation, provenance, how was this computed, what do I put in the paper, data availability, edition, release date, convention, anchoring decade, Argo receipt."
 ---
 
 # methods
@@ -11,8 +11,8 @@ bundle's attester passed, by the dotted paths the script records in a
 provenance table beside the paragraph, and every reference is a source
 entry the concept's own frontmatter carries, in the concept's own
 words. The computation that owns the numbers is the concept the
-receipt names (`knowledge/asdc/computations/cloud-radiative-effect.md`,
-`knowledge/asdc/computations/energy-budget.md`). A fact the receipt
+receipt names (`knowledge/computations/cloud-radiative-effect.md`,
+`knowledge/computations/energy-budget.md`). A fact the receipt
 does not carry is not written: the script lists it as not carried, and
 a sentence from anywhere else is refused by name.
 
@@ -23,12 +23,9 @@ into a draft, a data availability statement or a report, and the
 question is what to write down about how the number was made.
 
 The writer ships beside this skill (`scripts/methods.py`, PEP 723,
-standard library only). It finds the concepts and the attesters in the
-installed provider bundle through the installer's record
-(`claude plugin list --json`), or in a checkout named by
-`NASA_DAAC_KNOWLEDGE`, the same way the wrapping skills, the sweep and
-the receipt-figures renderer do, and copies nothing into this
-repository.
+standard library only). It finds the concepts and the attesters in
+this package at `${CLAUDE_PLUGIN_ROOT}`, the same way the skills that
+run the computations, the sweep and the receipt-figures renderer do.
 
 ## What the paragraph names
 
@@ -62,19 +59,19 @@ than naming an edition or an Argo receipt that does not exist.
 
 ## Behavior, in order
 
-1. **Get the receipt from a run of the wrapping skill** and read that
+1. **Get the receipt from a run of the skill that ran it** and read that
    skill first: it states the parameters, the refusal codes and the
    caveats that travel with every number the paragraph quotes.
 2. **Write it, from the plugin root:**
 
    ```bash
    uv run skills/methods/scripts/methods.py RECEIPT.json \
-     --data-root $ASDC/references/retrieval/cloud-radiative-effect-root \
+     --data-root ${CLAUDE_PLUGIN_ROOT}/knowledge/references/retrieval/cloud-radiative-effect-root \
      --out methods.md
    ```
 
    `--data-root DIR` is given for a receipt produced on a stamped tree:
-   without it the ASDC attesters take the data digests on the
+   without it the attesters take the data digests on the
    executor's word rather than verifying them against the tree.
    `--cited-only` narrows the reference list to the entries the
    paragraph actually cites; `--cite ID` narrows it to named source
@@ -121,4 +118,4 @@ than naming an edition or an Argo receipt that does not exist.
   a closure sentence.
 - Never present a fixture paragraph as a statement about the Earth, and
   never commit a receipt, an attestation or a generated paragraph to
-  the provider bundle or to this repository.
+  this repository or to the provider bundle.
