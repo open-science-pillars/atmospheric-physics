@@ -1,6 +1,6 @@
 {
   "name": "atmospheric-physics",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Atmospheric physics: the attested radiation budget computations over the CERES EBAF products, the energy budget closure against the Argo ocean heat content receipt and the cloud radiative effect at the top of the atmosphere, each with its executor, its attester and its golden.",
   "dependencies": [
     "core",
