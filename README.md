@@ -126,10 +126,11 @@ A runtime is advertised as supported only on a qualified record for this exact r
   values the signed concept records, then the chain's refusal case),
   and `receipt_skills.py`, the golden that runs the three receipt
   skills the same way (each script's selftest, three fixture sweeps
-  checked cell by cell, three figures checked against the digests of
-  the arrays they drew, two methods paragraphs checked against the
-  receipt fields they were filled from, and every refusal each script
-  enforces). Both read committed expectations under `fixtures/`.
+  checked cell by cell, three figures whose every drawn array is
+  checked against the receipt field it comes from, two methods
+  paragraphs checked against the receipt fields they were filled from,
+  and every refusal each script enforces). Both read committed
+  expectations under `fixtures/`.
 
 ## What this release does not do
 
