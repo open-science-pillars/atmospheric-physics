@@ -72,7 +72,7 @@ A runtime is advertised as supported only on a qualified record for this exact r
 
 ## What's inside
 
-- **Skills** (`skills/`, one `SKILL.md` each), one per wrapped
+- **Wrapping skills** (`skills/`, one `SKILL.md` each), one per wrapped
   computation and named for the workflow rather than for the product:
 
   - `energy-budget-closure` wraps
@@ -91,6 +91,29 @@ A runtime is advertised as supported only on a qualified record for this exact r
     convention the user chooses deliberately, with the same three terms
     under the other convention reported beside them.
 
+- **Receipt skills** (`skills/`), the postdoc's three. A receipt skill
+  computes nothing of its own either: every number it emits is a field
+  of a receipt the bundle's attester passed, or a table, figure or
+  paragraph of such fields, and it combines no two receipts into a
+  value no receipt carries. Its script enforces that rather than its
+  prose (ADR D as amended, specification 12.1):
+
+  - `sweep` runs a wrapped executor once per value of one parameter the
+    concept declares and writes a CSV, a markdown table and a JSON
+    manifest of the executor's own headline fields per receipt, a
+    refused run included as a row carrying its reason code. It refuses
+    any aggregate across the rows, an average across the two clear-sky
+    conventions above all.
+  - `receipt-figures` draws the series and the convention contrast a
+    receipt carries, after the attester has passed it and every drawn
+    array has been checked, with the run identifier, the code digest
+    and the verdict in the caption. It has no map mode, because these
+    receipts carry no per-cell field.
+  - `methods` writes the methods paragraph and the reference list from
+    the receipt's bookkeeping block and the concept's sources, and
+    names the receipt field behind every sentence. A fact from anywhere
+    else is refused.
+
 - **Knowledge** (`knowledge/`): this capability's own bundle. It holds
   no concepts, and `knowledge/index.md` says so and says why: the
   scientific concepts the skills consult live in the provider bundle
@@ -101,12 +124,22 @@ A runtime is advertised as supported only on a qualified record for this exact r
   golden that runs both chains headless and offline (the executor on
   its fixture, the attester on the receipt, the receipt against the
   values the signed concept records, then the chain's refusal case),
-  and the committed expectations it reads under `fixtures/`.
+  and `receipt_skills.py`, the golden that runs the three receipt
+  skills the same way (each script's selftest, three fixture sweeps
+  checked cell by cell, three figures whose every drawn array is
+  checked against the receipt field it comes from, two methods
+  paragraphs checked against the receipt fields they were filled from,
+  and every refusal each script enforces). Both read committed
+  expectations under `fixtures/`.
 
 ## What this release does not do
 
 It carries no skill that computes a number, no connector, no agent and
-no computation of its own. An analysis that needs something the ASDC
+no computation of its own. The receipt skills are not an exception to
+that: a sweep that averaged its rows into a rate, a figure with a
+fitted trend on it or a paragraph with a fact the receipt does not
+carry would each be a number of this capability's own, and each script
+refuses to produce one. An analysis that needs something the ASDC
 bundle has not signed belongs in that bundle first, where the number
 can be reviewed and signed, and reaches a reader here only once it is.
 

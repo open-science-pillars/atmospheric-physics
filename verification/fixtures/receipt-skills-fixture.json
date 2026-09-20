@@ -1,0 +1,625 @@
+{
+  "about": [
+    "What the three receipt skills produce on the ASDC executors' synthetic",
+    "fixtures at seed 7, read by verification/receipt_skills.py. Every cell",
+    "below is a field of a receipt the bundle's attester passed, copied by the",
+    "receipt field path the sweep manifest records beside each column; every",
+    "figure digest is the sha256 of an array the renderer drew from such a",
+    "receipt; every methods entry is the set of receipt fields the paragraph",
+    "was filled from. This capability owns none of these numbers.",
+    "The run identifier of a fixture run is bound to the runtime name, so it is",
+    "deliberately not recorded here; the values are the same under any name."
+  ],
+  "recorded": "2026-09-20",
+  "seed": 7,
+  "sweeps": {
+    "conventions": {
+      "why": "the Antarctic band on both clear-sky conventions, the table the bundle's clear-sky gotcha describes in words",
+      "computation": "cloud-radiative-effect",
+      "parameter": "clear_sky",
+      "values": "total-region,cloud-free-area",
+      "fixed": {
+        "window": "2006-01:2020-12",
+        "region": "antarctic"
+      },
+      "concept": "knowledge/asdc/computations/cloud-radiative-effect.md",
+      "code_sha256": "sha256:269c799d9364baff09d9ad3c30a12e2d495398594df7e0359e396dcd89981a08",
+      "input": {
+        "mode": "fixture",
+        "seed": 7,
+        "digest": "sha256:34ba8f8a3062177d1999104f223e12a20549adcb96eaecab7334d0819e7bfc16",
+        "generator_sha256": "sha256:269c799d9364baff09d9ad3c30a12e2d495398594df7e0359e396dcd89981a08"
+      },
+      "columns": [
+        "window",
+        "region",
+        "clear_sky",
+        "months_used",
+        "months_calendar",
+        "cre_shortwave_W_m2",
+        "cre_longwave_W_m2",
+        "cre_net_W_m2",
+        "cre_shortwave_value_W_m2",
+        "cre_longwave_value_W_m2",
+        "cre_net_value_W_m2",
+        "cre_shortwave_uncertainty_W_m2",
+        "cre_longwave_uncertainty_W_m2",
+        "cre_net_uncertainty_W_m2",
+        "residual_W_m2",
+        "bar_W_m2",
+        "decomposition_closes",
+        "contrast_convention",
+        "contrast_cre_net_W_m2",
+        "published_distance_net_W_m2"
+      ],
+      "column_fields": {
+        "window": "bound_parameters.window",
+        "region": "bound_parameters.region",
+        "clear_sky": "bound_parameters.clear_sky",
+        "months_used": "months.n_used",
+        "months_calendar": "months.n_calendar",
+        "cre_shortwave_W_m2": "cre_shortwave_W_m2",
+        "cre_longwave_W_m2": "cre_longwave_W_m2",
+        "cre_net_W_m2": "cre_net_W_m2",
+        "cre_shortwave_value_W_m2": "terms.cre_shortwave.value",
+        "cre_longwave_value_W_m2": "terms.cre_longwave.value",
+        "cre_net_value_W_m2": "terms.cre_net.value",
+        "cre_shortwave_uncertainty_W_m2": "terms.cre_shortwave.uncertainty",
+        "cre_longwave_uncertainty_W_m2": "terms.cre_longwave.uncertainty",
+        "cre_net_uncertainty_W_m2": "terms.cre_net.uncertainty",
+        "residual_W_m2": "residual.value",
+        "bar_W_m2": "verdict.bar_W_m2",
+        "decomposition_closes": "verdict.decomposition_closes",
+        "contrast_convention": "convention_contrast.convention",
+        "contrast_cre_net_W_m2": "convention_contrast.cre_net",
+        "published_distance_net_W_m2": "published_comparison.distance_W_m2.cre_net"
+      },
+      "rows": [
+        {
+          "value": "total-region",
+          "status": "computed",
+          "reason_code": null,
+          "cells": {
+            "window": "2006-01:2020-12",
+            "region": "antarctic",
+            "clear_sky": "total-region",
+            "months_used": 180,
+            "months_calendar": 180,
+            "cre_shortwave_W_m2": -28.5614,
+            "cre_longwave_W_m2": 18.1734,
+            "cre_net_W_m2": -10.388,
+            "cre_shortwave_value_W_m2": -28.561419215409053,
+            "cre_longwave_value_W_m2": 18.173417920419205,
+            "cre_net_value_W_m2": -10.388001294989849,
+            "cre_shortwave_uncertainty_W_m2": 0.38986917954337924,
+            "cre_longwave_uncertainty_W_m2": 0.24849992446252794,
+            "cre_net_uncertainty_W_m2": 0.4631972350566291,
+            "residual_W_m2": 0.0,
+            "bar_W_m2": 0.01,
+            "decomposition_closes": true,
+            "contrast_convention": "cloud-free-area",
+            "contrast_cre_net_W_m2": -12.184522265153875,
+            "published_distance_net_W_m2": null
+          }
+        },
+        {
+          "value": "cloud-free-area",
+          "status": "computed",
+          "reason_code": null,
+          "cells": {
+            "window": "2006-01:2020-12",
+            "region": "antarctic",
+            "clear_sky": "cloud-free-area",
+            "months_used": 180,
+            "months_calendar": 180,
+            "cre_shortwave_W_m2": -27.9994,
+            "cre_longwave_W_m2": 15.8149,
+            "cre_net_W_m2": -12.1845,
+            "cre_shortwave_value_W_m2": -27.999376877276713,
+            "cre_longwave_value_W_m2": 15.81485461212284,
+            "cre_net_value_W_m2": -12.184522265153875,
+            "cre_shortwave_uncertainty_W_m2": 0.3916765394929977,
+            "cre_longwave_uncertainty_W_m2": 0.24341206752407402,
+            "cre_net_uncertainty_W_m2": 0.457695386595375,
+            "residual_W_m2": -1.7763568394002505e-15,
+            "bar_W_m2": 0.01,
+            "decomposition_closes": true,
+            "contrast_convention": "total-region",
+            "contrast_cre_net_W_m2": -10.388001294989849,
+            "published_distance_net_W_m2": null
+          }
+        }
+      ]
+    },
+    "regions": {
+      "why": "two regions the computation resolves and one it refuses, so the refused row is part of the table",
+      "computation": "cloud-radiative-effect",
+      "parameter": "region",
+      "values": "global,antarctic,ocean",
+      "fixed": {
+        "window": "2006-01:2020-12",
+        "clear_sky": "total-region"
+      },
+      "concept": "knowledge/asdc/computations/cloud-radiative-effect.md",
+      "code_sha256": "sha256:269c799d9364baff09d9ad3c30a12e2d495398594df7e0359e396dcd89981a08",
+      "input": {
+        "mode": "fixture",
+        "seed": 7,
+        "digest": "sha256:34ba8f8a3062177d1999104f223e12a20549adcb96eaecab7334d0819e7bfc16",
+        "generator_sha256": "sha256:269c799d9364baff09d9ad3c30a12e2d495398594df7e0359e396dcd89981a08"
+      },
+      "columns": [
+        "window",
+        "region",
+        "clear_sky",
+        "months_used",
+        "months_calendar",
+        "cre_shortwave_W_m2",
+        "cre_longwave_W_m2",
+        "cre_net_W_m2",
+        "cre_shortwave_value_W_m2",
+        "cre_longwave_value_W_m2",
+        "cre_net_value_W_m2",
+        "cre_shortwave_uncertainty_W_m2",
+        "cre_longwave_uncertainty_W_m2",
+        "cre_net_uncertainty_W_m2",
+        "residual_W_m2",
+        "bar_W_m2",
+        "decomposition_closes",
+        "contrast_convention",
+        "contrast_cre_net_W_m2",
+        "published_distance_net_W_m2"
+      ],
+      "column_fields": {
+        "window": "bound_parameters.window",
+        "region": "bound_parameters.region",
+        "clear_sky": "bound_parameters.clear_sky",
+        "months_used": "months.n_used",
+        "months_calendar": "months.n_calendar",
+        "cre_shortwave_W_m2": "cre_shortwave_W_m2",
+        "cre_longwave_W_m2": "cre_longwave_W_m2",
+        "cre_net_W_m2": "cre_net_W_m2",
+        "cre_shortwave_value_W_m2": "terms.cre_shortwave.value",
+        "cre_longwave_value_W_m2": "terms.cre_longwave.value",
+        "cre_net_value_W_m2": "terms.cre_net.value",
+        "cre_shortwave_uncertainty_W_m2": "terms.cre_shortwave.uncertainty",
+        "cre_longwave_uncertainty_W_m2": "terms.cre_longwave.uncertainty",
+        "cre_net_uncertainty_W_m2": "terms.cre_net.uncertainty",
+        "residual_W_m2": "residual.value",
+        "bar_W_m2": "verdict.bar_W_m2",
+        "decomposition_closes": "verdict.decomposition_closes",
+        "contrast_convention": "convention_contrast.convention",
+        "contrast_cre_net_W_m2": "convention_contrast.cre_net",
+        "published_distance_net_W_m2": "published_comparison.distance_W_m2.cre_net"
+      },
+      "rows": [
+        {
+          "value": "global",
+          "status": "computed",
+          "reason_code": null,
+          "cells": {
+            "window": "2006-01:2020-12",
+            "region": "global",
+            "clear_sky": "total-region",
+            "months_used": 180,
+            "months_calendar": 180,
+            "cre_shortwave_W_m2": -45.56,
+            "cre_longwave_W_m2": 25.723,
+            "cre_net_W_m2": -19.837,
+            "cre_shortwave_value_W_m2": -45.560000063223924,
+            "cre_longwave_value_W_m2": 25.72301089804376,
+            "cre_net_value_W_m2": -19.83698916518016,
+            "cre_shortwave_uncertainty_W_m2": 0.30957850927213826,
+            "cre_longwave_uncertainty_W_m2": 0.24485889107996905,
+            "cre_net_uncertainty_W_m2": 0.3774141630858619,
+            "residual_W_m2": 3.552713678800501e-15,
+            "bar_W_m2": 0.01,
+            "decomposition_closes": true,
+            "contrast_convention": "cloud-free-area",
+            "contrast_cre_net_W_m2": -18.07739024601119,
+            "published_distance_net_W_m2": null
+          }
+        },
+        {
+          "value": "antarctic",
+          "status": "computed",
+          "reason_code": null,
+          "cells": {
+            "window": "2006-01:2020-12",
+            "region": "antarctic",
+            "clear_sky": "total-region",
+            "months_used": 180,
+            "months_calendar": 180,
+            "cre_shortwave_W_m2": -28.5614,
+            "cre_longwave_W_m2": 18.1734,
+            "cre_net_W_m2": -10.388,
+            "cre_shortwave_value_W_m2": -28.561419215409053,
+            "cre_longwave_value_W_m2": 18.173417920419205,
+            "cre_net_value_W_m2": -10.388001294989849,
+            "cre_shortwave_uncertainty_W_m2": 0.38986917954337924,
+            "cre_longwave_uncertainty_W_m2": 0.24849992446252794,
+            "cre_net_uncertainty_W_m2": 0.4631972350566291,
+            "residual_W_m2": 0.0,
+            "bar_W_m2": 0.01,
+            "decomposition_closes": true,
+            "contrast_convention": "cloud-free-area",
+            "contrast_cre_net_W_m2": -12.184522265153875,
+            "published_distance_net_W_m2": null
+          }
+        },
+        {
+          "value": "ocean",
+          "status": "refused",
+          "reason_code": "region-not-resolvable",
+          "cells": {
+            "window": "2006-01:2020-12",
+            "region": "ocean",
+            "clear_sky": "total-region",
+            "months_used": null,
+            "months_calendar": null,
+            "cre_shortwave_W_m2": null,
+            "cre_longwave_W_m2": null,
+            "cre_net_W_m2": null,
+            "cre_shortwave_value_W_m2": null,
+            "cre_longwave_value_W_m2": null,
+            "cre_net_value_W_m2": null,
+            "cre_shortwave_uncertainty_W_m2": null,
+            "cre_longwave_uncertainty_W_m2": null,
+            "cre_net_uncertainty_W_m2": null,
+            "residual_W_m2": null,
+            "bar_W_m2": null,
+            "decomposition_closes": null,
+            "contrast_convention": null,
+            "contrast_cre_net_W_m2": null,
+            "published_distance_net_W_m2": null
+          }
+        }
+      ]
+    },
+    "windows": {
+      "why": "one window inside the radiation record and one outside it",
+      "computation": "energy-budget",
+      "parameter": "window",
+      "values": "2006-01:2020-12,1998-01:2005-12",
+      "fixed": {},
+      "concept": "knowledge/asdc/computations/energy-budget.md",
+      "code_sha256": "sha256:1f9a687f410468b9a4730403d6887f831511c4ad1679d752c11ff2e9450e6b9a",
+      "input": {
+        "mode": "fixture",
+        "seed": 7,
+        "digest": "sha256:c03c29dc55a81c910a3509d9d2906b26ad13247d35e3779ebfa3b774afc32832",
+        "generator_sha256": "sha256:1f9a687f410468b9a4730403d6887f831511c4ad1679d752c11ff2e9450e6b9a"
+      },
+      "columns": [
+        "window",
+        "months_used",
+        "months_calendar",
+        "toa_net_W_m2",
+        "toa_net_value_W_m2",
+        "toa_net_uncertainty_W_m2",
+        "ohc_0_2000_W_m2",
+        "ohc_0_2000_uncertainty_W_m2",
+        "deep_ocean_W_m2",
+        "non_ocean_W_m2",
+        "ocean_side_W_m2",
+        "residual_W_m2",
+        "bar_W_m2",
+        "closed_within_uncertainty",
+        "toa_net_anomaly_trend_W_m2_per_decade",
+        "months_shared_with_anchor_decade",
+        "argo_receipt_run_id"
+      ],
+      "column_fields": {
+        "window": "bound_parameters.window",
+        "months_used": "months.n_used",
+        "months_calendar": "months.n_calendar",
+        "toa_net_W_m2": "toa_net_W_m2",
+        "toa_net_value_W_m2": "terms.toa_net.value",
+        "toa_net_uncertainty_W_m2": "terms.toa_net.uncertainty",
+        "ohc_0_2000_W_m2": "terms.ohc_0_2000.value",
+        "ohc_0_2000_uncertainty_W_m2": "terms.ohc_0_2000.uncertainty",
+        "deep_ocean_W_m2": "terms.deep_ocean.value",
+        "non_ocean_W_m2": "terms.non_ocean.value",
+        "ocean_side_W_m2": "ocean_side_W_m2",
+        "residual_W_m2": "residual.value",
+        "bar_W_m2": "verdict.bar_W_m2",
+        "closed_within_uncertainty": "verdict.closed_within_uncertainty",
+        "toa_net_anomaly_trend_W_m2_per_decade": "toa_net_anomaly_trend_W_m2_per_decade",
+        "months_shared_with_anchor_decade": "bookkeeping.anchoring.months_shared_with_anchor_decade",
+        "argo_receipt_run_id": "bookkeeping.ocean_input.receipt.run_id"
+      },
+      "rows": [
+        {
+          "value": "2006-01:2020-12",
+          "status": "computed",
+          "reason_code": null,
+          "cells": {
+            "window": "2006-01:2020-12",
+            "months_used": 180,
+            "months_calendar": 180,
+            "toa_net_W_m2": 1.0448,
+            "toa_net_value_W_m2": 1.0447755972400605,
+            "toa_net_uncertainty_W_m2": 0.2631593166257353,
+            "ohc_0_2000_W_m2": 0.7377166666666661,
+            "ohc_0_2000_uncertainty_W_m2": 0.07455078224613162,
+            "deep_ocean_W_m2": 0.06,
+            "non_ocean_W_m2": 0.08220000000000001,
+            "ocean_side_W_m2": 0.8799,
+            "residual_W_m2": 0.1648589305733943,
+            "bar_W_m2": 0.27571116237909943,
+            "closed_within_uncertainty": true,
+            "toa_net_anomaly_trend_W_m2_per_decade": 0.1527,
+            "months_shared_with_anchor_decade": 114,
+            "argo_receipt_run_id": null
+          }
+        },
+        {
+          "value": "1998-01:2005-12",
+          "status": "refused",
+          "reason_code": "window-outside-record",
+          "cells": {
+            "window": "1998-01:2005-12",
+            "months_used": null,
+            "months_calendar": null,
+            "toa_net_W_m2": null,
+            "toa_net_value_W_m2": null,
+            "toa_net_uncertainty_W_m2": null,
+            "ohc_0_2000_W_m2": null,
+            "ohc_0_2000_uncertainty_W_m2": null,
+            "deep_ocean_W_m2": null,
+            "non_ocean_W_m2": null,
+            "ocean_side_W_m2": null,
+            "residual_W_m2": null,
+            "bar_W_m2": null,
+            "closed_within_uncertainty": null,
+            "toa_net_anomaly_trend_W_m2_per_decade": null,
+            "months_shared_with_anchor_decade": null,
+            "argo_receipt_run_id": null
+          }
+        }
+      ]
+    }
+  },
+  "figures": {
+    "contrast": {
+      "sweep": "conventions",
+      "row": 0,
+      "mode": "contrast",
+      "attester": "cloud_radiative_effect_check",
+      "extra": [],
+      "arrays": {
+        "terms_bound_convention": {
+          "receipt_field": [
+            "terms.cre_shortwave.value",
+            "terms.cre_longwave.value",
+            "terms.cre_net.value"
+          ],
+          "n": 3
+        },
+        "terms_other_convention": {
+          "receipt_field": [
+            "convention_contrast.cre_shortwave",
+            "convention_contrast.cre_longwave",
+            "convention_contrast.cre_net"
+          ],
+          "n": 3
+        }
+      }
+    },
+    "cre-series": {
+      "sweep": "conventions",
+      "row": 0,
+      "mode": "cre-series",
+      "attester": "cloud_radiative_effect_check",
+      "extra": [
+        "--band",
+        "net"
+      ],
+      "arrays": {
+        "cre_net_W_m2": {
+          "receipt_field": "series.cre_net_W_m2",
+          "n": 180
+        },
+        "dates": {
+          "receipt_field": "series.dates",
+          "n": 180
+        },
+        "net_all_W_m2": {
+          "receipt_field": "series.net_all_W_m2",
+          "n": 180
+        },
+        "net_clr_W_m2": {
+          "receipt_field": "series.net_clr_W_m2",
+          "n": 180
+        }
+      }
+    },
+    "budget": {
+      "sweep": "windows",
+      "row": 0,
+      "mode": "budget",
+      "attester": "energy_budget_check",
+      "extra": [],
+      "arrays": {
+        "dates": {
+          "receipt_field": "series.dates",
+          "n": 180
+        },
+        "toa_net_product_W_m2": {
+          "receipt_field": "series.toa_net_product_W_m2",
+          "n": 180
+        }
+      }
+    }
+  },
+  "methods": {
+    "cloud-radiative-effect": {
+      "sweep": "conventions",
+      "row": 0,
+      "sentences": [
+        "run",
+        "fixture",
+        "edition_synthetic",
+        "convention",
+        "inheritance",
+        "weighting",
+        "region",
+        "months",
+        "uncertainty",
+        "terms",
+        "decomposition",
+        "contrast",
+        "no_published",
+        "sign"
+      ],
+      "fields": [
+        "bookkeeping.convention.bound",
+        "bookkeeping.convention.definition",
+        "bookkeeping.convention.inheritance",
+        "bookkeeping.convention.variable_suffix",
+        "bookkeeping.decomposition.rule",
+        "bookkeeping.decomposition.tolerance_W_m2",
+        "bookkeeping.edition.statement",
+        "bookkeeping.region.bound",
+        "bookkeeping.region.latitude_band.0",
+        "bookkeeping.region.latitude_band.1",
+        "bookkeeping.region.rule",
+        "bookkeeping.sign_convention.statement",
+        "bookkeeping.uncertainty.basis",
+        "bookkeeping.weighting.statement",
+        "bookkeeping.window_handling.rule",
+        "bound_parameters.region",
+        "bound_parameters.window",
+        "code_sha256",
+        "convention_contrast.convention",
+        "convention_contrast.cre_longwave",
+        "convention_contrast.cre_net",
+        "convention_contrast.cre_shortwave",
+        "data.digest",
+        "data.seed",
+        "months.n_calendar",
+        "months.n_used",
+        "published_comparison.statement",
+        "residual.value",
+        "run_id",
+        "terms.cre_longwave.uncertainty",
+        "terms.cre_longwave.value",
+        "terms.cre_net.uncertainty",
+        "terms.cre_net.uncertainty_basis",
+        "terms.cre_net.value",
+        "terms.cre_shortwave.uncertainty",
+        "terms.cre_shortwave.value",
+        "verdict.decomposition_closes"
+      ],
+      "references": [
+        "cmr-collection",
+        "cmr-granules",
+        "convention",
+        "data-root",
+        "dataset",
+        "dmr",
+        "dqs",
+        "dqs-ed4-0",
+        "energy-budget",
+        "geodetic-weights",
+        "gotcha-clear-sky",
+        "loaders",
+        "loeb-2018",
+        "loeb-2020",
+        "loeb-2024",
+        "opendap-subset"
+      ],
+      "facts": {
+        "convention_bound": "total-region",
+        "variable_suffix": "clr_t",
+        "other_convention": "cloud-free-area",
+        "region": "antarctic"
+      }
+    },
+    "energy-budget": {
+      "sweep": "windows",
+      "row": 0,
+      "sentences": [
+        "run",
+        "fixture",
+        "edition_synthetic",
+        "weighting",
+        "anchor",
+        "anchor_decade",
+        "argo_synthetic",
+        "argo_domain",
+        "area",
+        "months",
+        "terms",
+        "verdict",
+        "anomaly"
+      ],
+      "fields": [
+        "bookkeeping.anchoring.anchor.period.0",
+        "bookkeeping.anchoring.anchor.period.1",
+        "bookkeeping.anchoring.anchor.statement",
+        "bookkeeping.anchoring.anchor.uncertainty_W_m2",
+        "bookkeeping.anchoring.anchor.value_W_m2",
+        "bookkeeping.anchoring.independence",
+        "bookkeeping.anchoring.months_in_window",
+        "bookkeeping.anchoring.months_shared_with_anchor_decade",
+        "bookkeeping.area_convention.rule",
+        "bookkeeping.edition.statement",
+        "bookkeeping.ocean_input.scaling",
+        "bookkeeping.ocean_input.statement",
+        "bookkeeping.weighting.statement",
+        "bookkeeping.window_handling.rule",
+        "bound_parameters.window",
+        "code_sha256",
+        "data.digest",
+        "data.seed",
+        "months.n_calendar",
+        "months.n_used",
+        "run_id",
+        "terms.deep_ocean.value",
+        "terms.non_ocean.value",
+        "terms.ohc_0_2000.uncertainty",
+        "terms.ohc_0_2000.value",
+        "terms.toa_net.uncertainty",
+        "terms.toa_net.value",
+        "terms.toa_net_anomaly_trend.series_rule",
+        "terms.toa_net_anomaly_trend.uncertainty",
+        "terms.toa_net_anomaly_trend.value",
+        "verdict.bar_W_m2",
+        "verdict.closed_within_uncertainty",
+        "verdict.residual_W_m2",
+        "verdict.rule"
+      ],
+      "references": [
+        "cmr-granules",
+        "data-root",
+        "dataset",
+        "dqs",
+        "ecco-ohc-recipe",
+        "geodetic-weights",
+        "gotcha-anchor",
+        "gotcha-baseline",
+        "johnson-2016",
+        "loaders",
+        "loeb-2018",
+        "loeb-2021",
+        "ohc-receipt",
+        "opendap-subset",
+        "purkey-johnson-2010",
+        "vs-2023"
+      ],
+      "facts": {
+        "anchor_decade": "2005-07 through 2015-06",
+        "shared_months": "114 of the 180 months",
+        "ocean_input": "synthetic: a planted Argo-shaped receipt block whose rate closes the budget by construction"
+      }
+    }
+  },
+  "refusals": {
+    "aggregate_across_conventions": "aggregate-across-rows",
+    "clear_sky_gotcha_cited": "knowledge/asdc/gotchas/ebaf-clear-sky-definitions.md",
+    "map_mode": "map-mode-unavailable",
+    "array_hash": "array-hash-mismatch",
+    "fact_not_in_receipt": "fact-not-in-receipt"
+  }
+}

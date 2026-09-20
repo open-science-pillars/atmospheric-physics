@@ -20,6 +20,20 @@ name: goldens
 # verification/wrapped_computations.py is also the release qualification
 # surface (.osp/surfaces.yaml) and runs there with the qualification
 # prompts.
+#
+# verification/receipt_skills.py exercises the three receipt skills
+# (sweep, receipt-figures, methods): each script's own selftest, three
+# fixture sweeps whose every cell is checked against the committed
+# expectations under verification/fixtures/ and against the field of
+# the receipt it was copied from, three figures whose every drawn array
+# is checked against the receipt field the expectations name for it,
+# two methods paragraphs filled from the recorded receipt fields, and
+# the refusals each script enforces, the aggregate across the two
+# clear-sky conventions among them. No bit-exact digest of a derived
+# float is recorded or asserted, because a window mean is not
+# bit-reproducible across interpreters. It drives the same provider
+# executors and attesters on their synthetic fixtures, reads no live
+# service, needs no credential and carries no secret.
 on:
   pull_request:
   push:
@@ -45,3 +59,7 @@ jobs:
         env:
           NASA_DAAC_KNOWLEDGE: ${{ github.workspace }}/nasa-daac-knowledge
         run: uv run verification/wrapped_computations.py
+      - name: The three receipt skills pass offline on the committed expectations
+        env:
+          NASA_DAAC_KNOWLEDGE: ${{ github.workspace }}/nasa-daac-knowledge
+        run: uv run verification/receipt_skills.py
